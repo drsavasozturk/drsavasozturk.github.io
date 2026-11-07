@@ -90,3 +90,6 @@ h2 small{color:var(--mut);font-weight:400;font-size:.8em}
 .oy .sure{position:absolute;left:16px;bottom:14px;background:rgba(0,0,0,.45);border-radius:6px;padding:1px 7px;font-size:.85rem;font-weight:700;font-variant-numeric:tabular-nums}
 .oy.yakin{cursor:default;filter:saturate(.6)}.oy.yakin .uc{display:none}
 .oy .yk{position:absolute;right:16px;bottom:14px;background:rgba(255,255,255,.9);color:#0a4a40;border-radius:999px;padding:2px 10px;font-size:.82rem;font-weight:700}
+/* karakalem portre */
+.kahraman .foto{width:120px;height:120px;border-radius:50%;object-fit:cover;flex:none;border:2px solid var(--acc);background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+@media (max-width:520px){.kahraman .foto{width:96px;height:96px}}
