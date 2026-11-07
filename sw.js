@@ -1,5 +1,5 @@
 // drsavasozturk.com service worker · sürüm etiketi her güncellemede değişir
-const V = 'drso-2026-11-07e';
+const V = 'drso-2026-11-07f';
 const CEK = ["./", "index.html", "ozgecmis.html", "yayinlar.html", "atlaslar.html", "kunye.html", "kullanim-kosullari.html", "gizlilik.html", "surum-notlari.html", "404.html", "stil.css", "ikon.svg", "ikon-d.svg", "ikon-y.svg", "manifest.webmanifest", "yazi_tipleri/fonts.css", "yazi_tipleri/lora-latin-500-normal.woff2", "yazi_tipleri/lora-latin-600-normal.woff2", "yazi_tipleri/lora-latin-700-normal.woff2", "yazi_tipleri/lora-latin-ext-500-normal.woff2", "yazi_tipleri/lora-latin-ext-600-normal.woff2", "yazi_tipleri/lora-latin-ext-700-normal.woff2", "yazi_tipleri/source-sans-3-latin-400-normal.woff2", "yazi_tipleri/source-sans-3-latin-600-normal.woff2", "yazi_tipleri/source-sans-3-latin-700-normal.woff2", "yazi_tipleri/source-sans-3-latin-800-normal.woff2", "yazi_tipleri/source-sans-3-latin-ext-400-normal.woff2", "yazi_tipleri/source-sans-3-latin-ext-600-normal.woff2", "yazi_tipleri/source-sans-3-latin-ext-700-normal.woff2", "yazi_tipleri/source-sans-3-latin-ext-800-normal.woff2"];
 self.addEventListener('install', e => { e.waitUntil(caches.open(V).then(c => c.addAll(CEK.map(u => new Request(u, {cache: 'reload'})))).then(() => self.skipWaiting())); });
 self.addEventListener('activate', e => { e.waitUntil((async () => {
