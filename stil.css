@@ -1,7 +1,7 @@
-/* drsavasozturk.com · atlaslarla aynı palet: yeşil-petrol vurgu, açık zemin, karanlık tema */
-:root{--paper:#f4f7f6;--card:#fff;--ink:#13232d;--mut:#566873;--line:#d7e0e3;--acc:#0e6b5b;--accs:#e3f1ed;--amb:#9a6410;--ambs:#fbf1df;
+/* drsavasozturk.com · palet C (8 Kasım 2026): petrol vurgu, mercan ikincil (hasta tarafı ve uyarılar), açık zemin, karanlık tema */
+:root{--paper:#f3f7f8;--card:#fff;--ink:#0f1f2a;--mut:#546772;--line:#d5e0e4;--acc:#0f766e;--accs:#dff3ef;--amb:#d9603b;--ambs:#fbe8e1;--golge:rgba(15,31,42,.10);
 --display:"Lora",Georgia,serif;--body:"Source Sans 3","Liberation Sans",system-ui,sans-serif}
-@media (prefers-color-scheme:dark){:root{--paper:#0e161b;--card:#152129;--ink:#e3ecef;--mut:#9cb0ba;--line:#273a45;--acc:#4cc3a4;--accs:#16332c;--amb:#e3ad55;--ambs:#2e2414}}
+@media (prefers-color-scheme:dark){:root{--paper:#0e161b;--card:#152129;--ink:#e3ecef;--mut:#9cb0ba;--line:#273a45;--acc:#3ec7ab;--accs:#16332c;--amb:#f0876a;--ambs:#35201a;--golge:rgba(0,0,0,.45)}}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 var(--body);overflow-wrap:break-word}
@@ -87,12 +87,45 @@ h2 small{color:var(--mut);font-weight:400;font-size:.8em}
 .oy .vno{display:block;font:600 2.1rem/1 var(--display);opacity:.9}
 .oy .vbas{display:block;margin-top:6px;font:600 1.08rem/1.25 var(--display);max-width:80%}
 .oy .uc{position:absolute;right:16px;bottom:14px;width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.95)}
-.oy .uc::after{content:"";position:absolute;left:21px;top:16px;border-style:solid;border-width:10px 0 10px 16px;border-color:transparent transparent transparent #0e6b5b}
+.oy .uc::after{content:"";position:absolute;left:21px;top:16px;border-style:solid;border-width:10px 0 10px 16px;border-color:transparent transparent transparent #d9603b}
 .oy:hover .uc{transform:scale(1.07)}
 .oy .sure{position:absolute;left:16px;bottom:14px;background:rgba(0,0,0,.45);border-radius:6px;padding:1px 7px;font-size:.85rem;font-weight:700;font-variant-numeric:tabular-nums}
 .oy.yakin{cursor:default;filter:saturate(.6)}.oy.yakin .uc{display:none}
 .oy .yk{position:absolute;right:16px;bottom:14px;background:rgba(255,255,255,.9);color:#0a4a40;border-radius:999px;padding:2px 10px;font-size:.82rem;font-weight:700}
 /* karakalem portre */
-.kahraman .foto{width:120px;height:120px;border-radius:14px;object-fit:cover;flex:none;border:2px solid var(--acc);background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+.kahraman .foto{width:120px;height:120px;border-radius:14px;object-fit:cover;flex:none;border:2px solid var(--acc);background:#fff;box-shadow:0 2px 10px var(--golge)}
 @media (max-width:520px){.kahraman .foto{width:96px;height:96px}}
 .bild summary{cursor:pointer;font-weight:600;color:var(--acc);padding:6px 0}.bild[open] summary{margin-bottom:6px}.bild h3{margin-top:14px}
+
+/* hasta tarafı: mercan vurgu */
+.hasta h2::before{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--amb);margin-right:10px;vertical-align:middle}
+.hasta .btn{background:var(--amb);border-color:var(--amb)}
+/* "Yeni" rozeti (eklenmesinden sonraki 30 gün; hareket.js süresi dolanı gizler) */
+.yeni{display:inline-block;margin-left:8px;padding:1px 8px;border-radius:999px;background:var(--amb);color:#fff;font:700 .7rem/1.6 var(--body);letter-spacing:.05em;text-transform:uppercase;vertical-align:middle}
+.yeni.eski{display:none}
+/* son eklenenler */
+.son{list-style:none;padding:0;margin:8px 0 0;display:grid;gap:6px}
+.son li{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline}
+.son time{color:var(--mut);font-size:.9rem;min-width:8em}
+.son .tur{color:var(--mut);font-size:.85rem}
+/* hareket: kısa ve az; "hareketi azalt" açıksa yok */
+@media (prefers-reduced-motion:no-preference){
+.kart,.btn,.btn2,.cip li,.vid{transition:transform .18s ease,box-shadow .18s ease}
+.kart:hover,.vid:hover{transform:translateY(-2px);box-shadow:0 8px 22px var(--golge)}
+.btn:hover,.btn2:hover{transform:translateY(-1px);box-shadow:0 4px 12px var(--golge)}
+.btn:active,.btn2:active{transform:none;box-shadow:none}
+html.js .bel{opacity:0;transform:translateY(8px)}
+html.js .bel.gor{opacity:1;transform:none;transition:opacity .45s ease,transform .45s ease}
+}
+/* yazdırma (özgeçmiş ve diğer sayfalar) */
+button.btn2{font:inherit;font-weight:700;cursor:pointer}
+@media print{
+@page{margin:16mm}
+body{background:#fff;color:#000;font-size:11pt}
+header.ust{position:static;box-shadow:none;border-bottom:1px solid #999}header.ust nav,footer.alt .ba,footer.alt .kc,.dug,.yazdir,#ysurum,.yeni{display:none!important}
+.ic{max-width:none;padding:0}main.ic{padding-top:8px}
+.kart{box-shadow:none;break-inside:avoid;border-color:#bbb}.kahraman .foto{box-shadow:none}
+a{color:inherit;text-decoration:none}.prof a::after{content:" · " attr(href);color:#555;font-size:.9em}
+.zaman li,.yayin li{break-inside:avoid}
+}
+.kart.hasta{border-top-color:var(--amb)}
