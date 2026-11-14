@@ -297,6 +297,9 @@ def main(site):
         f'<url><loc>{b["url"]}</loc><lastmod>{b["degisim"]}</lastmod></url>' for b in sayfalar)
     yaz(site / "sitemap.xml", sm.replace("</urlset>", ek + "</urlset>"))
 
+    # IndexNow anahtarı (Bing, Yandex vb. için; silinirse bildirimler reddedilir)
+    yaz(site / "40face710490b3f1d9729ca7ec6564d4.txt", "40face710490b3f1d9729ca7ec6564d4\n")
+
     # robots: araç klasörü taranmasın
     rb = oku(site / "robots.txt")
     if "Disallow: /araclar/" not in rb:
