@@ -1911,7 +1911,7 @@ card.addEventListener('change', function(e){ if(e.target.id === 'svV'){ var v = 
 modal.addEventListener('click', function(e){ if(e.target === modal) closeSV(); });
 document.addEventListener('click', function(e){
   var el = e.target.closest && e.target.closest('[data-sv]');
-  if(!el || el.closest('#svModal')) return;
+  if(!el || el.closest('#svModal') || e.target.closest('.glos')) return;
   e.preventDefault(); openSV(el.getAttribute('data-sv'));
 });
 document.addEventListener('keydown', function(e){
