@@ -69,6 +69,7 @@ def kok_yol(parca):
 # ---------- hasta.html: önceki yamaları geri al, bölümleri oku ----------
 def yama_sok(h):
     h = re.sub(r'<style id="yz-css">.*?</style>', "", h, flags=re.S)
+    h = re.sub(r'<section id="kk-hasta".*?</section>', "", h, flags=re.S)
     h = re.sub(r'<a class="yz" href="[^"]*">(.*?)</a>', r"\1", h, flags=re.S)
     h = re.sub(r' · <a class="yz2" href="[^"]*">[^<]*</a>', "", h)
     return h
@@ -279,7 +280,19 @@ def main(site):
         return re.sub(r'(<p class="yl">.*?</a>)(</p>)', lambda y: f'{y.group(1)} · <a class="yz2" href="{hedef}">Yazısını oku</a>{y.group(2)}', a, count=1, flags=re.S)
     hasta2 = re.sub(r'<article class="vid" id="b(\d+)">.*?</article>', kart, hasta, flags=re.S)
     hasta2 = hasta2.replace("</head>", '<style id="yz-css">.vid h3 a{color:inherit;text-decoration:none}.vid h3 a:hover{text-decoration:underline}</style></head>', 1)
+    kk = ('<section id="kk-hasta" class="kk"><h2>Bu sayfanın karekodu</h2><p><img src="araclar/karekod-hasta.svg" width="150" height="150" alt="Hasta ve yakınları için sayfasının karekodu" style="background:#fff;border-radius:10px;padding:6px"></p>'
+          '<p>Telefon kamerasıyla okutunca bu sayfa açılır.</p></section>')
+    hasta2 = hasta2.replace("<script>document.querySelectorAll('.oyn[data-yt]')", kk + "<script>document.querySelectorAll('.oyn[data-yt]')", 1)
     yaz(site / "hasta.html", hasta2)
+
+    # künye: site karekodu; ana sayfa ve özgeçmiş: PubMed bağlantısı ad aramasına (kullanıcı isteği, 15 Kasım 2026)
+    ku = re.sub(r'<section id="kk-site".*?</section>', "", oku(site / "kunye.html"), flags=re.S)
+    kk2 = ('<section id="kk-site"><h2>Sitenin karekodu</h2><p><img src="araclar/karekod-site.svg" width="150" height="150" alt="drsavasozturk.com karekodu" style="background:#fff;border-radius:10px;padding:6px"></p>'
+           '<p>Telefon kamerasıyla okutunca drsavasozturk.com açılır.</p></section>')
+    yaz(site / "kunye.html", ku.replace("</dl>", "</dl>" + kk2, 1))
+    for ad in ("index.html", "ozgecmis.html"):
+        t = oku(site / ad)
+        yaz(site / ad, t.replace("https://pubmed.ncbi.nlm.nih.gov/?term=0000-0002-0961-3810%5Bauid%5D&sort=date", "https://pubmed.ncbi.nlm.nih.gov/?term=savas+ozturk&sort=date"))
 
     # ana sayfa: kişi ve site işaretlemesi
     ana = re.sub(r'<script type="application/ld\+json" id="ld-kisi">.*?</script>', "", oku(site / "index.html"), flags=re.S)
