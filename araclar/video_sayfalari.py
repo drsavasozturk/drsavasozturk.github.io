@@ -106,6 +106,10 @@ def metin_html(md):
     for s in satirlar:
         s = s.rstrip()
         if s.startswith("# "): continue
+        if s.startswith("### "):
+            kapat()
+            if not atla: cik.append(f"<h3>{satir_ici(s[4:].strip())}</h3>")
+            continue
         if s.startswith("## "):
             kapat(); atla = s[3:].strip().lower().startswith("kapanış kartı")
             if not atla: cik.append(f"<h2>{satir_ici(s[3:].strip())}</h2>")
@@ -137,7 +141,7 @@ STIL = """<style>
 .oynk{max-width:760px;margin:16px 0 4px}.oynk .oyn{border-radius:14px;overflow:hidden}
 .oynk .oy{padding:22px 24px}.oynk .oy .vno{font-size:3rem}.oynk .oy .vbas{font-size:1.5rem;margin-top:10px}
 .vmeta{margin:8px 0 0;color:var(--mut);font-size:.95rem}
-.metin{max-width:46em;margin-top:22px}.metin h2{margin-top:1.5em;font-size:1.4rem}.metin li{margin:.4em 0}
+.metin{max-width:46em;margin-top:22px}.metin h2{margin-top:1.5em;font-size:1.4rem}.metin h3{margin-top:1.2em;font-size:1.15rem}.metin li{margin:.4em 0}
 .metin ol,.metin ul{padding-left:1.4em}
 .imza{max-width:46em;color:var(--mut);border-top:1px solid var(--line);padding-top:12px;margin-top:26px;font-size:.95rem}
 .onson{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;max-width:46em;margin:18px 0 0}
