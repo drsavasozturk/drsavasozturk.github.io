@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
+Disallow: /araclar/
 Sitemap: https://drsavasozturk.com/sitemap.xml
