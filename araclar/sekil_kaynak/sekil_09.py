@@ -56,51 +56,46 @@ yeni('s09_antijen', 'x09_7', 'Temel Bilgiler · 3 · Şekil', 'Antijen Haritası
      'Şekil: membranöz nefropatide antijen haritası. PLA2R olguların yüzde yetmiş ile seksenini oluşturur. NELL1 yüzde beş ile on, THSD7A yüzde bir ile beş arasındadır. '
      'Diğer antijenler nadirdir ama klinik ipucu taşır: EXT1 ve EXT2 lupusu, NELL1 ve THSD7A maligniteyi düşündürür.', ozgun=' <i>Özgün çizim.</i>')
 
-# ============================================================================================== B · primer mi sekonder mi: kapiller ilmek
-F = Fig('psk', 408, 'Primer ve sekonder membranöz nefropatide kapiller ilmek kesiti: birikim yerleşimi ve immünfloresan bulguları', w=1080)
-PANEL = [(6, 265, 'Primer MN', BRAND), (546, 805, 'Sekonder MN — örnek: sınıf V lupus', PUR)]
-for (x, cx, bas, c) in PANEL:
+# ============================================================================================== B · primer mi sekonder mi: glomerül lobülü
+from sekil_glom import Lobul, etk, mini_glomerul, yakinlastir, BOW as _BOW
+F = Fig('psk', 470, 'Primer ve sekonder membranöz nefropatide glomerül lobülü: birikim yerleşimi ve immünfloresan bulguları', w=1080, mh=420)
+for (x, bas, c) in ((6, 'Primer MN', BRAND), (546, 'Sekonder MN — örnek: sınıf V lupus', PUR)):
     F.r(x, 6, 528, 30, TINT[c], None, rx=8); F.t(x + 264, 27, bas, 14, 800, c, 'middle')
-def isaretle(F, P, r, a, tx, ty, txt, sag, kalin=False):
-    px, py = P(r, a)
-    F.ln(px, py, tx + (-6 if sag else 6), ty - 4, INK2, 1.2)
-    F.el(px, py, 2.4, 2.4, INK2)
-    for k, l in enumerate(txt if isinstance(txt, list) else [txt]):
-        F.t(tx, ty + k * 14.5, l, 12, 800 if (kalin and k == 0) else None, INK, 'start' if sag else 'end')
-R = 76; cy = 172
-# primer
-cx = 265
-P = ilmek(F, cx, cy, R, birikim=('subepi',), efase=True)
-F.t(cx, cy + 4, 'kapiller lümen', 11.2, None, MUT, 'middle')
-isaretle(F, P, R + 16.5, 197, cx - 128, cy - 38, ['Subepitelyal', 'birikim (yalnız)'], False, True)
-isaretle(F, P, R + 1.5, 160, cx - 128, cy + 34, ['Endotel', '(pencereli)'], False)
-isaretle(F, P, R + 19, 322, cx + 128, cy - 74, ['Podosit: ayaksı', 'çıkıntılar silinmiş'], True)
-isaretle(F, P, R + 9, 12, cx + 128, cy + 8, ['Glomerüler bazal', 'membran'], True)
-F.ln(cx + 30, cy + R * 1.12, cx + 122, cy + 82, INK2, 1.2); F.t(cx + 128, cy + 86, 'Mezangiyum: sakin,', 12, None, INK); F.t(cx + 128, cy + 100.5, 'birikim yok', 12, None, INK)
-# sekonder
-cx = 805
-P = ilmek(F, cx, cy, R, birikim=('subepi', 'subendo', 'mez'), efase=True, mez_hiper=True, tri=True, se=((203, 6), (250, 5)), se_k=5)
-F.t(cx, cy + 4, 'kapiller lümen', 11.2, None, MUT, 'middle')
-isaretle(F, P, R + 16.5, 197, cx - 128, cy - 52, ['Subepitelyal', 'birikim'], False, True)
-isaretle(F, P, R + 3.5, 203, cx - 128, cy + 2, ['Seyrek subendotelyal', 'birikim'], False, True)
-F.ln(cx - R * .3, cy + R * .78, cx - 122, cy + 76, INK2, 1.2); F.t(cx - 128, cy + 80, 'Mezangiyal birikim', 12, 800, INK, 'end'); F.t(cx - 128, cy + 94.5, 've hipersellülarite', 12, None, INK, 'end')
-isaretle(F, P, R - 9, 300, cx + 128, cy - 74, ['Tübüloretiküler', 'inklüzyon (endotel)'], True, True)
-isaretle(F, P, R + 19, 20, cx + 128, cy + 14, ['Podosit: ayaksı', 'çıkıntılar silinmiş'], True)
-# immünfloresan özetleri
+    F.r(x, 42, 528, 310, _BOW, None, rx=10)
+k = .88; cy = 197
+mg = mini_glomerul(F, 70, 112, 34, vp=-90, up=128, fs=9.5)
+yakinlastir(F, mg, (270, cy), 112, kutu_a=-10)
+A = Lobul(F, 270, cy, k, subepi=dict(evre=2, aralik=14), efase=True)
+etk(F, A.yakin('subepi', 170, 180), 146, 206, ['Subepitelyal', 'birikim (yalnız)'], False)
+etk(F, A.p_ic(2, 205, 3), 146, 256, ['Pencereli endotel'], False)
+etk(F, A.p_mez(), 146, 304, ['Mezangiyum:', 'sakin, birikim yok'], False)
+pd_ = A.yakin('subepi', 340, 82); etk(F, (pd_[0] + 3, pd_[1] - 3), 396, 70, ['GBM dikenleri', '(birikimler', 'arasında)'], True)
+etk(F, A.p_fp(-12), 396, 150, ['Podosit: ayaksı', 'çıkıntılar', 'silinmiş'], True)
+etk(F, A.p_gbm(42), 396, 244, ['Glomerüler', 'bazal membran'], True)
+etk(F, A.p_pod(1), 396, 312, ['Podosit gövdesi'], True)
+mg = mini_glomerul(F, 610, 112, 34, vp=-90, up=128, fs=9.5)
+yakinlastir(F, mg, (810, cy), 112, kutu_a=-10)
+B = Lobul(F, 810, cy, k, subepi=dict(evre=2, aralik=18), efase=True, mez=3, mez_hiper=6, mez_m=50, tri=True, tri_i=1,
+          subendo=[(0, -90, 34, 3.2), (2, 180, 26, 3.2)])
+etk(F, B.yakin('subepi', 700, 190), 686, 210, ['Subepitelyal', 'birikim'], False)
+etk(F, B.yakin('subendo', 740, 140), 686, 252, ['Seyrek', 'subendotelyal birikim'], False)
+etk(F, B.yakin('mez', 800, 260), 686, 286, ['Mezangiyal birikim', 've hipersellülarite'], False)
+etk(F, B.tri_p, 936, 228, ['Tübüloretiküler', 'inklüzyon', '(endotel)'], True)
+etk(F, B.p_fp(-30), 936, 100, ['Podosit: ayaksı', 'çıkıntılar', 'silinmiş'], True)
 IFL = [(6, BRAND, ['IgG4 baskın ya da eş baskın', 'PLA2R pozitif, IgG ile birlikte', 'C1q negatif ya da zayıf', 'IgA ve IgM yok']),
        (546, PUR, ['IgG1, IgG2 ya da IgG3 baskın', 'IgA ve/veya IgM bulunabilir', 'C1q pozitif', 'PLA2R negatif · EXT1/EXT2, NCAM1, TGFBR3'])]
 for (x, c, hl) in IFL:
-    F.t(x + 6, 322, 'İmmünfloresan', 12.4, 800, c)
-    xx, yy = x + 6, 346
+    F.t(x + 6, 376, 'İmmünfloresan', 12.4, 800, c)
+    xx, yy = x + 6, 400
     for h_ in hl:
         w_ = gen(h_, 12.2) + 22
         if xx + w_ > x + 526: xx, yy = x + 6, yy + 32
         hap(F, xx, yy, h_, c); xx += w_ + 8
 yeni('s09_primsek', 'x09_12', 'Temel Bilgiler · 6 · Şekil', 'Primer mi Sekonder mi — Birikim Nerede, Hangi IgG?', F,
-     '<b>Okuma:</b> Primer MN’de birikim yalnız podositin altındadır ve IgG4 baskındır. Birikim mezangiyuma ya da endotelin altına da yayılmışsa, C1q '
-     'pozitifse ya da endotelde tübüloretiküler inklüzyon varsa sekonder neden, özellikle lupus aranır. Koyu lekeler elektron mikroskopideki yoğun birikimleri temsil eder.',
-     'Şekil: tek bir glomerül kapiller ilmeğinin kesiti, solda primer, sağda sekonder membranöz nefropati. Primerde birikimler yalnız subepitelyaldir ve IgG4 baskındır. '
-     'Sekonderde birikim mezangiyuma ve endotel altına da yayılır, C1q pozitiftir, endotelde tübüloretiküler inklüzyon görülebilir.')
+     '<b>Okuma:</b> Üç kapiller ilmek ve ortada mezangiyal hücre (glomerül lobülü). Primer MN’de birikim yalnız subepitelyaldir, IgG4 baskındır. Mezangiyal ya da '
+     'subendotelyal birikim, C1q pozitifliği ve endotelde tübüloretiküler inklüzyon sekonder nedeni, özellikle lupusu düşündürür; saf sınıf V’te subendotelyal birikim seyrektir.',
+     'Şekil: glomerül lobülü; üç kapiller ilmek, pencereli endotel, glomerüler bazal membran, podositler ve ortada mezangiyal hücre. Solda primer, sağda sekonder membranöz nefropati. '
+     'Primerde birikimler yalnız subepitelyaldir ve IgG4 baskındır. Sekonderde birikim mezangiyuma ve seyrek olarak endotel altına da yayılır, C1q pozitiftir, endotelde tübüloretiküler inklüzyon görülebilir.')
 
 # ============================================================================================== D · doğal seyir (slayt içi)
 F = Fig('sey', 246, 'Membranöz nefropatide remisyon durumuna göre on yıllık böbrek sağkalımı ve nüks oranları', mh=262)
@@ -248,3 +243,40 @@ yeni('s09_majesty', 'x09_44', 'Güncelleme · Ağustos 2026 · Şekil', 'MAJESTY
      'Takrolimus kolundaki yüksek nüks oranı, kalsinörin inhibitörü kesildikten sonra bilinen sorunun yansımasıdır. Sayılar slayttaki tablodan alınmıştır.',
      'Şekil: MAJESTY çalışmasının yüz dördüncü hafta sonuçları. Tam remisyon obinutuzumab kolunda yüzde otuz yedi, takrolimus kolunda yüzde altıdır. '
      'Nüks yüzde on iki ile yüzde elli sekiz, kaçış tedavisi gereksinimi yüzde yirmi sekiz ile yüzde altmış birdir.', ozgun=' <i>Özgün çizim.</i>')
+
+
+# ============================================================================================== J · Ehrenreich-Churg evreleri (slayt içi, x09_10)
+from sekil_glom import bariyer, if_patern, elips, DEP as _DEP, GBM as _GBM, GBM_K as _GBMK, BOW as _BW
+F = Fig('evr', 252, 'Membranöz nefropatide Ehrenreich-Churg elektron mikroskopi evreleri I–IV', mh=258)
+EVR = [('Evre I', 'Subepitelyal birikimler; GBM', 'normal · ışıkta normal'), ('Evre II', 'Birikimler arasında GBM', '“dikenleri” · gümüşte spike'),
+       ('Evre III', 'Birikimler yeni GBM ile', 'sarılır, GBM’nin içine alınır'), ('Evre IV', 'Kalın GBM; birikimler', 'lusenleşir (“krater”)')]
+for i, (ad, l1, l2) in enumerate(EVR):
+    x = 8 + i * 284; w = 268
+    gk = (1, 1, 1.75, 2.0)[i]
+    B = bariyer(F, x, 4, w, 166, efase=(0, 1), gbm_k=gk)
+    xs = [.1, .26, .42, .58, .74, .9]
+    if i <= 1:
+        for f_ in xs: elips(F, x + f_ * w, B['yg'] + 4.5, 9, 6, 0, _DEP, '#fff', .8)
+    if i == 1:
+        for j in range(len(xs) - 1):
+            xm = x + (xs[j] + xs[j + 1]) / 2 * w; F.r(xm - 2.4, B['yg'] - 1, 4.8, 12, _GBM, _GBMK, .9, 1.5)
+    if i == 2:
+        for f_ in xs: elips(F, x + f_ * w, B['yg'] - 8, 9, 6, 0, '#4d5864', '#2b3440', .8)
+        for f_ in xs: F.r(x + f_ * w - 11, B['yg'] - 2, 22, 5, _GBM, None, rx=2)
+    if i == 3:
+        for f_ in xs: elips(F, x + f_ * w, B['yg'] - 12, 9, 6.5, 0, '#f8fbfc', '#7d8e99', 1)
+    F.t(x + w / 2, 192, ad, 13.5, 800, BRANDD, 'middle'); F.t(x + w / 2, 210, l1, 11.6, None, INK, 'middle'); F.t(x + w / 2, 225, l2, 11.6, None, INK, 'middle')
+    if i < 3: F.ok(x + w + 2, 84, x + w + 14, 84, INK2, 2)
+F.t(8, 246, 'Her şeritte üstte kapiller lümen ve pencereli endotel, ortada GBM, altta silinmiş ayaksı çıkıntılar ve podosit. Evre süreyi gösterir, sonucu öngörmez.', 11.2, None, MUT)
+ic('s09_evre', 'x09_10', F)
+
+# ============================================================================================== K · immünfloresan imzası (slayt içi, x09_11)
+F = Fig('mif', 166, 'Membranöz nefropatide immünfloresan imzası: ince granüler IgG, PLA2R ve C3; C1q yok', mh=146)
+IFS = [('IgG', 'ince', ['tüm kapiller duvarlarda', 'ince granüler']), ('PLA2R', 'ince', ['IgG ile aynı yerde']), ('C3', 'ince', ['aktif hastalıkta pozitif']), ('C1q', 'negatif', ['yok ya da zayıf', '(C4d pozitif olabilir)'])]
+for i, (ad, t, alt) in enumerate(IFS):
+    cx = 80 + i * 175
+    if_patern(F, cx, 56, 46, t, renk='#79f08b' if t != 'negatif' else '#79f08b', baslik=ad, alt=alt, fs=11.5)
+F.r(748, 8, 384, 150, '#fff', LINE, 1.4, 10)
+F.t(762, 30, 'İnce granüler kapiller duvar paterni', 12.6, 800, BRANDD)
+F.tl(762, 50, ['Birikimler subepitelyal olduğu için boyanma', 'ilmeklerin dış yüzünü boncuk dizisi gibi izler.', 'Kappa ve lambda eşittir; monoklonal IgG’ye', 'bağlı MN çok seyrektir. C1q yokluğunda C4d', 'pozitifliği primer MN için tipiktir.'], 11.6, 16.5, fill=INK)
+ic('s09_mif', 'x09_11', F)

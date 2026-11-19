@@ -29,11 +29,13 @@ Seri başka bir ortamda yeniden üretilip depoya kopyalandığında şekilleri g
 
 ```
 python3 -I araclar/sekil_ekle.py dersler/nefroloji-ders-serisi/index.html
+python3 -I araclar/metin_duzelt.py dersler/nefroloji-ders-serisi/index.html
 python3 -I araclar/imza_ekle.py dersler/nefroloji-ders-serisi/index.html
 ```
 
 - "yeni" ögeler hedef slaydın ardına şekil slaydı ekler; "ic" ögeler mevcut slaydın gövdesinin sonuna yerleşir (metne dokunmaz).
-- Araç ana sayfadaki ders slayt sayılarını ve toplamı yeniden hesaplar. `index.html` ve `atlaslar.html` içindeki toplam slayt sayısı elle güncellenir (şu an 2738).
-- Şekillerin kaynağı `araclar/sekil_kaynak/` içindedir: `sekil_kit.py` (çizim kiti: tübül hücresi, kapiller ilmek, çubuk grafik, idrar yolu), ders başına tanım dosyası (`sekil_21.py`, `sekil_09.py`), `sekil_paket.py` (paketi üretir), `sekil_olc.py` (slayttaki boş alanı ölçer, görüntü alır).
+- Araç ana sayfadaki ders slayt sayılarını ve toplamı yeniden hesaplar. `index.html` ve `atlaslar.html` içindeki toplam slayt sayısı elle güncellenir (şu an 2770).
+- Şekillerin kaynağı `araclar/sekil_kaynak/` içindedir: `sekil_kit.py` (çizim kiti: tübül hücresi, kapiller ilmek, çubuk grafik, idrar yolu), `sekil_glom.py` (glomerül kiti: üç kapiller ilmekli lobül, vasküler ve tübüler kutuplu glomerül, filtrasyon bariyeri, immünfloresan paterni), `sekil_ortak.py` (ortak yardımcılar), ders başına tanım dosyası (`sekil_07.py` … `sekil_15.py`, `sekil_21.py`), `sekil_paket.py` (paketi üretir), `sekil_olc.py` (slayttaki boş alanı ölçer, görüntü alır).
+- `araclar/metin_duzelt.py`: hakem denetiminde bulunan slayt metni düzeltmeleri; slayt kimliğiyle sınırlı ve tekrar çalıştırmak güvenlidir. Seri kaynağından yeniden üretilirse bu aracı da çalıştırın.
 - Kural: şekil mümkünse mevcut slayda, metin küçülmeden sığıyorsa oraya; sığmıyorsa yeni slayda konur. Her şekil yayından önce bağımsız bir hakemce denetlenir.
 
