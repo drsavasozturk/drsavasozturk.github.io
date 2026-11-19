@@ -16,7 +16,7 @@ Komut; YouTube kimliği ve `araclar/metin/NN.md` metni olan her bölüm için `b
 
 ## Yayın notu (sunumlarda sahiplik ibaresi, 19 Kasım 2026)
 
-`dersler/*/index.html` ve `literatur/*/index.html` sunumlarında giriş kapısının üçüncü onay kutusu (`dk3`: izinsiz kullanılamaz) ve her slayttaki "Prof. Dr. Savaş Öztürk tarafından hazırlanmıştır" ibaresi (`i.soimza`) `araclar/imza_ekle.py` ile eklenir. Yeni ya da yeniden üretilmiş bir sunum depoya kopyalandıktan sonra, commit'ten önce (tekrar çalıştırmak güvenlidir):
+`dersler/*/index.html` ve `literatur/*/index.html` sunumlarında giriş kapısının üçüncü onay kutusu (`dk3`: izinsiz kullanılamaz) ve her slayttaki "Prof. Dr. Savaş Öztürk tarafından hazırlanmıştır" ibaresi (`i.soimza`; yalnız bu cümle, kullanıcı isteği) `araclar/imza_ekle.py` ile eklenir. Yeni ya da yeniden üretilmiş bir sunum depoya kopyalandıktan sonra, commit'ten önce (tekrar çalıştırmak güvenlidir):
 
 ```bash
 python3 -I araclar/imza_ekle.py dersler/*/index.html literatur/*/index.html

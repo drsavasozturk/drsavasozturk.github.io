@@ -23,7 +23,7 @@ IMZA = '<i class="soimza" aria-hidden="true"></i>'
 CSS = ('<style id="soimza-stil">.slide>.soimza{position:absolute;left:54px;top:10px;z-index:6;pointer-events:none;'
        'font:600 10.5px/1.5 "Source Sans 3","Segoe UI",system-ui,-apple-system,Arial,sans-serif;font-style:normal;letter-spacing:.02em;'
        'color:#4a5a66;background:rgba(255,255,255,.82);border-radius:999px;padding:1px 9px;white-space:nowrap;text-transform:none}'
-       '.slide>.soimza::after{content:"Prof. Dr. Savaş Öztürk tarafından hazırlanmıştır · drsavasozturk.com · İzinsiz kullanılamaz"}'
+       '.slide>.soimza::after{content:"Prof. Dr. Savaş Öztürk tarafından hazırlanmıştır"}'
        '@media print{.slide>.soimza{position:static;order:-1;align-self:flex-start;flex:none;margin:-24px 0 8px}}</style>')
 # Yer: slaytların alt kenarında kaynak ve kısaltma dipnotları (.fn, .foot) bulunduğu için ibare üst kenarda durur.
 #   Parenteral / İstatistik / Makale: sol üst (sağ üstte YZ notu var) · Nefroloji Ders Serisi ve aylık literatür: sağ üst.
