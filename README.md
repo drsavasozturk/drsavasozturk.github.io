@@ -21,3 +21,19 @@ Komut; YouTube kimliği ve `araclar/metin/NN.md` metni olan her bölüm için `b
 ```bash
 python3 -I araclar/imza_ekle.py dersler/*/index.html literatur/*/index.html dahiliye-ilac-atlasi/index.html nefroloji-yeni-ilaclar/index.html
 ```
+
+## Nefroloji Ders Serisi şekil paketi (Kasım 2026)
+
+Seriye eklenen özgün şematik şekiller sunumun içine elle yazılmaz; `araclar/sekiller.json` paketinden `araclar/sekil_ekle.py` ile eklenir.
+Seri başka bir ortamda yeniden üretilip depoya kopyalandığında şekilleri geri getirmek için (tekrar çalıştırmak güvenlidir):
+
+```
+python3 -I araclar/sekil_ekle.py dersler/nefroloji-ders-serisi/index.html
+python3 -I araclar/imza_ekle.py dersler/nefroloji-ders-serisi/index.html
+```
+
+- "yeni" ögeler hedef slaydın ardına şekil slaydı ekler; "ic" ögeler mevcut slaydın gövdesinin sonuna yerleşir (metne dokunmaz).
+- Araç ana sayfadaki ders slayt sayılarını ve toplamı yeniden hesaplar. `index.html` ve `atlaslar.html` içindeki toplam slayt sayısı elle güncellenir (şu an 2738).
+- Şekillerin kaynağı `araclar/sekil_kaynak/` içindedir: `sekil_kit.py` (çizim kiti: tübül hücresi, kapiller ilmek, çubuk grafik, idrar yolu), ders başına tanım dosyası (`sekil_21.py`, `sekil_09.py`), `sekil_paket.py` (paketi üretir), `sekil_olc.py` (slayttaki boş alanı ölçer, görüntü alır).
+- Kural: şekil mümkünse mevcut slayda, metin küçülmeden sığıyorsa oraya; sığmıyorsa yeni slayda konur. Her şekil yayından önce bağımsız bir hakemce denetlenir.
+
