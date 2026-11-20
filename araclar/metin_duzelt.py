@@ -20,6 +20,12 @@ D = [  # (slayt, eski, yeni)
     ('x07_49', 'Hahn D, Hodson EM, Willis NS, Craig JC. Corticosteroid therapy for nephrotic syndrome in children. <i>Cochrane Database Syst Rev</i> 2015;3:CD001533.',
      'Hahn D, Samuel SM, Willis NS, Craig JC, Hodson EM. Corticosteroid therapy for nephrotic syndrome in children. <i>Cochrane Database Syst Rev</i> 2024;8:CD001533.'),
     ('x14_8', 'hipokomplementemi <b>1 aydan</b> uzun sürüyorsa', 'hipokomplementemi <b>6–8 haftadan</b> uzun sürüyorsa'),
+    ('x27_11', 'Vazodilatasyon tükenir; preglomerüler direnç artmaya başlar.',
+     'Afferent dilatasyon azalır; efferent (postglomerüler) vazokonstriksiyon basıncı yüksek tutar.'),
+    ('x18_9', '<b>antiparalel beta-tabaka</b> yapısına', '<b>çapraz-β (cross-β)</b> yapısına'),
+    ('x26_36', '<span class="hl-r">pH &gt;7,0\'ı aşmayın</span> — kalsiyum fosfat çökelmesi riski',
+     '<span class="hl-r">Korunmada pH 7,0\'ı aşmayın</span> — kalsiyum fosfat çökelmesi riski; taşı eritmede kısa süre 7,0–7,2 (EAU)'),
+    ('x17_26', '(vasa rektada oksijen ekstraksiyonu yüksek)', '(vasa rektada karşı akım O₂ şantı ve kalın çıkan kolun O₂ tüketimi)'),
 ]
 p = sys.argv[1]; s = open(p, encoding='utf-8').read(); n = 0
 for sid, a, b in D:

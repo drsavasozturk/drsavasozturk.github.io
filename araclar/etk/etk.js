@@ -245,6 +245,34 @@
     surukle(svg, alan, function (x) { kur((x - X0) / KX); }, function (d) { kur(n + d * .1); });
   }
 
+  // ------------------------------------------------------------------ 2b · ürik asit: protone oran = 1 / (1 + 10^(pH − 5,5))
+  function urik(svg) {
+    var X0 = 90, X1 = 760, Y0 = 320, Y1 = 40, pH = 5.5, ilk = true;
+    var ust = katman(svg), hit = katman(svg, true);
+    var gv = el('line', { stroke: C.mor, 'stroke-width': 2, 'stroke-dasharray': '4 3', opacity: 0 }, ust);
+    var gh = el('line', { stroke: C.mor, 'stroke-width': 2, 'stroke-dasharray': '4 3', opacity: 0 }, ust);
+    var nk = el('circle', { r: 8, fill: C.mor, stroke: '#fff', 'stroke-width': 2, opacity: 0 }, ust);
+    var ok = el('g', { opacity: 0 }, ust);
+    el('rect', { x: 474, y: 70, width: 284, height: 50, rx: 9, fill: '#fff', stroke: C.mor, 'stroke-width': 1.6 }, ok);
+    var t1 = yazi(ok, 616, 91, '', { 'font-size': 13.5, 'font-weight': 800, fill: C.mor, 'text-anchor': 'middle' });
+    var t2 = yazi(ok, 616, 110, '', { 'font-size': 12.5, fill: '#3d4d5c', 'text-anchor': 'middle' });
+    ipucu(ust, 756, 30, '↔ pH’ı sürükleyin');
+    function kur(v) {
+      pH = Math.max(4.5, Math.min(7.5, Math.round(v * 10) / 10));
+      if (ilk) { ilk = false; [gv, gh, nk, ok].forEach(function (e) { e.setAttribute('opacity', 1); }); }
+      var f = 1 / (1 + Math.pow(10, pH - 5.5)), x = X0 + (pH - 4.5) / 3 * (X1 - X0), y = Y0 - f * (Y0 - Y1);
+      nk.setAttribute('cx', x); nk.setAttribute('cy', y);
+      gv.setAttribute('x1', x); gv.setAttribute('y1', y); gv.setAttribute('x2', x); gv.setAttribute('y2', Y0);
+      gh.setAttribute('x1', X0); gh.setAttribute('y1', y); gh.setAttribute('x2', x); gh.setAttribute('y2', y);
+      t1.textContent = 'pH ' + tr(pH, 1) + ' · protone %' + Math.round(f * 100);
+      var kat = 1 + Math.pow(10, pH - 5.5);
+      t2.textContent = 'çözünürlük, tam protone hâle göre ≈ ' + (kat < 10 ? tr(kat, 1) : Math.round(kat)) + ' kat';
+    }
+    var alan = el('rect', { x: X0 - 10, y: Y1 - 4, width: X1 - X0 + 20, height: Y0 - Y1 + 8, fill: '#000', 'fill-opacity': 0 }, hit);
+    alan.setAttribute('aria-label', 'İdrar pH’ını seçin');
+    surukle(svg, alan, function (x) { kur(4.5 + (x - X0) / (X1 - X0) * 3); }, function (d) { kur(pH + d * .1); });
+  }
+
   // ------------------------------------------------------------------ 3 · renal perfüzyon basıncı = OAB − SVB (OAB sabit 75)
   function perfuzyon(svg) {
     var R = [].slice.call(svg.querySelectorAll('rect')), T = [].slice.call(svg.querySelectorAll('text'));
@@ -434,7 +462,7 @@
         { ad: 'Bartter tip 5: MAGE-D2', delik: [{ k: 'Bartter tip 5' }, { c: [440, 296, 52] }, { c: [340, 98, 46] }], etki: [[340, 98, 'y'], [340, 380, 'y']] },
         { ad: 'FHHNC: klodin 16 ve 19', delik: [{ k: 'FHHNC' }, { r: [340, 348, 400, 64] }] }] });
     },
-    x39_8: plazma, x43_43: perfuzyon, s21_avp: avp, x36_4: tasima
+    x39_8: plazma, x43_43: perfuzyon, s21_avp: avp, x36_4: tasima, s26_uri: urik
   };
   var IP = ['☝ şekle dokunun: iyon akışı · etikete: bozukluk'];
   function H_(ad, k, delik, etki) { return { ad: ad, delik: [{ k: k }].concat(delik || []), etki: etki }; }
@@ -472,7 +500,7 @@
   };
   ('x05_6 x05_9 x05_24 x06_4 x06_8 x06_10 x06_35 x07_5 x08_4 x08_6 x09_5 x09_9 x10_6 x11_6 x12_5 x13_4 x14_4 x16_4 x16_10 x19_4 x21_4 x21_5 ' +
    'x22_6 x23_4 x24_4 x24_12 x24_26 x25_4 x26_4 x28_4 x31_5 x32_6 x33_5 x34_5 x35_4 x36_6 x36_69 x37_4 x38_4 x39_4 x39_26 x39_68 x39_80 ' +
-   'x40_8 x40_9 x40_10 x41_24 x42_5 x43_5 x43_22 x43_41 x44_5 x44_39 x44_48 x44_66 s21_oksalat').split(' ').forEach(function (id) { if (!K[id]) K[id] = function (svg) { kartlar(svg); }; });
+   'x40_8 x40_9 x40_10 x41_24 x42_5 x43_5 x43_22 x43_41 x44_5 x44_39 x44_48 x44_66 s21_oksalat s26_gir s26_kri').split(' ').forEach(function (id) { if (!K[id]) K[id] = function (svg) { kartlar(svg); }; });
   function kur(s) {
     if (!s || s.__etk || !K[s.id]) return;
     var svg = s.querySelector('svg'); if (!svg || !svg.getBBox().width) return;   // görünür olunca kurulur
