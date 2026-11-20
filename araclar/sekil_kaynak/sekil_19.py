@@ -2,6 +2,7 @@
 """Ders 19 · ADPKD ve Kistik Böbrek Hastalıkları — şekil tanımları (20 Kasım 2026)."""
 import random
 from sekil_ortak import *
+import sekil_anat as AN
 
 D = Ders('19')
 L = D.L
@@ -86,33 +87,16 @@ H = [('ADPKD', 'büyük', ['İki taraflı, çok sayıda, her', 'boyutta kist; ka
      ('Medüller sünger böbrek', 'normal', ['Papillada duktal ektazi,', 'taş ve kalsifikasyon']),
      ('Edinsel kistik hastalık', 'küçük', ['Uzun süreli diyaliz;', 'böbrek hücreli karsinom riski']),
      ('Basit kist', 'normal', ['Tek ya da az; yaşla artar,', 'Bosniak ile değerlendirilir'])]
+HB = [(288, 373), (253, 360), (153, 229), (155, 233), (207, 303), (188, 286), (209, 310), (149, 224), (203, 306)]; HS = .34
 for i, (ad, boy, sat) in enumerate(H):
     x0 = 6 + (i % 3) * 358; y0 = 6 + (i // 3) * 146
     F.r(x0, y0, 350, 138, '#fbf8f2', LINE, 1.2, 10)
-    cx, cy = x0 + 70, y0 + 69
-    k = {'büyük': 1.22, 'küçük': .72}.get(boy, .98) if i not in (2, 3) else .8
-    renk = '#c9736b' if i != 1 else '#d99a8f'
-    bobrek(F, cx, cy, k, renk=renk)
-    if i == 0: kistler(cx, cy, k, 16, 4, 11, tohum=3)
-    km = ' '.join(f'{cx + (-10 + 24 * .58 * math.cos(math.radians(a))) * k:.1f},{cy + 46 * .58 * math.sin(math.radians(a)) * k:.1f}' for a in range(96, 265, 8))
-    F.a(f'<polyline points="{km}" fill="none" stroke="#fff" stroke-width="1.2" stroke-dasharray="3 3" opacity=".9"/>')     # kortikomedüller sınır
-    if i == 1:
-        for j in range(15):
-            a = math.radians(100 + j * 160 / 14)
-            p1 = (cx + (-10 + 24 * .32 * math.cos(a)) * k, cy + 46 * .32 * math.sin(a) * k); p2 = (cx + (-10 + 24 * .88 * math.cos(a)) * k, cy + 46 * .88 * math.sin(a) * k)
-            F.ln(p1[0], p1[1], p2[0], p2[1], KIST_K, 1.8)
-    if i in (2, 3): kistler(cx, cy, k, 7 if i == 2 else 2, 2.6, 4.5, 'km', tohum=5 + i)
-    if i == 4:
-        kistler(cx, cy, k, 6, 3, 7, tohum=9)
-        for (u, v, r) in ((-24, -18, 7), (-20, 22, 6), (-30, 4, 5)): F.el(cx + u * k, cy + v * k, r * k, r * k, '#fff4cf', '#8a6a1e', 1.4)
-    if i == 5:
-        kistler(cx, cy, k, 5, 3, 8, tohum=11); F.el(cx - 22 * k, cy + 26 * k, 10 * k, 9 * k, '#f0a35a', '#b0602a', 1.4)
-    if i == 6:
-        for (u, v) in ((-8, -26), (-14, 0), (-8, 26)):
-            for d in (-4, 0, 4): F.el(cx + (u - 6) * k, cy + (v + d) * k, 1.8 * k, 1.8 * k, KIST, KIST_K, .8)
-            F.el(cx + (u - 2) * k, cy + v * k, 1.6, 1.6, '#fff', '#6b7b8a', .8)
-    if i == 7: kistler(cx, cy, k, 9, 3, 6, tohum=13)
-    if i == 8: F.el(cx - 30 * k, cy - 30 * k, 12 * k, 12 * k, KIST, KIST_K, 1.2)
+    w, h = HB[i]; cx, cy = x0 + 68, y0 + 69                  # resim: ChatGPT ile çizildi (yazısız); ortak ölçek, boyut farkı gerçek
+    AN.resim(F, f'an_har{i}', cx - w * HS / 2, cy - h * HS / 2, w * HS, oran=h / w, grup=(f'data-etk="adpkd"' if i == 0 else None))
+    if i == 0:   # hareket: aynı hastanın böbreği 20, 40, 60 yaşta (ChatGPT ile çizildi); başlangıçta gizli
+        for j, ((yw, yh), yy) in enumerate((((245, 398), 100), ((390, 548), 115), ((652, 825), 125))):
+            ys = yy / yh                                 # 20 yaş normale yakın, 60 yaş statik ADPKD boyunda
+            AN.resim(F, f'an_yas{j}', cx - yw * ys / 2, cy - yy / 2, yw * ys, oran=yh / yw, grup=f'data-etk="yas{j}" style="opacity:0"')
     F.t(x0 + 136, y0 + 34, ad, 13.4, 800, INK)
     F.t(x0 + 136, y0 + 54, 'Böbrek: ' + boy, 11.8, 700, BRANDD)
     F.tl(x0 + 136, y0 + 78, sat, 11.8, 16, fill=INK)

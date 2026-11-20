@@ -2,6 +2,7 @@
 """Ders 23 · Böbreğin Vasküler Hastalıkları — şekil tanımları (20 Kasım 2026)."""
 from sekil_ortak import *
 from sekil_gk import GK
+import sekil_anat as AN
 
 D = Ders('23')
 L = D.L
@@ -57,37 +58,41 @@ D.yeni('s23_tma', 'x23_5', 'Temel Bilgiler · 2 · Şekil', 'TMA — Bir Lezyon,
        'lümende parçalanmış eritrositler var. Sağda kronik evre: endotelin altında yeni bazal membran oluşmuş, glomerül bazal membranı çift kontur veriyor.')
 
 # ============================================================================================== 2 · Goldblatt: 2K-1C ve 1K-1C
-F = Fig('gold', 352, 'Renovasküler hipertansiyonda iki böbrek tek darlık ve tek böbrek tek darlık modelleri', w=1080)
+F = Fig('gold', 380, 'Renovasküler hipertansiyonda iki böbrek tek darlık ve tek böbrek tek darlık modelleri', w=1080)
+# Resimler: ChatGPT ile çizildi (yazısız, 820 × 557 px); konumlar resim pikselinden.
+GS = 368 / 820
 
 
 def model(x0, baslik, c, iki):
-    serit(F, x0, 6, 528, baslik, c); zemin(F, x0, 42, 528, 304)
-    ax = x0 + 264
-    F.r(ax - 13, 52, 26, 200, '#f1b9b0', '#a2564e', 1.6, 12); F.t(ax, 270, 'aorta', 11.6, 700, INK2, 'middle')
-    F.ln(ax - 13, 140, ax - 92, 140, '#c0392b', 9)                       # sol renal arter
-    F.r(ax - 64, 128, 12, 24, '#4a5b6b', None, rx=3)                      # klips / darlık
-    bobrek(F, ax - 128, 140, 1.0)
-    F.t(ax - 128, 212, 'Darlıklı böbrek', 12.4, 800, INK, 'middle')
-    rozet(F, ax - 128, 232, 'renin ↑', RED)
+    serit(F, x0, 6, 528, baslik, c); zemin(F, x0, 42, 528, 332)
+    ix, iy = x0 + 80, 46
+    def P(px, py): return (ix + px * GS, iy + py * GS)
+    AN.resim(F, 'an_gold_a' if iki else 'an_gold_b', ix, iy, 368, oran=557 / 820)
+    if iki: ao, kl, bk, sk = 465, (328, 290), (170, 300), (720, 310)
+    else: ao, kl, bk, sk = 485, (350, 300), (190, 300), (720, 310)
+    k = P(*bk); F.t(k[0], 272, 'Darlıklı böbrek', 12.4, 800, INK, 'middle'); rozet(F, k[0], 291, 'renin ↑' if iki else 'renin ↑ (erken)', RED)
+    AN.ad(F, *P(ao - 42, 70), 'aorta', 11.4, INK2, 'end', 700)
+    s_ = P(*sk)
     if iki:
-        F.ln(ax + 13, 140, ax + 92, 140, '#c0392b', 9); bobrek(F, ax + 128, 140, 1.0, ayna=True)
-        F.t(ax + 128, 212, 'Sağlam böbrek', 12.4, 800, INK, 'middle')
-        F.t(ax + 128, 232, 'basınç natriürezi:', 11.6, None, INK2, 'middle'); F.t(ax + 128, 247, 'tuz atılır', 11.6, 700, GREEN, 'middle')
+        F.t(s_[0], 272, 'Sağlam böbrek', 12.4, 800, INK, 'middle')
+        F.t(s_[0], 290, 'basınç natriürezi → tuz atılır', 11.4, 700, GREEN, 'middle')
     else:
-        F.yol(f'M{ax + 122},{90} C{ax + 92},{90} {ax + 90},{190} {ax + 122},{190} C{ax + 152},{190} {ax + 156},{90} {ax + 122},{90} Z', INK2, 1.6, 'none', dash='5 4')
-        F.t(ax + 124, 212, 'Karşı böbrek yok', 12.4, 800, INK2, 'middle')
-        F.t(ax + 124, 232, '(ya da iki taraflı darlık)', 11.6, None, INK2, 'middle')
-    return ax
+        F.yol(f'M{s_[0]},{s_[1] - 50} C{s_[0] - 30},{s_[1] - 50} {s_[0] - 34},{s_[1] + 50} {s_[0]},{s_[1] + 50} C{s_[0] + 30},{s_[1] + 50} {s_[0] + 34},{s_[1] - 50} {s_[0]},{s_[1] - 50} Z', INK2, 1.6, 'none', dash='5 4')
+        F.t(s_[0], 272, 'Karşı böbrek yok', 12.4, 800, INK2, 'middle')
+        F.t(s_[0], 290, '(ya da iki taraflı darlık)', 11.4, None, INK2, 'middle')
+    q = P(*kl); a0 = P(ao, 40); a1 = P(ao, 540)
+    F.a(f'<g data-etk="g" data-tip="{"2k" if iki else "1k"}" data-klips="{q[0]:.1f},{q[1]:.1f}" data-bob="{k[0] + 18:.1f},{k[1]:.1f}" '
+        f'data-ao="{a0[0]:.1f},{a0[1]:.1f},{a1[1]:.1f}" data-kut="{x0 + 18},{54}" data-faz="{P(ao, 0)[0] + 22:.1f},{62}"></g>')
 
 
-ax = model(6, 'İki böbrek, tek darlık (2K-1C)', BRAND, True)
-F.r(18, 280, 504, 56, '#fff', BRAND, 1.4, 10)
-F.t(32, 302, 'Renin bağımlı · volüm normal', 13, 800, BRAND)
-F.t(32, 322, 'RAAS blokajı kan basıncını iyi düşürür; toplam kreatinin çoğu kez korunur.', 11.8, None, INK)
-ax = model(546, 'Tek böbrek, tek darlık (1K-1C)', RED, False)
-F.r(558, 280, 504, 56, '#fff', RED, 1.4, 10)
-F.t(572, 302, 'Önce renin ↑, sonra tuz ve su tutulur → volüm bağımlı', 13, 800, RED)
-F.t(572, 322, 'RAAS blokajı tehlikeli: tüm nefronların filtrasyonu efferent tonusa bağlı.', 11.8, None, INK)
+model(6, 'İki böbrek, tek darlık (2K-1C)', BRAND, True)
+F.r(18, 308, 504, 56, '#fff', BRAND, 1.4, 10)
+F.t(32, 330, 'Renin bağımlı · volüm normal', 13, 800, BRAND)
+F.t(32, 350, 'RAAS blokajı kan basıncını iyi düşürür; toplam kreatinin çoğu kez korunur.', 11.8, None, INK)
+model(546, 'Tek böbrek, tek darlık (1K-1C)', RED, False)
+F.r(558, 308, 504, 56, '#fff', RED, 1.4, 10)
+F.t(572, 330, 'Önce renin ↑, sonra tuz ve su tutulur → volüm bağımlı', 13, 800, RED)
+F.t(572, 350, 'RAAS blokajı tehlikeli: tüm nefronların filtrasyonu efferent tonusa bağlı.', 11.8, None, INK)
 D.yeni('s23_gold', 'x23_6', 'Temel Bilgiler · 3 · Şekil', 'Goldblatt Modelleri — Karşı Böbrek Her Şeyi Değiştirir', F,
        '<b>Okuma:</b> Solda darlıklı böbrek renin salgılar, sağlam böbrek artan basınçla tuzu atar; tablo renin bağımlıdır. '
        'Sağda bütün böbrek kütlesi darlığın arkasındadır; tuz ve su tutulur, tablo volüm bağımlı hâle gelir ve RAAS blokajı filtrasyonu çökertebilir.',
@@ -97,17 +102,18 @@ D.yeni('s23_gold', 'x23_6', 'Temel Bilgiler · 3 · Şekil', 'Goldblatt Modeller
 # ============================================================================================== 3 · malign hipertansiyon: arter kesitleri ve kısır döngü
 F = Fig('mht', 360, 'Malign hipertansiyonda arter ve arteriyol lezyonları ile kısır döngü', w=1080)
 serit(F, 6, 6, 640, 'Damar duvarı', BRANDD); zemin(F, 6, 42, 640, 312)
-arter(F, 110, 150, 70, 34, ad='Normal interlobüler arter')
-arter(F, 326, 150, 70, 8, katman=7, ad='Soğan zarı (onion-skin)')
-arter(F, 540, 150, 52, 13, fibrinoid=True, trombus=True, ad='Arteriyol: fibrinoid nekroz')
-F.tl(30, 272, ['Eş merkezli intimal tabakalar lümeni iğne ucuna indirir.', 'Arteriyol duvarı fibrinle dolar, lümende trombüs oluşur.',
+MS = 620 / 2052                                  # resim: ChatGPT ile çizildi (yazısız, 2052 × 684 px)
+AN.resim(F, 'an_mht', 16, 46, 620, oran=684 / 2052)
+for cx, ad in ((450, 'Normal interlobüler arter'), (1119, 'Soğan zarı (onion-skin)'), (1778, 'Arteriyol: fibrinoid nekroz')):
+    F.t(16 + cx * MS, 268 - 14, ad, 12.6, 800, INK, 'middle')
+F.tl(30, 280, ['Eş merkezli intimal tabakalar lümeni iğne ucuna indirir.', 'Arteriyol duvarı fibrinle dolar, lümende trombüs oluşur.',
                'Sonuç: iskemi ve mikroanjiyopatik hemoliz — ikincil TMA.'], 12, 17, fill=INK)
 serit(F, 656, 6, 418, 'Kısır döngü', RED); zemin(F, 656, 42, 418, 312)
 K = [(865, 84, 'Çok yüksek kan basıncı'), (972, 170, 'Damar hasarı ve iskemi'), (865, 256, 'Renin–anjiyotensin ↑'), (758, 170, 'Basınç natriürezi → volüm ↓')]
 for x, y, t in K:
     w = gen(t, 12.4, True) + 22; F.r(x - w / 2, y - 16, w, 32, '#fff', RED, 1.5, 16); F.t(x, y + 4.5, t, 12.4, 800, INK, 'middle')
-F.yol('M925,100 Q972,118 972,150', RED, 2.4, ok=True); F.yol('M972,190 Q972,226 922,244', RED, 2.4, ok=True)
-F.yol('M758,190 Q758,232 806,250', RED, 2.4, ok=True); F.yol('M806,94 Q758,112 758,150', RED, 2.4, ok=True)
+F.yol('M925,100 Q972,118 972,150', RED, 2.4, ok=True); F.yol('M972,190 Q972,226 922,238', RED, 2.4, ok=True)
+F.yol('M758,190 Q758,232 806,238', RED, 2.4, ok=True); F.yol('M806,94 Q758,112 758,150', RED, 2.4, ok=True)
 F.ok(865, 238, 865, 104, RED, 2.4); F.t(872, 132, 'basınç ↑', 11.4, 700, RED)
 F.tl(672, 306, ['Hasta çoğu kez hipovolemiktir;', 'agresif diüretik zararlıdır.'], 12, 16, fill=RED, fw=700)
 D.yeni('s23_mht', 'x23_7', 'Temel Bilgiler · 4 · Şekil', 'Malign Hipertansiyon — Soğan Zarı, Fibrinoid Nekroz ve Kısır Döngü', F,
@@ -147,28 +153,21 @@ D.yeni('s23_tmaa', 'x23_10', 'Ayırıcı Tanı · Şekil', 'TMA Ayırıcı Tanı
 # ============================================================================================== 5 · FMD, aterosklerotik darlık ve kolesterol embolisi
 F = Fig('fmd', 356, 'Aterosklerotik renal arter darlığı, fibromusküler displazi ve kolesterol ateroembolizmi', w=1080)
 serit(F, 6, 6, 660, 'Renal arter görüntüsü', BRANDD); zemin(F, 6, 42, 660, 308)
-for x0, bas, fmd in ((20, 'Aterosklerotik darlık', False), (346, 'Fibromusküler displazi', True)):
-    F.t(x0 + 150, 70, bas, 13.2, 800, INK, 'middle')
-    F.r(x0, 92, 34, 116, '#f1b9b0', '#a2564e', 1.6, 12)                         # aorta
-    yy = 160
+# Resimler: ChatGPT ile çizildi (yazısız; 840 × 360 ve 860 × 360 px, üst-alt kenar soluklaştırıldı)
+for x0, bas, fmd, ad, pw in ((16, 'Aterosklerotik darlık', False, 'an_fmd_a', 840), (340, 'Fibromusküler displazi', True, 'an_fmd_b', 860)):
+    F.t(x0 + 155, 70, bas, 13.2, 800, INK, 'middle')
+    s_ = 310 / pw
+    AN.resim(F, ad, x0, 84, 310, oran=360 / pw)
     if not fmd:
-        F.yol(f'M{x0 + 34},{yy - 12} L{x0 + 60},{yy - 12} Q{x0 + 70},{yy - 4} {x0 + 80},{yy - 12} L{x0 + 270},{yy - 10} L{x0 + 270},{yy + 10} L{x0 + 80},{yy + 12} Q{x0 + 70},{yy + 4} {x0 + 60},{yy + 12} L{x0 + 34},{yy + 12} Z', '#a2564e', 1.6, '#f1b9b0')
-        F.el(x0 + 56, yy - 9, 14, 6, '#f2d27a', '#b98a1e', 1.2); F.el(x0 + 56, yy + 9, 14, 6, '#f2d27a', '#b98a1e', 1.2)
-        F.ln(x0 + 60, yy + 22, x0 + 60, yy + 52, INK2, 1.2); F.t(x0 + 60, yy + 68, 'ostiyal / proksimal plak', 11.8, 700, INK, 'middle')
-        F.tl(x0 + 6, 270, ['Yaşlı, aterosklerotik risk; girişim', 'çoğu hastada ilaç tedavisine üstün değil'], 11.4, 15, fill=INK2)
+        q = (x0 + 220 * s_, 84 + 232 * s_)
+        F.ln(q[0], q[1], q[0], 226, INK2, 1.2); F.el(q[0], q[1], 2.6, 2.6, '#fff', INK2, 1.1)
+        F.t(q[0] + 4, 242, 'ostiyal / proksimal plak', 11.8, 700, INK, 'middle')
+        F.tl(x0 + 10, 270, ['Yaşlı, aterosklerotik risk; girişim', 'çoğu hastada ilaç tedavisine üstün değil'], 11.4, 15, fill=INK2)
     else:
-        d = f'M{x0 + 34},{yy - 10} L{x0 + 120},{yy - 10}'
-        for i in range(5):
-            bx = x0 + 128 + i * 30
-            d += f' Q{bx},{yy - 22} {bx + 15},{yy - 22} Q{bx + 30},{yy - 22} {bx + 30},{yy - 7}'
-        d += f' L{x0 + 290},{yy - 9} L{x0 + 290},{yy + 9} L{x0 + 278},{yy + 7}'
-        for i in range(4, -1, -1):
-            bx = x0 + 128 + i * 30
-            d += f' Q{bx + 30},{yy + 22} {bx + 15},{yy + 22} Q{bx},{yy + 22} {bx},{yy + 7}'
-        d += f' L{x0 + 34},{yy + 10} Z'
-        F.yol(d, '#a2564e', 1.6, '#f1b9b0')
-        F.ln(x0 + 200, yy + 26, x0 + 200, yy + 52, INK2, 1.2); F.t(x0 + 200, yy + 68, '“boncuk dizisi”: orta–distal segment', 11.8, 700, INK, 'middle')
-        F.tl(x0 + 6, 270, ['Genç–orta yaş kadın; balon anjiyoplasti', '(stentsiz) çok etkilidir'], 11.4, 15, fill=INK2)
+        q = (x0 + 650 * s_, 84 + 236 * s_)
+        F.ln(q[0], q[1], q[0], 226, INK2, 1.2); F.el(q[0], q[1], 2.6, 2.6, '#fff', INK2, 1.1)
+        F.t(q[0] - 30, 242, '“boncuk dizisi”: orta–distal segment', 11.8, 700, INK, 'middle')
+        F.tl(x0 + 10, 270, ['Genç–orta yaş kadın; balon anjiyoplasti', '(stentsiz) çok etkilidir'], 11.4, 15, fill=INK2)
 serit(F, 676, 6, 398, 'Kolesterol ateroembolizmi', RED); zemin(F, 676, 42, 398, 308)
 F.el(875, 150, 120, 92, '#f3e3d6', '#b98c6b', 1.6); F.el(875, 150, 100, 76, '#e7a8a0', '#a2564e', 1.4); F.el(875, 150, 78, 58, '#f8efe6', '#c9a98d', 1.2)
 for (x, y, a) in ((840, 130, -18), (880, 160, 12), (905, 130, -30), (850, 170, 25), (900, 178, -8)):

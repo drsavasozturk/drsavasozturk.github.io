@@ -2,6 +2,7 @@
 """Ders 17 · Sistemik hastalıklar ve böbrek — şekil tanımları (20 Kasım 2026)."""
 import random
 from sekil_ortak import *
+import sekil_anat as AN
 from sekil_glom import etk
 
 D = Ders('17')
@@ -89,20 +90,18 @@ D.yeni('s17_d', 'x17_18', 'Mekanizma · Şekil', 'Granülomdaki 1α-Hidroksilaz 
 # ============================================================================================== 3 · orak hücre: neden medulla?
 F = Fig('orak', 384, 'Renal medullada düşük oksijen, yüksek ozmolalite ve düşük pH’ın vasa rektada orak hücreleşmeye yol açması; medüller ve glomerüler yollar', w=1080)
 serit(F, 6, 6, 440, 'Vasa rekta: üç koşulun kesişimi', RED); zemin(F, 6, 42, 440, 336)
-F.a('<defs><linearGradient id="g17m" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbeee9"/><stop offset="1" stop-color="#e39d93"/></linearGradient></defs>')
-F.r(30, 60, 150, 306, 'url(#g17m)', '#c98b82', 1.4, 8)
-F.t(105, 80, 'korteks', 11.4, 700, INK2, 'middle'); F.t(105, 356, 'papilla', 11.4, 700, '#7a2f27', 'middle')
-F.yol('M80,92 L80,300 Q80,336 105,336 Q130,336 130,300 L130,92', '#a2564e', 16, op=.25)
-F.yol('M80,92 L80,300 Q80,336 105,336 Q130,336 130,300 L130,92', '#c0392b', 2)
-for y in (110, 150, 190):
-    F.el(80, y, 6, 3.6, '#c0392b', '#8e2b26', 1); F.el(130, y + 18, 6, 3.6, '#c0392b', '#8e2b26', 1)
-for (x, y, a) in ((80, 238, 20), (82, 268, -30), (78, 296, 60), (98, 330, 10), (112, 332, -50), (128, 302, 30), (104, 322, 80)):
-    F.a(f'<path transform="rotate({a} {x} {y})" d="M{x - 8},{y} Q{x},{y - 9} {x + 8},{y} Q{x},{y - 3.5} {x - 8},{y} Z" fill="#c0392b" stroke="#8e2b26" stroke-width="1"/>')
+OS = 316 / 1700                                   # resim: ChatGPT ile çizildi (yazısız, 767 × 1700 px)
+OX, OY = 34, 54
+AN.resim(F, 'an_orak', OX, OY, 767 * OS, oran=1700 / 767)
+def OP(px, py): return (OX + px * OS, OY + py * OS)
+AN.ad(F, OP(383, 0)[0], 50, 'kortikomedüller bileşke', 10.6, INK2, 'middle', 700); AN.ad(F, *OP(383, 1640), 'papilla', 11.4, '#7a2f27', 'middle', 700)
 F.ok(200, 92, 200, 316, INK2, 2)
-F.tl(214, 112, ['pO₂ ↓', 'karşı akım O₂ şantı,', 'kalın çıkan kol O₂ tüketir'], 12.4, 17, fill=INK, fw=800)
-F.tl(214, 196, ['Ozmolalite ↑', '300 → 1200 mOsm/kg:', 'hücre büzüşür, HbS ↑'], 12.4, 17, fill=INK, fw=800)
-F.tl(214, 286, ['pH ↓', 'Bohr etkisi: O₂', 'afinitesi azalır'], 12.4, 17, fill=INK, fw=800)
-etk(F, (104, 330), 330, 340, ['HbS polimerleşir;', 'vasa rekta tıkanır'], fs=12)
+F.a('<g data-etk="k1">'); F.tl(214, 112, ['pO₂ ↓', 'karşı akım O₂ şantı,', 'kalın çıkan kol O₂ tüketir'], 12.4, 17, fill=INK, fw=800); F.a('</g>')
+F.a('<g data-etk="k2">'); F.tl(214, 196, ['Ozmolalite ↑', '300 → 1200 mOsm/kg:', 'hücre büzüşür, HbS ↑'], 12.4, 17, fill=INK, fw=800); F.a('</g>')
+F.a('<g data-etk="k3">'); F.tl(214, 286, ['pH ↓', 'Bohr etkisi: O₂', 'afinitesi azalır'], 12.4, 17, fill=INK, fw=800); F.a('</g>')
+AN.cagri(F, OP(330, 1480), 330, 352, ['HbS polimerleşir;', 'vasa rekta tıkanır'], fs=12)
+yol = [OP(225, y) for y in range(120, 1330, 40)] + [OP(232, 1380), OP(255, 1430), OP(300, 1475)]
+F.a(f'<path data-etk="yol" d="{AN.yol_d(yol)}" fill="none" stroke="none"/>')
 for j, (y, bas, c, sat) in enumerate(((6, 'Medüller yol', RED, ['Hipostenüri: en erken ve en yaygın', 'Papiller nekroz → hematüri, kolik', 'Ağrısız hematüri (çoğu kez sol)', 'Tip 4 RTA benzeri: hiperkalemi', 'Renal medüller karsinom (nadir; çoğu kez taşıyıcıda)']),
                                        (196, 'Glomerüler yol', PUR, ['Anemi + NO → hiperfiltrasyon', 'Hemoliz ürünleri → endotel hasarı, albüminüri', 'FSGS, orak hücre glomerülopatisi', 'İlerleyici eGFR kaybı; APOL1 ağırlaştırır']))):
     F.r(456, y, 618, 182, TINT[c], c, 1.6, 10); F.t(474, y + 28, bas, 14, 800, c)
@@ -110,5 +109,5 @@ for j, (y, bas, c, sat) in enumerate(((6, 'Medüller yol', RED, ['Hipostenüri: 
 D.yeni('s17_orak', 'x17_26', 'Patofizyoloji · Şekil', 'Orak Hücre — Neden Medulla?', F,
        '<b>Okuma:</b> Vasa rekta papillaya indikçe oksijen azalır, ozmolalite 1200 mOsm/kg’a çıkar ve pH düşer; üçü birlikte HbS polimerleşmesini kolaylaştırır ve damarı tıkar. '
        'Medüller yol hipostenüri, papiller nekroz, hematüri ve asidifikasyon defekti yapar; glomerüler yolda hiperfiltrasyon albüminüriye ve FSGS’ye ilerler.',
-       'Şekil: solda korteksten papillaya inen bir vasa rekta kıvrımı. Korteks düzeyinde yuvarlak eritrositler, papilla düzeyinde orak biçimli ve kümelenmiş eritrositler damarı tıkıyor. '
+       'Şekil: solda kortikomedüller bileşkeden papillaya inen bir vasa rekta kıvrımı. Üst uçta yuvarlak eritrositler, papilla düzeyinde orak biçimli ve kümelenmiş eritrositler damarı tıkıyor. '
        'Yanında aşağı doğru artan üç koşul: oksijen basıncı düşer, ozmolalite 300’den 1200’e çıkar, pH düşer. Sağda iki kutu: medüller yol ve glomerüler yol bulguları.')

@@ -616,6 +616,121 @@
     });
   }
 
+  // ------------------------------------------------------------------ 6e · Goldblatt: klips → renin ↑, kan basıncı ↑; 2K-1C ve 1K-1C farkı (s23_gold)
+  function goldblatt(svg) {
+    var G = ogeler(svg, 'g'); if (G.length < 2) return;
+    var ust = katman(svg), hit = katman(svg, true), SON = 9;
+    function sayi(e, k) { return e.getAttribute(k).split(',').map(Number); }
+    var P = G.map(function (g) {
+      var tip = g.getAttribute('data-tip'), kl = sayi(g, 'data-klips'), bo = sayi(g, 'data-bob'), ao = sayi(g, 'data-ao'), ku = sayi(g, 'data-kut'), fz = sayi(g, 'data-faz');
+      var o = { tip: tip, kl: kl, bo: bo, ao: ao, d: [], g: el('g', { opacity: 0 }, ust) };
+      o.halka = el('circle', { cx: kl[0], cy: kl[1], r: 8, fill: 'none', stroke: C.kirmizi, 'stroke-width': 2.4, opacity: 0 }, ust);
+      o.vx = ao[0] - 30; o.vy = bo[1] + 22; o.vt = Math.max(ao[1] + 40, 118);   // renin dolaşıma renal ven → vena kava yoluyla girer (arter yoluyla değil)
+      o.ven = el('path', { d: 'M' + bo[0] + ',' + o.vy + ' H' + o.vx + ' M' + o.vx + ',' + (bo[1] + 70) + ' V' + o.vt, fill: 'none', stroke: '#4f78b0', 'stroke-width': 3.4, 'stroke-linecap': 'round', opacity: 0 }, ust);
+      o.vyz = yazi(ust, (bo[0] + o.vx) / 2, o.vy + 17, 'renal ven', { 'font-size': 10.5, 'font-weight': 700, fill: '#4f78b0', 'text-anchor': 'middle', opacity: 0 });
+      o.vkz = yazi(ust, o.vx + 4, o.vt - 7, 'v. kava', { 'font-size': 10.5, 'font-weight': 700, fill: '#4f78b0', 'text-anchor': 'end', opacity: 0 });
+      for (var i = 0; i < 9; i++) o.d.push(el('circle', { r: 3.4, fill: '#e8b423', stroke: '#8a6400', 'stroke-width': .8, opacity: 0 }, ust));
+      function bar(y, ad) {
+        yazi(o.g, ku[0], y + 9, ad, { 'font-size': 11, 'font-weight': 800, fill: '#3d4d5c' });
+        el('rect', { x: ku[0] + 74, y: y, width: 110, height: 10, rx: 5, fill: '#e6ecf1' }, o.g);
+        return el('rect', { x: ku[0] + 74, y: y, width: 22, height: 10, rx: 5, fill: C.yesil }, o.g);
+      }
+      el('rect', { x: ku[0] - 8, y: ku[1] - 6, width: 204, height: 62, rx: 8, fill: '#fff', opacity: .88 }, o.g);
+      o.b = [bar(ku[1], 'renin'), bar(ku[1] + 18, 'volüm'), bar(ku[1] + 36, 'kan basıncı')];
+      o.f = [yazi(ust, fz[0], fz[1], '', { 'font-size': 11.6, 'font-weight': 800, fill: C.kirmizi }), yazi(ust, fz[0], fz[1] + 16, '', { 'font-size': 11.2, 'font-weight': 700, fill: '#3d4d5c' })];
+      return o;
+    });
+    function dol(r, v, yuk) { r.setAttribute('width', 22 + 88 * v); r.setAttribute('fill', v > .45 ? (yuk || C.kirmizi) : C.yesil); }
+    var ip = ipucu(ust, 1066, 376, '▶ dokunun: klips takılır');
+    function an(t) {
+      P.forEach(function (o) {
+        var k = o.tip === '1k', ren = yumusak(arada(t, .8, 2.6)), vol = 0, bp = yumusak(arada(t, 1.6, 4.6));
+        if (k) { ren = ren * (1 - .8 * yumusak(arada(t, 4.4, 7.6))); vol = yumusak(arada(t, 3.6, 7.2)); }
+        else vol = .12 * Math.sin(Math.PI * arada(t, 2, 5));
+        o.g.setAttribute('opacity', Math.min(1, t * 3));
+        dol(o.b[0], ren); dol(o.b[1], vol, C.mavi); dol(o.b[2], bp);
+        var q = (t % 1.2) / 1.2; o.ven.setAttribute('opacity', (.75 * ren).toFixed(2)); o.vyz.setAttribute('opacity', ren.toFixed(2)); o.vkz.setAttribute('opacity', ren.toFixed(2)); o.halka.setAttribute('r', 8 + 12 * q); o.halka.setAttribute('opacity', t < 7 ? (1 - q) * .9 : 0);
+        o.d.forEach(function (c, i) {
+          var u = ((t * .55) + i / o.d.length) % 1, x, y;
+          if (u < .45) { var f = u / .45; x = o.bo[0] + (o.vx - o.bo[0]) * f; y = o.vy + 2 * Math.sin(f * 6); }
+          else { var g = (u - .45) / .55; x = o.vx + (i % 2 ? 1.5 : -1.5); y = o.vy - g * (o.vy - o.vt); }
+          c.setAttribute('cx', x.toFixed(1)); c.setAttribute('cy', y.toFixed(1)); c.setAttribute('opacity', (ren * (u < .06 ? u / .06 : u > .9 ? (1 - u) / .1 : 1)).toFixed(2));
+        });
+        var s1, s2;
+        if (!k) { s1 = t < 1.6 ? 'klips: perfüzyon ↓' : 'renin ↑ · kan basıncı ↑'; s2 = t < 3.6 ? '' : 'karşı böbrek tuzu atar'; }
+        else { s1 = t < 1.6 ? 'klips: perfüzyon ↓' : (t < 4.4 ? 'renin ↑ · kan basıncı ↑' : 'tuz ve su tutulur: volüm ↑'); s2 = t < 4.4 ? '' : 'renin iner, basınç yüksek'; }
+        o.f[0].textContent = s1; o.f[1].textContent = s2;
+      });
+    }
+    var s = saat(svg, function (t) { an(Math.min(t, SON)); if (t > SON + 1.5) s.dur(); });
+    s.dg = function (o) {
+      ip.textContent = o ? '❚❚ dokunun' : '▶ dokunun: yeniden';
+      if (!o) P.forEach(function (p) { p.d.forEach(function (c) { c.setAttribute('opacity', 0); }); p.halka.setAttribute('opacity', 0); p.ven.setAttribute('opacity', 0); p.vyz.setAttribute('opacity', 0); p.vkz.setAttribute('opacity', 0); });
+    };
+    dugme(seffaf(hit, { r: [6, 42, 1068, 262] }), 'Klips takıldıktan sonraki değişimi oynat', function () {
+      if (s.oyn) { s.dur(); return; }
+      if (s.t > SON) s.t = 0;
+      s.bas();
+    });
+  }
+
+  // ------------------------------------------------------------------ 6f · orak hücre: vasa rektada inen eritrosit oraklaşır, papillada tıkar (s17_orak)
+  function orak(svg) {
+    var yol = svg.querySelector('[data-etk="yol"]'); if (!yol) return;
+    var P = yolNoktalari(yol, 160), K = [1, 2, 3].map(function (n) { return svg.querySelector('[data-etk="k' + n + '"]'); });
+    var ust = katman(svg), hit = katman(svg, true);
+    var V = K.map(function (c) {
+      var x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+      [].forEach.call(c.querySelectorAll('text'), function (t) { var q = t.getBBox(); x0 = Math.min(x0, q.x); y0 = Math.min(y0, q.y); x1 = Math.max(x1, q.x + q.width); y1 = Math.max(y1, q.y + q.height); });
+      var r = el('rect', { 'class': 'etk-k', x: x0 - 8, y: y0 - 5, width: x1 - x0 + 16, height: y1 - y0 + 10, rx: 8, fill: '#fde3df', stroke: C.kirmizi, 'stroke-width': 1.2, opacity: 0, 'pointer-events': 'none' });
+      c.parentNode.insertBefore(r, c); return r;
+    });
+    var g = el('g', { opacity: 0 }, ust);
+    var disk = el('ellipse', { rx: 6.2, ry: 5, fill: '#d13a2c', stroke: '#7d1a12', 'stroke-width': 1 }, g);
+    el('ellipse', { rx: 2.4, ry: 1.8, fill: '#a8261b', opacity: .7 }, g);
+    var hilal = el('path', { d: 'M-8,1 Q0,-9 8,1 Q0,-4 -8,1 Z', fill: '#c0392b', stroke: '#7d1a12', 'stroke-width': 1, opacity: 0 }, g);
+    var halka = el('circle', { r: 8, fill: 'none', stroke: C.kirmizi, 'stroke-width': 2.4, opacity: 0 }, ust);
+    var ip = ipucu(ust, 440, 60, '▶ dokunun: eritrosit iner');
+    var SON = 7.5;
+    var s = saat(svg, function (t) {
+      var u = Math.min(1, t / 5.5), p = P[Math.round(u * (P.length - 1))];
+      g.setAttribute('transform', 'translate(' + p[0].toFixed(1) + ' ' + p[1].toFixed(1) + ')');
+      g.setAttribute('opacity', Math.min(1, t * 3));
+      var m = yumusak(arada(u, .3, .75)); disk.setAttribute('opacity', 1 - m); disk.nextSibling.setAttribute('opacity', .7 * (1 - m)); hilal.setAttribute('opacity', m);
+      hilal.setAttribute('transform', 'rotate(' + (40 * m) + ')');
+      V.forEach(function (r, k) { r.setAttribute('opacity', u > k / 3 + .05 ? 1 : 0); });
+      if (u >= 1) { var q = ((t - 5.5) % 1.1) / 1.1; halka.setAttribute('cx', p[0]); halka.setAttribute('cy', p[1]); halka.setAttribute('r', 8 + 14 * q); halka.setAttribute('opacity', 1 - q); }
+      else halka.setAttribute('opacity', 0);
+      if (t > SON) s.dur();
+    });
+    s.dg = function (o) {
+      ip.textContent = o ? '❚❚ dokunun' : '▶ dokunun: yeniden';
+      if (!o) { g.setAttribute('opacity', 0); halka.setAttribute('opacity', 0); V.forEach(function (r) { r.setAttribute('opacity', 0); }); }
+    };
+    dugme(seffaf(hit, { r: [6, 42, 440, 336] }), 'Eritrositin vasa rektada inişini oynat', function () { if (s.oyn) { s.dur(); return; } s.t = 0; s.bas(); });
+  }
+
+  // ------------------------------------------------------------------ 6g · ADPKD: kistler yaşla büyür (s19_har, ilk kart)
+  function kistYas(svg) {
+    var A0 = svg.querySelector('[data-etk="adpkd"]'), Y = [0, 1, 2].map(function (i) { return svg.querySelector('[data-etk="yas' + i + '"]'); });
+    if (!A0 || !Y[2]) return;
+    var ust = katman(svg), hit = katman(svg, true), SON = 7;
+    var yaz = yazi(ust, 142, 130, '', { 'font-size': 12, 'font-weight': 800, fill: C.kirmizi });
+    var ip = ipucu(ust, 348, 136, '▶ dokunun: yaşla');
+    function an(t) {
+      var a = [arada(t, .2, .8) * (1 - arada(t, 1.8, 2.4)), arada(t, 1.8, 2.4) * (1 - arada(t, 3.6, 4.2)), arada(t, 3.6, 4.2)];
+      Y.forEach(function (e, i) { e.style.opacity = a[i]; });
+      A0.style.opacity = t > 0 ? 1 - arada(t, 0, .4) : 1;
+      yaz.textContent = t < .2 ? '' : (t < 2.1 ? '20 yaş' : (t < 3.9 ? '40 yaş' : '60 yaş'));
+    }
+    var s = saat(svg, function (t) { an(Math.min(t, SON)); if (t > SON) s.dur(); });
+    s.dg = function (o) {
+      ip.textContent = o ? '❚❚' : '▶ dokunun: yaşla';
+      if (!o) { Y.forEach(function (e) { e.style.opacity = 0; }); A0.style.opacity = 1; yaz.textContent = ''; }
+    };
+    dugme(seffaf(hit, { r: [6, 6, 350, 138] }), 'ADPKD böbreğinin yaşla büyümesini oynat', function () { if (s.oyn) { s.dur(); return; } s.t = 0; s.bas(); });
+  }
+
   // ------------------------------------------------------------------ slayt kimliği → kurulum
   var K = {
     x30_5: function (svg) {
@@ -639,7 +754,7 @@
         { ad: 'FHHNC: klodin 16 ve 19', delik: [{ k: 'FHHNC' }, { r: [340, 348, 400, 64] }] }] });
     },
     x39_8: plazma, x43_43: perfuzyon, s21_avp: avp, x36_4: tasima, s26_uri: urik,
-    s26_yer: tasInis, s27_us: derece, s27_dren: drenAkis, s27_tek: tekCift
+    s26_yer: tasInis, s27_us: derece, s27_dren: drenAkis, s27_tek: tekCift, s23_gold: goldblatt, s17_orak: orak, s19_har: kistYas
   };
   var IP = ['☝ şekle dokunun: iyon akışı · etikete: bozukluk'];
   function H_(ad, k, delik, etki) { return { ad: ad, delik: [{ k: k }].concat(delik || []), etki: etki }; }
