@@ -125,7 +125,8 @@ async def main():
         # hasta videoları: tıklamadan önce YouTube isteği yok; tıklayınca nocookie iframe
         await pg.goto(B + 'hasta.html'); await pg.wait_for_timeout(300)
         v = await pg.evaluate("[document.querySelectorAll('.oyn[data-yt]').length, document.querySelectorAll('.oy.yakin').length, document.querySelectorAll('iframe').length]")
-        _NV = len(__import__('json').load(open('/home/claude/scripts/videolar.json', encoding='utf-8'))['videolar'])
+        _vj = '/home/claude/scripts/videolar.json'   # video listesi depoda değil; yoksa sayfadaki toplam kabul edilir
+        _NV = len(json.load(open(_vj, encoding='utf-8'))['videolar']) if os.path.exists(_vj) else v[0] + v[1]
         ok(f'hasta sayfasında oynatılabilir + “Yakında” = {_NV} video, açılışta iframe yok', v[0] + v[1] == _NV and v[0] >= 11 and v[2] == 0, str(v))
         await pg.route('**/*youtube*', lambda r: r.abort())
         await pg.click('#b1 button.oy'); await pg.wait_for_timeout(300)
