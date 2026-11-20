@@ -73,14 +73,14 @@ D.yeni('s27_faz', 'x27_11', 'Patofizyoloji · Şekil', 'Üç Faz — Akım ve Ba
 # ============================================================================================== 2 · hidronefroz dereceleri ve ultrasonun iki tuzağı
 F = Fig('us', 432, 'Hidronefrozun ultrasonda derecelendirilmesi ve ultrasonun yalancı negatif ve yalancı pozitif tuzakları', w=1080)
 serit(F, 6, 6, 1068, 'Hidronefroz dereceleri (SFU 0–4)', BRANDD); zemin(F, 6, 42, 1068, 216)
-DER = ((0, 0, 0, 0), (2, 0, 0, 0), (3, (0, 0, 0, 0, 2, 2, 2, 2), 3, 0), (3, 3, 3, 0), (4, 4, 4, 1))
 YAZ = [('0 · Normal', 'sistem genişlememiş'), ('1 · Yalnız pelvis', 'kaliksler normal'), ('2 · Pelvis + bazı kaliksler', 'diğerleri normal'),
        ('3 · Tüm kaliksler', 'parankim normal'), ('4 · Parankim incelmesi', 'kaliksler de genişlemiş')]
+GS = ((319, 545), (327, 546), (328, 546), (329, 546), (336, 545))   # resim boyutu (px); ChatGPT ile çizildi, yazısız
+f = .282
 for i in range(5):
-    cx, cy, k = 118 + i * 212, 126, 1.34
-    pel, kal, maj, ince = DER[i]
-    F.a(f'<g data-etk="d{i}" data-c="{cx - 10},{cy}">')
-    A.bobrek(F, cx, cy, k, pel=pel, kal=kal, maj=maj, ince=ince, damar=False)
+    cx = 118 + i * 212
+    F.a(f'<g data-etk="d{i}" data-c="{cx - 10},126">')
+    A.resim(F, f'an_us{i}', cx - 10 - GS[i][0] / 2 * f, 50, GS[i][0] * f, oran=GS[i][1] / GS[i][0])
     F.t(cx - 10, 214, YAZ[i][0], 12.6, 800, INK, 'middle'); F.t(cx - 10, 231, YAZ[i][1], 11.6, None, INK2, 'middle')
     F.a('</g>')
 for j, (x, bas, c, sat) in enumerate(((6, 'Yalancı NEGATİF · hidronefroz yok, obstrüksiyon var', RED,
@@ -102,41 +102,27 @@ F = Fig('rpf', 372, 'Aksiyel kesitte retroperitoneal fibroz ile lenfomanın aort
 
 def kesit(F, ox, rpf):
     F.r(ox + 6, 6, 528, 360, '#fbf8f2', LINE, 1.2, 12)
+    P = A.resim(F, 'an_rpf_a' if rpf else 'an_rpf_b', ox + 6, 10, 528, oran=2 / 3)
     F.t(ox + 30, 34, 'ön', 11.4, 700, MUT); F.t(ox + 30, 350, 'arka', 11.4, 700, MUT)
     F.t(ox + 30, 196, 'Sağ', 11.4, 700, MUT); F.t(ox + 510, 196, 'Sol', 11.4, 700, MUT, 'end')
-    cx = ox + 270
-    F.a(f'<path d="{A.yuvarla([(cx - 170, 250), (cx - 150, 160), (cx - 80, 118), (cx, 108), (cx + 80, 118), (cx + 150, 160), (cx + 170, 250), (cx + 120, 300), (cx, 292), (cx - 120, 300)])}" fill="#fbf0d2" opacity=".85"/>')   # retroperitoneal yağ
-    for sx in (-1, 1):   # psoas
-        A.kas(F, [(cx + sx * x, y) for x, y in ((48, 240), (64, 230), (86, 234), (98, 252), (92, 274), (74, 284), (56, 276), (46, 258))])
-        A.kas(F, [(cx + sx * x, y) for x, y in ((12, 322), (30, 312), (52, 318), (58, 336), (44, 350), (20, 350), (11, 338))])   # paraspinal
-    if rpf:
-        A.fibroz(F, [(cx - 82, 240), (cx - 98, 204), (cx - 78, 164), (cx - 34, 144), (cx + 14, 140), (cx + 58, 150), (cx + 92, 176), (cx + 100, 214),
-                     (cx + 86, 242), (cx + 56, 238), (cx + 30, 232), (cx, 230), (cx - 30, 232), (cx - 58, 240)])
-        ao, ivc, ur = (cx + 22, 210), (cx - 32, 218), ((cx - 54, 226), (cx + 58, 226))
-    else:
-        ao, ivc, ur = (cx + 18, 150), (cx - 44, 167), ((cx - 112, 226), (cx + 116, 226))
-    A.vertebra(F, cx, 264, .9)
-    if not rpf:
-        for i, (u, v, rx, ry) in enumerate(((-4, 212, 24, 18), (32, 214, 22, 17), (-40, 200, 19, 15), (64, 198, 18, 15), (10, 184, 18, 14),
-                                             (-24, 178, 15, 13), (50, 174, 16, 13), (-76, 216, 14, 12), (92, 214, 14, 12), (20, 174, 17, 12))):
-            A.lenf(F, cx + u, v, rx, ry, (i * 37) % 60 - 30, i + 2)
-    A.arter_kesit(F, *ao, 17, kalsifik=False); A.ven_kesit(F, *ivc, 18, 11)
-    for u in ur: A.ureter_kesit(F, *u, 5.5)
-    F.t(ivc[0], ivc[1] + (-16 if rpf else -15), 'VKİ', 10.5, 800, '#2f4f86', 'middle')
-    F.a(f'<text x="{cx - 73}" y="{266}" font-size="10.5" font-weight="800" fill="#fff" text-anchor="middle" stroke="#7a3530" stroke-width="2.4" paint-order="stroke">psoas</text>'); F.t(cx, 252, 'vertebra', 10.5, 700, '#8a7350', 'middle')
-    return cx, ao, ivc, ur
+    if rpf: N = dict(ao=(540, 277), aoa=(548, 318), ivc=(432, 286), ur=((372, 311), (610, 311)), man=(586, 212), vert=(490, 395), pso=(322, 390))
+    else: N = dict(ao=(534, 186), ivc=(400, 223), ur=((292, 296), (670, 296)), nod=(530, 262), vert=(490, 395), pso=(322, 390))
+    Q = {k: (P(*v) if not isinstance(v[0], tuple) else tuple(P(*q) for q in v)) for k, v in N.items()}
+    def yaz(q, t, c, dy=0): F.a(f'<text x="{q[0]:.1f}" y="{q[1] + dy:.1f}" font-size="10.5" font-weight="800" fill="#fff" text-anchor="middle" stroke="{c}" stroke-width="2.6" paint-order="stroke">{t}</text>')
+    yaz(Q['ivc'], 'VKİ', '#2f4f86', 4); yaz(Q['pso'], 'psoas', '#7a3530', 4); yaz(Q['vert'], 'vertebra', '#8a7350', 4)
+    return Q
 
 
-cx, ao, ivc, ur = kesit(F, 0, True)
+Q = kesit(F, 0, True)
 F.t(270, 34, 'Retroperitoneal fibroz', 14, 800, PUR, 'middle')
-A.cagri(F, (ao[0] + 12, ao[1] + 16), 344, 300, ['Aort vertebraya yapışık', 'öne itilmemiş'], fs=11.8)
-A.cagri(F, (cx + 46, 158), 368, 92, ['Fibröz manto önü ve yanları', 'sarar, arkaya girmez'], fs=11.8)
-A.cagri(F, (ur[0][0] - 3, ur[0][1] + 5), 60, 306, ['Üreterler mediale', 'çekilir, sabitlenir'], fs=11.8)
-cx, ao, ivc, ur = kesit(F, 540, False)
+A.cagri(F, Q['aoa'], 352, 314, ['Aort vertebraya yapışık', 'öne itilmemiş'], fs=11.8)
+A.cagri(F, Q['man'], 368, 92, ['Fibröz manto önü ve yanları', 'sarar, arkaya girmez'], fs=11.8)
+A.cagri(F, Q['ur'][0], 156, 118, ['Üreterler mediale', 'çekilir, sabitlenir'], fs=11.8, sol=True)
+Q = kesit(F, 540, False)
 F.t(810, 34, 'Lenfoma · malign kitle', 14, 800, RED, 'middle')
-A.cagri(F, (ao[0] + 12, ao[1] - 12), 878, 92, ['Aort öne itilmiş', '(“yüzen aort”)'], fs=11.8)
-A.cagri(F, (cx + 30, 222), 874, 302, ['Kitle aortun arkasına girer;', 'büyük lenf nodları'], fs=11.8)
-A.cagri(F, (ur[1][0] + 4, ur[1][1] - 5), 948, 170, ['Üreterler', 'laterale itilir'], fs=11.8)
+A.cagri(F, (Q['ao'][0] + 10, Q['ao'][1] - 10), 878, 92, ['Aort öne itilmiş', '(“yüzen aort”)'], fs=11.8)
+A.cagri(F, Q['nod'], 886, 314, ['Kitle aortun arkasına girer;', 'büyük lenf nodları'], fs=11.8)
+A.cagri(F, Q['ur'][1], 948, 170, ['Üreterler', 'laterale itilir'], fs=11.8)
 D.yeni('s27_rpf', 'x27_28', 'Retroperitoneal Fibroz · Şekil', 'RPF ve Lenfoma — Aort Nerede?', F,
        '<b>Okuma:</b> Retroperitoneal fibrozda periaortik doku aortu önden ve yanlardan sarar, arkaya girmez; aort vertebraya yapışık kalır ve üreterler mediale çekilir. '
        'Lenfomada kitle aortun arkasına da uzanır, aortu öne iter; büyük lenf nodları ve laterale itilmiş üreterler malignite lehinedir.',
@@ -147,55 +133,27 @@ D.yeni('s27_rpf', 'x27_28', 'Retroperitoneal Fibroz · Şekil', 'RPF ve Lenfoma 
 F = Fig('dren', 446, 'Obstrüksiyonda drenaj: perkütan nefrostomi ve retrograd double-J stent; hangi durumda hangisi', w=1080)
 
 
-def sistem(F, ox):
-    cx, cy, k = ox + 110, 146, 1.62
-    BX, BY = ox + 252, 334
-    E = A.giris(BX, BY, 42, 30, -1)
-    ux, uy = A.cikis(cx, cy, k, pel=2)
-    YOL = A.egri(((ux, uy), (ux + 8, uy + 74), (E[0] - 34, E[1] - 96), E), 40)
-    st = YOL[19]
-    A.ureter(F, YOL[19:], 5.4)
-    G = A.bobrek(F, cx, cy, k, pel=2, kal=2, maj=2, ureter=YOL[:20], uw=10.4, damar=False)
-    M = A.mesane(F, BX, BY, 42, 30, taraflar=(-1,), uretra=14)
-    A.tas(F, st[0] - 3, st[1] + 2, 7.5, 5)
-    F.a(f'<path data-etk="durgun" d="{A.yol_d([G["pel"]] + YOL[:18])}" fill="none" stroke="none"/>')
-    for i in (1, 3, 5, 6):
-        F.a(f'<path data-etk="kaliks" d="{A.yol_d([G["kal"][i], G["maj"][0 if i > 4 else (1 if i > 2 else 2)], G["pel"]])}" fill="none" stroke="none"/>')
-    return G, M, YOL, st
-
-
+# Resimler: ChatGPT ile çizildi (yazısız). Konumlar resmin pikselinden (1536 × 1024 kaynak) ölçüldü.
+DS = 340 / 942
+def DA(px, py): return (12 + (px - 36) * DS, 42 + (py - 42) * DS)
+def DB(px, py): return (552 + (px - 796) * DS, 42 + (py - 42) * DS)
+def yol(T, ad, pts): F.a(f'<path data-etk="{ad}" d="{A.yol_d([T(*q) for q in pts])}" fill="none" stroke="none"/>')
 for j, ox in enumerate((0, 540)):
     F.r(ox + 6, 6, 528, 380, '#fbf8f2', LINE, 1.2, 12)
-# ---- sol: perkütan nefrostomi (alt kalikse papilla ekseninden giriş, pelviste kıvrık uç)
-G, M, YOL, st = sistem(F, 0)
-PC = G['pel']; lk = G['kal'][1]
-dx, dy = lk[0] - PC[0], lk[1] - PC[1]; Ln = math.hypot(dx, dy); dx, dy = dx / Ln, dy / Ln
-S = (lk[0] + dx * 64, lk[1] + dy * 64)                 # cilt geçişi, kaliks ekseni üzerinde
-nx, ny = -dy, dx
-F.yol(f'M{S[0] - nx * 26:.0f},{S[1] - ny * 26:.0f} Q{S[0] + dx * 6:.0f},{S[1] + dy * 6:.0f} {S[0] + nx * 30:.0f},{S[1] + ny * 30:.0f}', '#b49a7c', 2.2, dash='5 4')
-F.t(S[0] + nx * 30 - 2, S[1] + ny * 30 - 4, 'cilt', 11, 700, '#8e7e6b', 'end')
-PG = A.pigtail(PC[0] + 1, PC[1] - 1, 8.5, 150, .82, 1)
-NEF = A.egri(((32, 318), (31, 290), (S[0] + dx * 20, S[1] + dy * 20), S), 14) + A.egri((S, (S[0] - dx * 20, S[1] - dy * 20), (lk[0] + dx * 18, lk[1] + dy * 18), lk), 10)[1:] + \
-      A.egri((lk, (lk[0] - dx * 10, lk[1] - dy * 10), (PG[0][0] - 6, PG[0][1] + 8), PG[0]), 8)[1:] + PG[1:]
-A.kateter(F, NEF, 3.2, delik=0)
-for q in PG[6::9]: F.el(q[0], q[1], 1, 1, '#0d2f52')   # yan delikler
-F.r(10, 318, 46, 58, '#fff6cc', '#a07a00', 1.6, 8); F.r(13, 346, 40, 27, '#f4d36b', None, rx=5); F.t(33, 340, 'torba', 10.8, 700, '#7a5a00', 'middle')
-F.a(f'<path data-etk="akis" d="{A.yol_d(PG[::-1] + NEF[::-1][len(PG):] + [(33, 352)])}" fill="none" stroke="none"/>')
+# ---- sol: perkütan nefrostomi
+A.resim(F, 'an_dren_a', 12, 42, 712 * DS, oran=942 / 712)
+for q in (((350, 180), (380, 262)), ((272, 240), (335, 292)), ((262, 330), (335, 330)), ((300, 420), (352, 382))): yol(DA, 'kaliks', q)
+yol(DA, 'durgun', ((400, 300), (420, 380), (440, 460), (452, 540), (456, 572)))
+yol(DA, 'akis', ((372, 312), (395, 330), (330, 385), (270, 410), (200, 440), (140, 460), (90, 490), (72, 530), (80, 600), (108, 680), (124, 722), (125, 760), (125, 840)))
+A.ad(F, *DA(70, 160), 'cilt', 10.8, '#8e7e6b'); A.ad(F, *DA(125, 905), 'torba', 10.8, '#7a5a00')
 F.t(30, 34, 'Perkütan nefrostomi', 14, 800, BRANDD)
 F.tl(300, 64, ['Tercih edilen durumlar', ], 12.6, 17, fill=BRANDD, fw=800)
 madde(F, 300, 88, [['Ürosepsis, instabilite:', 'lokal anestezi yeterli'], ['Malign bası, mesane', 'invazyonu'], ['Ayrık fonksiyon ve', 'kurtarılabilirlik ölçümü']])
 F.tl(300, 216, ['Dikkat: perirenal kanama;', 'koagülopatide stent.'], 12, 17, fill=RED, fw=700)
 # ---- sağ: retrograd double-J stent
-G, M, YOL, st = sistem(F, 540)
-PC = G['pel']; TN = M['tunel'][-1]; BX, BY = 540 + 252, 334
-P1 = A.pigtail(PC[0], PC[1] - 2, 8.5, 90, .85, -1)[::-1]
-ic = [(x + 4.2 * math.exp(-((i - 18) / 3.2) ** 2), y) for i, (x, y) in enumerate(YOL[1:], 1)]     # yalnız taşın yanından geçerken kayar
-O = TN[-1]; PS = (O[0] + 8, O[1] - 14); CC = (PS[0] + 6.4, PS[1] + 6.4)
-alt = TN[1:] + [(O[0] + 4, O[1] - 6), PS]
-P2 = A.pigtail(CC[0], CC[1], 9, 225, .85, 1)
-DJ = P1 + [(PC[0] + 2, PC[1] + 8)] + ic + alt + P2[1:]
-A.kateter(F, DJ, 2.6)
-F.a(f'<path data-etk="akis" d="{A.yol_d(P1[-1:] + [(PC[0] + 2, PC[1] + 8)] + ic + alt + [(CC[0] + 8, CC[1] - 4)])}" fill="none" stroke="none"/>')
+A.resim(F, 'an_dren_b', 552, 42, 706 * DS, oran=942 / 706)
+for q in (((1108, 180), (1120, 262)), ((1030, 240), (1085, 292)), ((1020, 330), (1080, 330)), ((1058, 420), (1105, 382))): yol(DB, 'kaliks', q)
+yol(DB, 'akis', ((1112, 320), (1132, 330), (1150, 400), (1170, 480), (1182, 540), (1192, 600), (1204, 660), (1218, 720), (1240, 790), (1262, 840), (1300, 870)))
 F.t(570, 34, 'Retrograd double-J stent', 14, 800, PUR)
 F.tl(840, 64, ['Tercih edilen durumlar'], 12.6, 17, fill=PUR, fw=800)
 madde(F, 840, 88, [['Koagülopati ya da', 'antikoagülan'], ['Aynı seansta taş tedavisi', '(enfeksiyon yoksa)'], ['Uzun süreli konfor:', 'dış torba yok']])
@@ -212,42 +170,24 @@ D.yeni('s27_dren', 'x27_32', 'Kanıt + Karar · Şekil', 'Nefrostomi mi, Stent m
 F = Fig('tek', 352, 'Tek taraflı ve çift taraflı obstrüksiyonun böbrek fonksiyonuna etkisi', w=1080)
 for j, (ox, bas, c) in enumerate(((0, 'Tek taraflı · karşı böbrek sağlam', BRAND), (540, 'Çift taraflı · ya da tek böbrek', RED))):
     F.r(ox + 6, 6, 528, 340, '#fbf8f2', LINE, 1.2, 12); F.t(ox + 30, 34, bas, 14, 800, c)
-# sol panel: tek taraflı (hareketli: n = tıkanma öncesi, d = tıkanma sonrası; durağan görünüm d)
-bx, by = 156, 262
-Ms = dict(cx=bx, cy=by, rx=30, ry=22)
-E1, E2 = A.giris(bx, by, 30, 22, -1), A.giris(bx, by, 30, 22, 1)
-def uy(p, q, n=24): return A.egri((p, (p[0], (p[1] + q[1]) / 2 + 6), (q[0], (p[1] + q[1]) / 2 - 6), q), n)
-c1, c2 = (80, 126), (240, 124)
-o1 = A.cikis(*c1, 1.32, pel=0); U1 = uy(o1, E1)
-A.bobrek(F, *c1, 1.32, pel=0, ureter=U1, uw=4.2, damar=False)
-o2n, o2d = A.cikis(*c2, 1.16, True, pel=0), A.cikis(*c2, 1.16, True, pel=3)
-U2n, U2d = uy(o2n, E2), uy(o2d, E2)
-st = U2d[13]
-F.a('<g data-etk="d">'); A.ureter(F, U2d[13:], 4)
-A.bobrek(F, *c2, 1.16, ayna=True, pel=3, kal=3, maj=3, ureter=U2d[:14], uw=6.4, damar=False); F.a('</g>')
-A.bobrek(F, *c2, 1.16, ayna=True, pel=0, ureter=U2n, uw=4, damar=False, grup='data-etk="n" style="opacity:0"')
-A.mesane(F, bx, by, 30, 22, taraflar=(-1, 1), duvar=5, uretra=12)
-A.tas(F, st[0], st[1] + 1, 6, 3, grup='data-etk="tas"')
-F.a(f'<path data-etk="akis-s" d="{A.yol_d(U1)}" fill="none" stroke="none"/><path data-etk="akis-o" d="{A.yol_d(U2n)}" fill="none" stroke="none"/>'
-    f'<path data-etk="durgun" d="{A.yol_d(U2d[:12])}" fill="none" stroke="none"/>')
-A.cagri(F, (62, 178), 44, 306, ['Sağlam böbrek', 'hiperfiltrasyonla telafi'])
-A.cagri(F, (240 - 8 * 1.16, 124), 306, 100, ['Obstrükte böbrek', 'sessizce fonksiyon kaybeder'], grup='data-etk="et"')
-F.tl(300, 196, ['• Kreatinin normal kalır', '• Tanı yalnız görüntülemeyle', '• Drenaj sonrası poliüri beklenmez', '• Karar: renografide ayrık fonksiyon'], 12, 19, fill=INK)
-# sağ panel: çift taraflı (BPH)
-bx, by = 690, 254
-c1, c2 = (614, 120), (766, 120)
-for grp, pel, kal, w, (rx, ry, dv, pr, tr) in (('d', 3, 3, 8, (44, 34, 9, 2, True)), ('n', 0, 0, 4, (30, 22, 5, 1, False))):
-    F.a(f'<g data-etk="{grp}"' + (' style="opacity:0"' if grp == 'n' else '') + '>')
-    E1, E2 = A.giris(bx, by, rx, ry, -1), A.giris(bx, by, rx, ry, 1)
-    UA = uy(A.cikis(*c1, 1.16, pel=pel), E1); UB = uy(A.cikis(*c2, 1.16, True, pel=pel), E2)
-    A.bobrek(F, *c1, 1.16, pel=pel, kal=kal, maj=kal, ureter=UA, uw=w, damar=False)
-    A.bobrek(F, *c2, 1.16, ayna=True, pel=pel, kal=kal, maj=kal, ureter=UB, uw=w, damar=False)
-    M = A.mesane(F, bx, by, rx, ry, taraflar=(-1, 1), duvar=dv, uretra=14, prostat=pr, trabekul=tr)
-    if grp == 'n': F.a(f'<path data-etk="akis-r" d="{A.yol_d(UA)}" fill="none" stroke="none"/><path data-etk="akis-r" d="{A.yol_d(UB)}" fill="none" stroke="none"/>'
-                       f'<path data-etk="akis-u" d="M{bx},{by + ry - 4} L{bx},{by + ry + 26}" fill="none" stroke="none"/>')
-    F.a('</g>')
-F.t(bx - 30, 334, 'BPH: mesane çıkım obstrüksiyonu', 11.4, 700, '#7d4f73')
-A.cagri(F, (bx + 40, by + 2), 852, 300, ['Mesane dolu, duvar kalın;', 'iki sistem genişlemiş'], grup='data-etk="et"')
+# Resimler: ChatGPT ile çizildi (yazısız; 460 × 500 px). n = tıkanma öncesi (gizli; hareketle belirir), d = tıkanma sonrası (durağan görünüm).
+TK = .54
+def T_(ox): return lambda px, py: (ox + px * TK, 46 + py * TK)
+def yol(T, ad, pts): F.a(f'<path data-etk="{ad}" d="{A.yol_d([T(*q) for q in pts])}" fill="none" stroke="none"/>')
+L_, R_ = T_(40), T_(580)
+for T, ox, ka in ((L_, 40, 'A'), (R_, 580, 'B')):
+    A.resim(F, f'an_tek_d{ka}', ox, 46, 460 * TK, oran=500 / 460, grup='data-etk="d"')
+    A.resim(F, f'an_tek_n{ka}', ox, 46, 460 * TK, oran=500 / 460, grup='data-etk="n" style="opacity:0"')
+yol(L_, 'akis-s', ((140, 150), (150, 250), (145, 300), (160, 360)))
+yol(L_, 'akis-o', ((300, 150), (285, 250), (280, 300), (275, 360)))
+yol(L_, 'durgun', ((300, 150), (290, 220), (285, 268)))
+yol(R_, 'akis-r', ((150, 150), (160, 250), (160, 300), (165, 360))); yol(R_, 'akis-r', ((292, 150), (282, 250), (282, 300), (276, 360)))
+yol(R_, 'akis-u', ((220, 440), (220, 488)))
+A.cagri(F, L_(55, 235), 28, 298, ['Sağlam böbrek', 'hiperfiltrasyonla', 'telafi'], fs=11.6)
+A.cagri(F, L_(330, 100), 306, 100, ['Obstrükte böbrek', 'sessizce fonksiyon kaybeder'], grup='data-etk="et"')
+F.tl(300, 178, ['• Kreatinin normal kalır', '• Tanı yalnız görüntülemeyle', '• Drenaj sonrası poliüri beklenmez', '• Karar: renografide ayrık fonksiyon'], 12, 19, fill=INK)
+F.t(600, 336, 'BPH: mesane çıkım obstrüksiyonu', 11.4, 700, '#7d4f73')
+A.cagri(F, R_(300, 380), 852, 296, ['Mesane dolu, duvar kalın;', 'iki sistem genişlemiş'], grup='data-etk="et"')
 madde(F, 846, 160, ['ABH, oligüri ya da anüri', 'Hiperkalemi, asidoz, ödem', 'Acil drenaj, sonra neden', ['Drenaj sonrası poliüri', '(POD) beklenir']], lh=19)
 D.yeni('s27_tek', 'x27_13', 'Ayrım · Şekil', 'Tek Taraflı ve Çift Taraflı — Neden Farklı?', F,
        '<b>Okuma:</b> Karşı böbrek sağlamsa hiperfiltrasyonla telafi eder, kreatinin normal kalır ve obstrükte böbrek sessizce fonksiyon kaybeder; tanı görüntülemeyle konur. '

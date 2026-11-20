@@ -341,15 +341,22 @@ def rozet(F, x, y, n, c=BRANDD, r=9):
     F.el(x, y, r, r, c, '#fff', 1.8); F.t(x, y + 4.2, str(n), 11.5, 800, '#fff', 'middle')
 
 
-def cagri(F, p, tx, ty, lines, fs=12, c=INK, renk='#56677a', grup=None):
-    """İnce çağrı çizgisi: noktada beyaz halkalı uç, metnin sol kenarına yatay bağlanır."""
+def cagri(F, p, tx, ty, lines, fs=12, c=INK, renk='#56677a', grup=None, sol=False, hale=True):
+    """İnce çağrı çizgisi: noktada beyaz halkalı uç, metne yatay bağlanır. sol=True: metin noktanın solunda, tx metnin sağ ucu.
+    hale: çizginin altına beyaz hale (resim üstünde okunurluk)."""
     ls = lines if isinstance(lines, list) else [lines]
-    qx = tx - 6; qy = ty - fs * .35; mx = qx - 18
+    qy = ty - fs * .35
+    if sol: qx = tx + 6; mx = qx + 18; an = 'end'
+    else: qx = tx - 6; mx = qx - 18; an = 'start'
     if grup: F.a(f'<g {grup}>')
-    F.a(f'<path d="M{p[0]:.1f},{p[1]:.1f} L{mx:.1f},{qy:.1f} L{qx:.1f},{qy:.1f}" stroke="{renk}" stroke-width="1.1" fill="none"/>')
+    d = f'M{p[0]:.1f},{p[1]:.1f} L{mx:.1f},{qy:.1f} L{qx:.1f},{qy:.1f}'
+    if hale: F.a(f'<path d="{d}" stroke="#fff" stroke-width="3.4" fill="none" opacity=".85" stroke-linejoin="round"/>')
+    F.a(f'<path d="{d}" stroke="{renk}" stroke-width="1.1" fill="none"/>')
     F.el(p[0], p[1], 3.2, 3.2, '#fff', renk, 1.3)
-    F.t(tx, ty, ls[0], fs, 800, c)
-    for i, l in enumerate(ls[1:]): F.t(tx, ty + (i + 1) * (fs + 3), l, fs - .6, None, INK2)
+    H = ' stroke="#fbf8f2" stroke-width="3.4" stroke-linejoin="round" paint-order="stroke"' if hale else ''
+    F.a(f'<text x="{tx:g}" y="{ty:g}" font-size="{fs:g}" font-weight="800" fill="{c}" text-anchor="{an}"{H}>{e(ls[0])}</text>')
+    for i, l in enumerate(ls[1:]):
+        F.a(f'<text x="{tx:g}" y="{ty + (i + 1) * (fs + 3):g}" font-size="{fs - .6:g}" fill="{INK2}" text-anchor="{an}"{H}>{e(l)}</text>')
     if grup: F.a('</g>')
 
 
@@ -438,3 +445,24 @@ def fibroz(F, pts):
     F.a(f'<path d="{d}" fill="#d9d0c0" stroke="#8c816d" stroke-width="1.5" opacity=".96"/>')
     F.a(f'<path d="{d}" fill="url(#{p}_fib)"/>')
     return d
+
+
+# ------------------------------------------------------------------------------------------------ hazır anatomik resim (ChatGPT ile çizilmiş, yazısız; 20 Kasım 2026 kullanıcı kararı)
+KOK = '/dersler/nefroloji-ders-serisi/gorsel/'
+
+
+def resim(F, ad, x, y, w, h=None, oran=None, grup=None, op=None):
+    """gorsel/<ad>.webp dosyasını (x, y) sol üst köşeye w genişlikte yerleştirir. oran = h/w (yoksa h verilmeli).
+    Döndürür: (ix, iy) → şekil koordinatı dönüştürücüsü; ix, iy resmin kendi pikseli/genişliği oranında (0–1) değil,
+    1000 birimlik resim genişliğine göre verilir (resim ölçüsünden bağımsız)."""
+    h = h if h is not None else w * oran
+    at = f' opacity="{op}"' if op is not None else ''
+    s = f'<image href="{KOK}{ad}.webp" x="{x:g}" y="{y:g}" width="{w:g}" height="{h:g}" preserveAspectRatio="xMidYMid meet"{at}/>'
+    F.a(f'<g {grup}>{s}</g>' if grup else s)
+    k = w / 1000
+    return lambda u, v: (x + u * k, y + v * k)
+
+
+def ad(F, x, y, t, fs=11, c=INK, a='middle', fw=800):
+    """Resim üstünde etiket: koyu yazı, beyaz hale."""
+    F.a(f'<text x="{x:.1f}" y="{y:.1f}" font-size="{fs:g}" font-weight="{fw}" fill="{c}" text-anchor="{a}" stroke="#fff" stroke-width="3.2" stroke-linejoin="round" paint-order="stroke">{t}</text>')

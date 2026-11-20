@@ -575,7 +575,7 @@
       var t = yazi(g, x + 176, y + 15, 'normal', { 'font-size': 11.5, 'font-weight': 800, fill: C.yesil });
       return { g: g, b: b, t: t };
     }
-    var mS = olcer(306, 290, 'serum kreatinin'), mC = olcer(852, 66, 'serum kreatinin');
+    var mS = olcer(306, 254, 'serum kreatinin'), mC = olcer(852, 66, 'serum kreatinin');
     var olay = [yazi(ust, 300, 58, '', { 'font-size': 12, 'font-weight': 800, fill: C.kirmizi }), yazi(ust, 852, 58 - 20, '', { 'font-size': 12, 'font-weight': 800, fill: C.kirmizi })];
     var ip = ipucu(ust, 1066, 340, '▶ dokunun: tıkanma zaman içinde');
     var SON = 9.5;
