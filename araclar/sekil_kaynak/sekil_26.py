@@ -3,6 +3,7 @@
 import random
 from sekil_ortak import *
 from sekil_glom import etk
+import sekil_anat as A
 
 D = Ders('26')
 L = D.L
@@ -27,21 +28,25 @@ def bez(p0, p1, p2, p3, t):
 # ============================================================================================== 1 · taşın yeri, ağrının yeri ve kolik mekanizması
 F = Fig('yer', 452, 'Üriner sistemde taşın yerleri, üç fizyolojik darlık ve ağrının yayılımı; renal koliğin mekanizması', w=1080)
 serit(F, 6, 6, 600, 'Taşın yeri ağrının yerini söyler', BRANDD); zemin(F, 6, 42, 600, 404)
-cx, cy, k = 120, 150, 1.9
-ux, uy = bobrek(F, cx, cy, k, pelvis=1)
-P0, P3 = (ux, uy), (232, 358); P1, P2 = (ux, (uy + 358) / 2), (232, (uy + 358) / 2)
-il = bez(P0, P1, P2, P3, .52)
-F.ln(il[0] - 64, il[1] + 26, il[0] + 70, il[1] - 24, '#c0392b', 8); F.t(il[0] - 70, il[1] + 48, 'iliyak damarlar', 10.8, 700, '#a2564e')
-ureter(F, ux, uy, 232, 358, gen=5)
-mesane(F, 242, 392, 44, 30, uretra=14)
-kal = (cx - 8 * k, cy - 26 * k); tas(F, kal[0], kal[1], 7, 3)                  # üst kaliks taşı
-for t, tt in ((.06, 5), (.52, 7), (.985, 11)):
-    x, y = bez(P0, P1, P2, P3, t); tas(F, x, y, 6.5, tt)
-p_upj, p_il, p_uvj = bez(P0, P1, P2, P3, .06), bez(P0, P1, P2, P3, .52), bez(P0, P1, P2, P3, .985)
-etk(F, kal, 330, 72, ['Kaliks taşı', 'tıkamazsa çoğu kez sessiz'], fs=12)
-etk(F, p_upj, 330, 150, ['1 · Üreteropelvik bileşke · üst üreter', 'yan ağrısı'], fs=12)
-etk(F, p_il, 330, 230, ['2 · İliyak damar çaprazı · orta üreter', 'alt karın ve kasığa yayılan ağrı;', 'apandisiti taklit edebilir'], fs=12)
-etk(F, p_uvj, 330, 322, ['3 · Üreterovezikal bileşke', 'kasık, testis ya da labiaya yayılım;', 'sık idrar, sıkışma, dizüri'], fs=12)
+cx, cy, k = 112, 148, 1.72
+ux, uy = A.bobrek(F, cx, cy, k, gen=1)
+BX, BY = 252, 388
+P = ((ux, uy), (ux + 4, (uy + 362) / 2), (228, (uy + 362) / 2 + 10), (226, 366))
+U = [bez(*P, t / 60) for t in range(61)]
+il = bez(*P, .55)
+for dx, tur in ((7, 'v'), (-6, 'a')):      # iliyak damarlar üreterin arkasında
+    A.damar(F, [(il[0] - 80 + dx, il[1] + 40 + dx * .4), (il[0] + 84 + dx, il[1] - 34 + dx * .4)], tur, 9 if tur == 'v' else 7)
+F.t(il[0] - 86, il[1] + 62, 'iliyak arter ve ven', 10.8, 700, '#8e2b26')
+A.ureter(F, U, 5)
+A.mesane(F, BX, BY, 50, 32, uretra=14)
+kal = A.tas(F, cx - 6 * k, cy - 30 * k, 8.5, 3)
+p_upj, p_il, p_uvj = bez(*P, .05), il, bez(*P, .985)
+u_upj, u_il, u_uvj = [A.tas(F, x, y, 8, tt) for (x, y), tt in ((p_upj, 5), (p_il, 7), (p_uvj, 11))]
+for n, (x, y) in enumerate((p_upj, p_il, p_uvj), 1): A.rozet(F, x - 22, y + (2 if n != 2 else -14), n)
+A.cagri(F, kal, 330, 74, ['Kaliks taşı', 'tıkamazsa çoğu kez sessiz'])
+A.cagri(F, u_upj, 330, 150, ['1 · Üreteropelvik bileşke · üst üreter', 'yan ağrısı'])
+A.cagri(F, u_il, 330, 226, ['2 · İliyak damar çaprazı · orta üreter', 'alt karın ve kasığa yayılan ağrı;', 'apandisiti taklit edebilir'])
+A.cagri(F, u_uvj, 330, 318, ['3 · Üreterovezikal bileşke', 'kasık, testis ya da labiaya yayılım;', 'sık idrar, sıkışma, dizüri'])
 F.tl(330, 410, ['Numaralar: üç fizyolojik darlık; taşlar en', 'sık burada takılır. En darı: 3.'], 11.4, 15, fill=INK2)
 serit(F, 616, 6, 458, 'Kolik neden olur?', RED); zemin(F, 616, 42, 458, 404)
 Z = [(845, 82, 'Üreter tıkanır'), (845, 150, 'Proksimal basınç ↑ · üreter spazmı'), (845, 218, 'Prostaglandin salınımı'),
