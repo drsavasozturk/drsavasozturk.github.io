@@ -1,0 +1,28 @@
+<svg viewBox="0 0 1140 236" style="width:100%;height:auto" role="img" aria-label="Preeklampsinin iki aşamalı patofizyolojik modeli">
+      <rect x="6" y="16" width="262" height="204" rx="12" fill="#e8f6ff" stroke="#0b6e99" stroke-width="2"/>
+      <text x="137" y="44" font-size="14.5" font-weight="800" fill="#0d3a52" text-anchor="middle">AŞAMA 1 · Plasental</text>
+      <text x="22" y="72" font-size="12.5" fill="#0d3a52">Trofoblast invazyonu yetersiz kalır</text>
+      <text x="22" y="94" font-size="12.5" fill="#0d3a52">Spiral arterler yeniden şekillenmez:</text>
+      <text x="22" y="112" font-size="12.5" fill="#0d3a52">dar ve kasılabilir kalırlar</text>
+      <text x="22" y="140" font-size="12.5" fill="#8e2a1e" font-weight="700">→ plasental hipoperfüzyon ve iskemi</text>
+      <text x="22" y="168" font-size="12" fill="#3d4d5c">Bu aşama SESSİZDİR:</text>
+      <text x="22" y="186" font-size="12" fill="#3d4d5c">1. ve 2. trimesterde olur,</text>
+      <text x="22" y="204" font-size="12" fill="#3d4d5c">klinik bulgu vermez</text>
+      <path d="M268 118 L300 118" stroke="#c0392b" stroke-width="3"/><path d="M300 118 l-12 -7 l0 14 z" fill="#c0392b"/>
+      <rect x="306" y="60" width="256" height="120" rx="10" fill="#fff6e0" stroke="#c98a00" stroke-width="2"/>
+      <text x="434" y="86" font-size="14" font-weight="800" fill="#5c4200" text-anchor="middle">Anjiyogenik dengesizlik</text>
+      <text x="322" y="112" font-size="12.5" fill="#5c4200"><tspan font-weight="700">sFlt-1 ↑</tspan> (VEGF ve PlGF'i tutar)</text>
+      <text x="322" y="132" font-size="12.5" fill="#5c4200"><tspan font-weight="700">endoglin ↑</tspan> · <tspan font-weight="700">PlGF ↓</tspan></text>
+      <text x="322" y="158" font-size="12.5" fill="#8a5f00">sFlt-1/PlGF oranı klinik olarak kullanılır</text>
+      <text x="322" y="174" font-size="12" fill="#8a5f00" font-style="italic">(öngörü ve dışlama amaçlı)</text>
+      <path d="M562 118 L594 118" stroke="#c0392b" stroke-width="3"/><path d="M594 118 l-12 -7 l0 14 z" fill="#c0392b"/>
+      <rect x="600" y="16" width="534" height="204" rx="12" fill="#fdeaea" stroke="#c0392b" stroke-width="2"/>
+      <text x="867" y="44" font-size="14.5" font-weight="800" fill="#8e2a1e" text-anchor="middle">AŞAMA 2 · Anne — yaygın endotel hasarı</text>
+      <text x="616" y="72" font-size="12.5" fill="#722018"><tspan font-weight="700">Böbrek:</tspan> glomerüler endoteliyoz (patognomonik) → proteinüri, GFR düşüşü</text>
+      <text x="616" y="94" font-size="12.5" fill="#722018"><tspan font-weight="700">Damar:</tspan> vazokonstriksiyon ve geçirgenlik artışı → hipertansiyon, ödem</text>
+      <text x="616" y="116" font-size="12.5" fill="#722018"><tspan font-weight="700">Karaciğer:</tspan> periportal nekroz → transaminaz artışı, epigastrik ağrı</text>
+      <text x="616" y="138" font-size="12.5" fill="#722018"><tspan font-weight="700">Beyin:</tspan> otoregülasyon bozukluğu ve ödem → baş ağrısı, görme bulguları, eklampsi</text>
+      <text x="616" y="160" font-size="12.5" fill="#722018"><tspan font-weight="700">Kan:</tspan> mikroanjiyopatik hemoliz, trombositopeni → HELLP</text>
+      <text x="616" y="190" font-size="13" font-weight="800" fill="#8e2a1e">Küratif tedavi tektir: doğum (plasentanın çıkarılması)</text>
+      <text x="616" y="210" font-size="12" fill="#8e2a1e" font-style="italic">diğer her şey anneyi ve fetüsü o güne kadar taşıma çabasıdır</text>
+    </svg>

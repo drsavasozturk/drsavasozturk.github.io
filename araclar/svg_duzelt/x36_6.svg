@@ -1,0 +1,72 @@
+<svg viewBox="0 0 1130 250" style="width:100%;height:auto;max-height:230px" role="img" aria-label="Diyaliz suyu aritma zinciri: on islem, multimedya filtre, yumusatici, aktif karbon, ters ozmoz, deiyonizasyon, UV ve ultrafiltre, dagitim halkasi">
+      <text x="565" y="22" font-size="12" font-weight="800" fill="#0b6e99" text-anchor="middle">ÖN İŞLEM (pretreatment) — sıra rastgele değildir</text>
+
+      <rect x="16" y="40" width="110" height="98" rx="9" fill="#e8f6ff" stroke="#0b6e99" stroke-width="2"/>
+      <text x="71" y="62" font-size="11.5" font-weight="800" fill="#0d3a52" text-anchor="middle">Şehir suyu</text>
+      <text x="71" y="82" font-size="10.5" fill="#3d4d5c" text-anchor="middle">Geri akış önleyici</text>
+      <text x="71" y="100" font-size="10.5" fill="#3d4d5c" text-anchor="middle">Basınç, sıcaklık</text>
+      <text x="71" y="122" font-size="10.5" fill="#6b7b8a" text-anchor="middle">Kaba ön filtre</text>
+
+      <rect x="137" y="40" width="120" height="98" rx="9" fill="#eef7ef" stroke="#1f8a4c" stroke-width="2"/>
+      <text x="197" y="62" font-size="11.5" font-weight="800" fill="#12452a" text-anchor="middle">Multimedya filtre</text>
+      <text x="197" y="80" font-size="10.5" fill="#3d4d5c" text-anchor="middle">(kum filtresi)</text>
+      <text x="197" y="100" font-size="10.5" fill="#3d4d5c" text-anchor="middle">Partıkül, tortu, kum</text>
+      <text x="197" y="122" font-size="10.5" fill="#6b7b8a" text-anchor="middle">Sonraki halkaları korur</text>
+
+      <rect x="268" y="40" width="112" height="98" rx="9" fill="#efe9f8" stroke="#6a4c93" stroke-width="2.4"/>
+      <text x="324" y="62" font-size="11.5" font-weight="800" fill="#3d2a5c" text-anchor="middle">Yumuşatıcı</text>
+      <text x="324" y="80" font-size="10.5" fill="#3d4d5c" text-anchor="middle">Ca²⁺ ve Mg²⁺</text>
+      <text x="324" y="100" font-size="10.5" font-weight="700" fill="#c0392b" text-anchor="middle">Sert su hemolizi</text>
+      <text x="324" y="122" font-size="10.5" fill="#6b7b8a" text-anchor="middle">RO’yu kireçten korur</text>
+
+      <rect x="391" y="40" width="150" height="98" rx="9" fill="#fdf3e0" stroke="#c98a00" stroke-width="2.4"/>
+      <text x="466" y="60" font-size="11.5" font-weight="800" fill="#7a5300" text-anchor="middle">Aktif karbon × 2</text>
+      <text x="466" y="78" font-size="10.5" font-weight="700" fill="#c0392b" text-anchor="middle">KLOR ve KLORAMİN</text>
+      <text x="466" y="96" font-size="10.5" fill="#3d4d5c" text-anchor="middle">Hemoliz, methemoglobinemi</text>
+      <text x="466" y="114" font-size="10.5" fill="#3d4d5c" text-anchor="middle">Seri iki tank, aradan örnek</text>
+      <text x="466" y="132" font-size="10.5" fill="#6b7b8a" text-anchor="middle">+ mikron filtre (karbon tozu)</text>
+
+      <rect x="552" y="30" width="138" height="118" rx="9" fill="#fdeaea" stroke="#c0392b" stroke-width="2.6"/>
+      <text x="621" y="54" font-size="13" font-weight="800" fill="#7b1f14" text-anchor="middle">TERS OZMOZ</text>
+      <text x="621" y="74" font-size="10.5" fill="#3d4d5c" text-anchor="middle">Zincirin kalbi</text>
+      <text x="621" y="92" font-size="10.5" fill="#3d4d5c" text-anchor="middle">İyon, endotoksin,</text>
+      <text x="621" y="110" font-size="10.5" fill="#3d4d5c" text-anchor="middle">bakteri, organik madde</text>
+      <text x="621" y="130" font-size="10.5" font-weight="700" fill="#c0392b" text-anchor="middle">%90–99 uzaklaştırır</text>
+
+      <rect x="701" y="40" width="112" height="98" rx="9" fill="#f4f7fa" stroke="#6b7b8a" stroke-width="2"/>
+      <text x="757" y="62" font-size="11.5" font-weight="800" fill="#3d4d5c" text-anchor="middle">Deiyonizasyon</text>
+      <text x="757" y="80" font-size="10.5" fill="#6b7b8a" text-anchor="middle">(gerekirse)</text>
+      <text x="757" y="98" font-size="10.5" fill="#3d4d5c" text-anchor="middle">Artık iyonlar</text>
+      <text x="757" y="116" font-size="10.5" font-weight="700" fill="#c0392b" text-anchor="middle">Bakteri üretir —</text>
+      <text x="757" y="130" font-size="10.5" font-weight="700" fill="#c0392b" text-anchor="middle">tek başına yetmez</text>
+
+      <rect x="824" y="40" width="108" height="98" rx="9" fill="#e8f6ff" stroke="#0b6e99" stroke-width="2"/>
+      <text x="878" y="62" font-size="11.5" font-weight="800" fill="#0d3a52" text-anchor="middle">UV + UF filtre</text>
+      <text x="878" y="82" font-size="10.5" fill="#3d4d5c" text-anchor="middle">Bakteri ve</text>
+      <text x="878" y="100" font-size="10.5" fill="#3d4d5c" text-anchor="middle">endotoksin</text>
+      <text x="878" y="122" font-size="10.5" fill="#6b7b8a" text-anchor="middle">Son güvenlik ağı</text>
+
+      <rect x="943" y="30" width="170" height="118" rx="9" fill="#eef7ef" stroke="#1f8a4c" stroke-width="2.6"/>
+      <text x="1028" y="54" font-size="11.5" font-weight="800" fill="#12452a" text-anchor="middle">Dağıtım halkası (loop)</text>
+      <text x="1028" y="74" font-size="10.5" fill="#3d4d5c" text-anchor="middle">Ölü boşluk YOK</text>
+      <text x="1028" y="92" font-size="10.5" fill="#3d4d5c" text-anchor="middle">Sürekli sirkülasyon</text>
+      <text x="1028" y="110" font-size="10.5" fill="#3d4d5c" text-anchor="middle">Periyodik dezenfeksiyon</text>
+      <text x="1028" y="132" font-size="10.5" font-weight="700" fill="#c0392b" text-anchor="middle">Biyofilm burada oluşur</text>
+
+      <path d="M126 90 L135 90" stroke="#3d4d5c" stroke-width="2.2" marker-end="url(#ahk)"/>
+      <path d="M257 90 L266 90" stroke="#3d4d5c" stroke-width="2.2" marker-end="url(#ahk)"/>
+      <path d="M380 90 L389 90" stroke="#3d4d5c" stroke-width="2.2" marker-end="url(#ahk)"/>
+      <path d="M541 90 L550 90" stroke="#3d4d5c" stroke-width="2.2" marker-end="url(#ahk)"/>
+      <path d="M690 90 L699 90" stroke="#3d4d5c" stroke-width="2.2" marker-end="url(#ahk)"/>
+      <path d="M813 90 L822 90" stroke="#3d4d5c" stroke-width="2.2" marker-end="url(#ahk)"/>
+      <path d="M932 90 L941 90" stroke="#3d4d5c" stroke-width="2.2" marker-end="url(#ahk)"/>
+
+      <path d="M268 156 L268 166 L531 166 L531 156" fill="none" stroke="#6a4c93" stroke-width="1.6" stroke-dasharray="4 3"/>
+      <text x="400" y="182" font-size="11" font-weight="700" fill="#6a4c93" text-anchor="middle">Yumuşatıcı karbondan ÖNCE: kireç karbon yatağını ve RO membranını tıkar</text>
+      <path d="M552 156 L552 166 L690 166 L690 156" fill="none" stroke="#c0392b" stroke-width="1.6" stroke-dasharray="4 3"/>
+      <text x="820" y="182" font-size="11" font-weight="700" fill="#c0392b" text-anchor="middle">Karbon RO’dan hemen ÖNCE: poliamid membran klorla geri dönüşsüz bozulur</text>
+
+      <text x="565" y="214" font-size="12.5" font-weight="800" fill="#0d3a52" text-anchor="middle">Hasta her seansta yaklaşık 120 litre suya maruz kalır — ağızdan alınan suyun yüzlerce katı</text>
+      <text x="565" y="236" font-size="12" fill="#3d4d5c" text-anchor="middle">Bu nedenle diyaliz suyu bir &laquo;ayrıntı&raquo; değil, hastanın en yüksek hacimli tedavisidir</text>
+      <defs><marker id="ahk" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#3d4d5c"/></marker></defs>
+    </svg>

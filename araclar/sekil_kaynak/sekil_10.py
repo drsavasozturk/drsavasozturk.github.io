@@ -103,9 +103,9 @@ F.ok(560, 156, 590, 196, GOLD, 2.2, '5 4'); F.t(552, 196, 'emilen ilacın >%90�
 F.tl(20, 298, ['Yüksek lokal doz, sınırlı sistemik maruziyet;', 'ödem, hipertansiyon, akne gibi steroid etkileri yine de görülebilir.'], 11.4, 15, fill=INK2)
 F.t(708, 22, 'NefIgArd · 2 yıl (9 ay ilaç + 15 ay izlem)', 13, 800, BRANDD)
 cubuk(F, 760, 70, 300, 150, [(['eGFR değişimi', '2 yıl, zaman ağırlıklı ort.'], [2.47, 7.52], ['−2,47', '−7,52'])], [('Nefecon', BRAND), ('Plasebo', MUT)], ymax=10, adim=2, birim='azalma', fs=12.4, bw=64)
-F.t(708, 258, 'Zaman ağırlıklı ortalama eGFR farkı', 12, 700, INK)
-F.t(708, 276, '+5,05 mL/dk/1,73 m² (%95 GA 3,24–7,38); p < 0,0001', 12, 800, GREEN)
-F.t(708, 296, 'Proteinürideki azalma ilaç kesildikten sonra da sürdü.', 11.6, None, INK2)
+F.t(708, 274, 'Zaman ağırlıklı ortalama eGFR farkı', 12, 700, INK)
+F.t(708, 292, '+5,05 mL/dk/1,73 m² (%95 GA 3,24–7,38); p < 0,0001', 12, 800, GREEN)
+F.t(708, 312, 'Proteinürideki azalma ilaç kesildikten sonra da sürdü.', 11.6, None, INK2)
 D.yeni('s10_nef', 'x10_21', 'Hedefli Tedavi · Şekil', 'Nefecon — Sorunu Kaynağında, Bağırsakta Hedeflemek', F,
        '<b>Okuma:</b> Hedefli salınımlı budesonid distal ileumda, Peyer plaklarının olduğu bölgede açılır; galaktozdan yoksun IgA1 üreten mukozal B hücrelerine yüksek lokal doz ulaşır, '
        'emilen ilacın çoğu karaciğerde ilk geçişte yıkılır. Sağda NefIgArd’ın iki yıllık eGFR sonucu.',

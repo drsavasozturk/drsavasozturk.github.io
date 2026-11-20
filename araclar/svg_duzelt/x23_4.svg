@@ -1,0 +1,40 @@
+<svg viewBox="0 0 1140 240" style="width:100%;height:auto" role="img" aria-label="Böbrek damarlarının kalibresine göre hastalık haritası">
+      <rect x="6" y="14" width="194" height="218" rx="10" fill="#e8f6ff" stroke="#0b6e99" stroke-width="2"/>
+      <text x="103" y="40" font-size="13.5" font-weight="800" fill="#0d3a52" text-anchor="middle">BÜYÜK ARTER</text>
+      <text x="103" y="60" font-size="12" fill="#0b6e99" text-anchor="middle">renal arter, segmental dallar</text>
+      <text x="20" y="88" font-size="12.5" fill="#0d3a52">• Aterosklerotik darlık</text>
+      <text x="20" y="110" font-size="12.5" fill="#0d3a52">• Fibromusküler displazi</text>
+      <text x="20" y="132" font-size="12.5" fill="#0d3a52">• Diseksiyon, travma</text>
+      <text x="20" y="154" font-size="12.5" fill="#0d3a52">• Tromboemboli (AF)</text>
+      <text x="20" y="186" font-size="12" fill="#8e2a1e" font-weight="700">Klinik: renovasküler HT,</text>
+      <text x="20" y="203" font-size="12" fill="#8e2a1e" font-weight="700">enfarkt, iskemik nefropati</text>
+      <rect x="210" y="14" width="206" height="218" rx="10" fill="#fff6e0" stroke="#c98a00" stroke-width="2"/>
+      <text x="313" y="40" font-size="13.5" font-weight="800" fill="#5c4200" text-anchor="middle">ORTA BOY ARTER</text>
+      <text x="313" y="60" font-size="12" fill="#8a5f00" text-anchor="middle">interlobar, arkuat, interlobüler</text>
+      <text x="224" y="88" font-size="12.5" fill="#5c4200">• Kolesterol ateroembolizmi</text>
+      <text x="224" y="110" font-size="12.5" fill="#5c4200">• Poliarteritis nodoza</text>
+      <text x="224" y="132" font-size="12.5" fill="#5c4200">• Malign hipertansiyon</text>
+      <text x="224" y="154" font-size="12.5" fill="#5c4200">• Skleroderma renal krizi</text>
+      <text x="224" y="186" font-size="12" fill="#8e2a1e" font-weight="700">Klinik: basamaklı kreatinin</text>
+      <text x="224" y="203" font-size="12" fill="#8e2a1e" font-weight="700">artışı, ağır hipertansiyon</text>
+      <rect x="426" y="14" width="364" height="218" rx="10" fill="#fdeaea" stroke="#c0392b" stroke-width="2"/>
+      <text x="608" y="40" font-size="13.5" font-weight="800" fill="#8e2a1e" text-anchor="middle">KÜÇÜK ARTER VE ARTERİYOL</text>
+      <text x="608" y="60" font-size="12" fill="#c0392b" text-anchor="middle">afferent arteriyol, glomerüler kapiller</text>
+      <text x="442" y="88" font-size="12.5" fill="#722018">• Trombotik mikroanjiyopatiler: TTP, STEC-HÜS, aHÜS</text>
+      <text x="442" y="110" font-size="12.5" fill="#722018">• İkincil TMA: ilaç, gebelik, malign HT, otoimmün, nakil</text>
+      <text x="442" y="132" font-size="12.5" fill="#722018">• ANCA ilişkili vaskülit, antifosfolipid sendromu nefropatisi</text>
+      <text x="442" y="154" font-size="12.5" fill="#722018">• Hipertansif arteriyoloskleroz (hiyalinoz)</text>
+      <text x="442" y="186" font-size="12" fill="#8e2a1e" font-weight="700">Klinik: trombositopeni + şistosit + AKI üçlüsü,</text>
+      <text x="442" y="203" font-size="12" fill="#8e2a1e" font-weight="700">proteinüri, hipertansiyon</text>
+      <rect x="800" y="14" width="334" height="218" rx="10" fill="#efe9f8" stroke="#6a4c93" stroke-width="2"/>
+      <text x="967" y="40" font-size="13.5" font-weight="800" fill="#3d2a5c" text-anchor="middle">VEN</text>
+      <text x="967" y="60" font-size="12" fill="#6a4c93" text-anchor="middle">renal ven ve dalları</text>
+      <text x="816" y="88" font-size="12.5" fill="#3d2a5c">• Renal ven trombozu</text>
+      <text x="816" y="110" font-size="12.5" fill="#3d2a5c">  – nefrotik sendrom (özellikle membranöz nefropati)</text>
+      <text x="816" y="128" font-size="12.5" fill="#3d2a5c">  – malignite invazyonu, travma, hiperkoagülabilite</text>
+      <text x="816" y="148" font-size="12.5" fill="#3d2a5c">• Venöz konjesyon</text>
+      <text x="830" y="165" font-size="12.5" fill="#3d2a5c">(sağ kalp yetmezliği, karın içi basınç)</text>
+      <text x="816" y="186" font-size="12" fill="#8e2a1e" font-weight="700">Klinik: yan ağrısı, makroskopik hematüri,</text>
+      <text x="816" y="203" font-size="12" fill="#8e2a1e" font-weight="700">böbrek büyümesi; kronikte sinsi,</text>
+      <text x="816" y="220" font-size="12" fill="#8e2a1e" font-weight="700">ilk bulgu emboli olabilir</text>
+    </svg>

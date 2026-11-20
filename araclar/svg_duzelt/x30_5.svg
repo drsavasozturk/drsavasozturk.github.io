@@ -1,0 +1,50 @@
+<svg viewBox="0 0 1140 260" style="width:100%;height:auto" role="img" aria-label="Nefronun bölümlerine göre ilaç hasarının yerleşimi">
+      <rect x="4" y="14" width="208" height="110" rx="10" fill="#e8f6ff" stroke="#0b6e99" stroke-width="2"/>
+      <text x="18" y="38" font-size="13.5" font-weight="800" fill="#0d3a52">1 · Damar / hemodinamik</text>
+      <text x="18" y="60" font-size="12.5" fill="#0d3a52">NSAİİ (afferent daralma)</text>
+      <text x="18" y="78" font-size="12.5" fill="#0d3a52">ACEi/ARB (efferent gevşeme)</text>
+      <text x="18" y="96" font-size="12.5" fill="#0d3a52">Kalsinörin inhibitörü, kontrast</text>
+      <text x="18" y="116" font-size="12" fill="#0b6e99" font-style="italic">sediment sessiz, geri dönüşlü</text>
+      <rect x="4" y="136" width="208" height="110" rx="10" fill="#efe9f8" stroke="#6a4c93" stroke-width="2"/>
+      <text x="18" y="160" font-size="13.5" font-weight="800" fill="#3d2a5c">2 · Glomerül</text>
+      <text x="18" y="182" font-size="12.5" fill="#3d2a5c">Pamidronat, interferon (FSGS)</text>
+      <text x="18" y="200" font-size="12.5" fill="#3d2a5c">NSAİİ, altın, penisilamin</text>
+      <text x="18" y="218" font-size="12.5" fill="#3d2a5c">(membranöz, minimal değişiklik)</text>
+      <text x="18" y="238" font-size="12" fill="#6a4c93" font-style="italic">proteinüri, nefrotik sendrom</text>
+      <rect x="218" y="14" width="240" height="110" rx="10" fill="#fdeaea" stroke="#c0392b" stroke-width="2"/>
+      <text x="232" y="38" font-size="13.5" font-weight="800" fill="#8e2a1e">3 · Proksimal tübül</text>
+      <text x="232" y="60" font-size="12.5" fill="#722018">Aminoglikozid, sisplatin</text>
+      <text x="232" y="78" font-size="12.5" fill="#722018">Tenofovir, adefovir, sidofovir</text>
+      <text x="232" y="96" font-size="12.5" fill="#722018">IV immünglobulin (sükroz), ağır metal</text>
+      <text x="232" y="116" font-size="12" fill="#8e2a1e" font-style="italic">ATN ± Fanconi sendromu</text>
+      <rect x="218" y="136" width="240" height="110" rx="10" fill="#fff6e0" stroke="#c98a00" stroke-width="2"/>
+      <text x="232" y="160" font-size="13.5" font-weight="800" fill="#5c4200">4 · İnterstisyum</text>
+      <text x="232" y="182" font-size="12.5" fill="#5c4200">PPI, NSAİİ, beta-laktamlar</text>
+      <text x="232" y="200" font-size="12.5" fill="#5c4200">Rifampisin, allopurinol, 5-ASA</text>
+      <text x="232" y="218" font-size="12.5" fill="#5c4200">Checkpoint inhibitörleri</text>
+      <text x="232" y="238" font-size="12" fill="#8a5f00" font-style="italic">akut interstisyel nefrit</text>
+      <rect x="464" y="14" width="278" height="110" rx="10" fill="#e7f7ee" stroke="#1f8a4c" stroke-width="2"/>
+      <text x="478" y="38" font-size="13.5" font-weight="800" fill="#0f4d2c">5 · Distal tübül / toplayıcı</text>
+      <text x="478" y="60" font-size="12.5" fill="#0f4d2c">Lityum (nefrojenik Dİ, kronik TİN)</text>
+      <text x="478" y="78" font-size="12.5" fill="#0f4d2c">Amfoterisin B (distal RTA, K⁺ ve Mg²⁺ kaybı)</text>
+      <text x="478" y="96" font-size="12.5" fill="#0f4d2c">Kalsinörin inhibitörü (tip 4 RTA)</text>
+      <text x="478" y="116" font-size="12" fill="#1f8a4c" font-style="italic">elektrolit ve konsantrasyon bozuklukları</text>
+      <rect x="464" y="136" width="278" height="110" rx="10" fill="#f7fbfd" stroke="#0b6e99" stroke-width="2"/>
+      <text x="478" y="160" font-size="13.5" font-weight="800" fill="#06364d">6 · Tübül lümeni — kristal</text>
+      <text x="478" y="182" font-size="12.5" fill="#3d4d5c">Asiklovir, metotreksat, indinavir</text>
+      <text x="478" y="200" font-size="12.5" fill="#3d4d5c">Sülfonamidler, triamteren</text>
+      <text x="478" y="218" font-size="12.5" fill="#3d4d5c">Oral sodyum fosfat, yüksek doz C vitamini</text>
+      <text x="478" y="238" font-size="12" fill="#0b6e99" font-style="italic">idrar pH'ı ve akımı belirleyicidir</text>
+      <rect x="748" y="14" width="389" height="110" rx="10" fill="#f7fbfd" stroke="#6a4c93" stroke-width="2"/>
+      <text x="762" y="38" font-size="13.5" font-weight="800" fill="#3d2a5c">7 · Mikrovasküler — ilaç ilişkili TMA</text>
+      <text x="762" y="60" font-size="12.5" fill="#3d4d5c">Kalsinörin inhibitörleri (siklosporin, takrolimus), gemsitabin,</text>
+      <text x="762" y="78" font-size="12.5" fill="#3d4d5c">mitomisin C, VEGF inhibitörleri (bevasizumab), kinin, tiklopidin</text>
+      <text x="762" y="98" font-size="12.5" fill="#8e2a1e" font-weight="700">trombositopeni + şistosit + AKI = ilaç listesini gözden geçirin</text>
+      <text x="762" y="116" font-size="12" fill="#6a4c93" font-style="italic">bazıları doza bağlı, bazıları immün aracılı ve ani</text>
+      <rect x="748" y="136" width="389" height="110" rx="10" fill="#fdeaea" stroke="#c0392b" stroke-width="2"/>
+      <text x="762" y="160" font-size="13.5" font-weight="800" fill="#8e2a1e">8 · Dolaylı — rabdomiyoliz ve obstrüksiyon</text>
+      <text x="762" y="182" font-size="12.5" fill="#722018">Statin (özellikle fibrat veya CYP3A4 inhibitörü ile), kokain,</text>
+      <text x="762" y="200" font-size="12.5" fill="#722018">antipsikotikler (nöroleptik malign sendrom), propofol</text>
+      <text x="762" y="220" font-size="12.5" fill="#722018">Antikolinerjikler → idrar retansiyonu → postrenal AKI</text>
+      <text x="762" y="238" font-size="12" fill="#8e2a1e" font-style="italic">ilaç böbreği hiç görmeden de hasar verebilir</text>
+    </svg>
