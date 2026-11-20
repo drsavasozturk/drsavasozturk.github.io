@@ -19,6 +19,7 @@ D = [  # (slayt, eski, yeni)
      'Hahn D, Samuel SM, Willis NS, Craig JC, Hodson EM. Corticosteroid therapy for nephrotic syndrome in children. <i>Cochrane Database Syst Rev</i> 2024;8:CD001533.'),
     ('x07_49', 'Hahn D, Hodson EM, Willis NS, Craig JC. Corticosteroid therapy for nephrotic syndrome in children. <i>Cochrane Database Syst Rev</i> 2015;3:CD001533.',
      'Hahn D, Samuel SM, Willis NS, Craig JC, Hodson EM. Corticosteroid therapy for nephrotic syndrome in children. <i>Cochrane Database Syst Rev</i> 2024;8:CD001533.'),
+    ('x14_8', 'hipokomplementemi <b>1 aydan</b> uzun sürüyorsa', 'hipokomplementemi <b>6–8 haftadan</b> uzun sürüyorsa'),
 ]
 p = sys.argv[1]; s = open(p, encoding='utf-8').read(); n = 0
 for sid, a, b in D:

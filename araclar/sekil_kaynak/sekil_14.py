@@ -65,7 +65,7 @@ for (a, b, c, ad, alt) in SEG:
     F.tl((a + b) / 2, Y + 34, alt, 11.2, 14.5, fill=INK2, a='middle')
 F.el(X0, Y, 6, 6, RED, '#fff', 1.6); F.t(X0 - 6, Y - 22, 'enfeksiyon', 11, 700, RED); F.el(230, Y, 6, 6, RED, '#fff', 1.6); F.t(230, Y - 22, 'nefrit başlar', 11, 700, RED, 'middle')
 F.t(14, 148, 'Biyopsi gerektiren dört kırmızı bayrak', 13.5, 800, RED)
-BY = [('Oligüri', '> 1 hafta'), ('Böbrek fonksiyon kaybı', '> 2 hafta'), ('Hipokomplementemi', '> 1 ay · C3G’ye dönüşüm?'), ('Atipik tablo', 'öncesinde enfeksiyon yok, nefrotik düzey ya da erişkin')]
+BY = [('Oligüri', '> 1 hafta'), ('Böbrek fonksiyon kaybı', '> 2 hafta'), ('Hipokomplementemi', '> 6–8 hafta · C3G’ye dönüşüm?'), ('Atipik tablo', 'öncesinde enfeksiyon yok, nefrotik düzey ya da erişkin')]
 for i, (ad, tx) in enumerate(BY):
     x = 14 + i * 280
     F.r(x, 162, 268, 76, TINT[RED], RED, 1.4, 10); F.t(x + 14, 188, f'{i + 1} · {ad}', 12.6, 800, RED)
