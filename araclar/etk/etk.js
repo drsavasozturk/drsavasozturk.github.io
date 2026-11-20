@@ -440,6 +440,182 @@
     panel('k', 382, kKur, kAdim, stat.filter(function (c) { return +c.getAttribute('cx') > 370; }));
   }
 
+  // ------------------------------------------------------------------ 6 · anatomi (Ders 26–27, 20 Kasım 2026): yardımcılar
+  function ogeler(svg, ad) { return [].slice.call(svg.querySelectorAll('[data-etk="' + ad + '"]')); }
+  function yolNoktalari(p, n) {        // görünmez yol → nokta listesi
+    var L = p.getTotalLength(), P = [];
+    for (var i = 0; i <= n; i++) { var q = p.getPointAtLength(L * i / n); P.push([q.x, q.y]); }
+    return P;
+  }
+  function damla(par, r) { return el('circle', { r: r || 3.3, fill: '#f2c23a', stroke: '#a8780f', 'stroke-width': .9, opacity: 0 }, par); }
+  function parilti(par, x, y, r, renk) {   // ağrı yeri: yumuşak ışıma
+    var id = 'etkg' + Math.random().toString(36).slice(2, 7), d = el('defs', {}, par), g = el('radialGradient', { id: id }, d);
+    el('stop', { offset: 0, 'stop-color': renk, 'stop-opacity': .62 }, g); el('stop', { offset: .55, 'stop-color': renk, 'stop-opacity': .28 }, g);
+    el('stop', { offset: 1, 'stop-color': renk, 'stop-opacity': 0 }, g);
+    return el('circle', { cx: x, cy: y, r: r, fill: 'url(#' + id + ')' }, par);
+  }
+  function opak(e, v) { if (e) e.style.opacity = v; }
+
+  // ------------------------------------------------------------------ 6a · taş böbrekten iner, üç darlıkta durur (s26_yer)
+  function tasInis(svg) {
+    var yol = svg.querySelector('[data-etk="yol"]'); if (!yol) return;
+    var P = yolNoktalari(yol, 240), DUR = yol.getAttribute('data-dur').split(' ').map(Number);
+    var T = [1, 2, 3].map(function (n) { return svg.querySelector('[data-etk="tas' + n + '"]'); });
+    var C = [0, 1, 2, 3].map(function (n) { return svg.querySelector('[data-etk="c' + n + '"]'); });
+    var ust = katman(svg), hit = katman(svg, true);
+    var AG = T.map(function (t) {
+      var a = t.getAttribute('data-agri').split(','), g = el('g', { opacity: 0 }, ust);
+      parilti(g, +a[0], +a[1], +a[2], '#e0533b');
+      yazi(g, +a[0], +a[1] + 4, 'ağrı: ' + a[3], { 'font-size': 11.5, 'font-weight': 800, fill: '#9c2a1c', 'text-anchor': 'middle', stroke: '#fff', 'stroke-width': 3, 'paint-order': 'stroke' });
+      return g;
+    });
+    var vurgu = C.map(function (c) {
+      if (!c) return null; var x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+      [].forEach.call(c.querySelectorAll('text'), function (t) { var q = t.getBBox(); x0 = Math.min(x0, q.x); y0 = Math.min(y0, q.y); x1 = Math.max(x1, q.x + q.width); y1 = Math.max(y1, q.y + q.height); });
+      var r = el('rect', { 'class': 'etk-k', x: x0 - 9, y: y0 - 6, width: x1 - x0 + 18, height: y1 - y0 + 12, rx: 9, fill: '#fff1c2', stroke: '#e0a92a', 'stroke-width': 1.4, opacity: 0, 'pointer-events': 'none' });
+      c.parentNode.insertBefore(r, c); return r;
+    });
+    var c0 = T[0].getAttribute('data-c').split(',').map(Number);
+    var m = T[0].cloneNode(true); m.removeAttribute('data-etk'); m.setAttribute('opacity', 0); ust.appendChild(m);
+    var halka = el('circle', { r: 10, fill: 'none', stroke: '#e0533b', 'stroke-width': 2.6, opacity: 0 }, ust);
+    var durum = yazi(ust, 330, 393, '', { 'font-size': 12.5, 'font-weight': 800, fill: '#9c2a1c' });
+    var ip = yazi(ust, 330, 374, '▶ dokunun: taş iner', { 'font-size': 11.5, 'font-weight': 700, fill: C.gri });
+    var AD = ['üreteropelvik bileşkede takıldı', 'iliyak damar çaprazında takıldı', 'üreterovezikal bileşkede takıldı'];
+    // zaman çizelgesi: [başlangıç, bitiş, u0, u1, durak]
+    var Z = [], t = .4, u = 0, h = [1.3, 1.5, 1.5], bek = 2.4;
+    for (var i = 0; i < 3; i++) { Z.push([t, t + h[i], u, DUR[i], -1]); t += h[i]; Z.push([t, t + bek, DUR[i], DUR[i], i]); t += bek; u = DUR[i]; }
+    Z.push([t, t + .9, u, 1, -1]); var SON = t + 1.4;
+    function konum(uu) { return P[Math.max(0, Math.min(P.length - 1, Math.round(uu * (P.length - 1))))]; }
+    function sifirla() {
+      T.forEach(function (e) { opak(e, ''); }); C.forEach(function (e) { opak(e, ''); });
+      AG.forEach(function (g) { g.setAttribute('opacity', 0); }); vurgu.forEach(function (r) { if (r) r.setAttribute('opacity', 0); });
+      m.setAttribute('opacity', 0); halka.setAttribute('opacity', 0); durum.textContent = '';
+    }
+    var s = saat(svg, function (tt) {
+      if (tt > SON) { s.dur(); s.t = 0; sifirla(); ip.textContent = '▶ dokunun: yeniden'; return; }
+      var z = Z.filter(function (q) { return tt >= q[0] && tt < q[1]; })[0] || (tt < Z[0][0] ? [0, .4, 0, 0, -1] : Z[Z.length - 1]);
+      var f = yumusak(arada(tt, z[0], z[1])), uu = z[2] + (z[3] - z[2]) * f, p = konum(uu);
+      m.setAttribute('transform', 'translate(' + (p[0] - c0[0]).toFixed(1) + ' ' + (p[1] - c0[1]).toFixed(1) + ') rotate(' + (uu * 540).toFixed(0) + ' ' + c0[0] + ' ' + c0[1] + ')');
+      m.setAttribute('opacity', tt < .4 ? tt / .4 : (tt > SON - .5 ? Math.max(0, (SON - tt) / .5) : 1));
+      var d = z[4];
+      AG.forEach(function (g, k) { g.setAttribute('opacity', k === d ? Math.min(1, (tt - z[0]) * 2.5) : 0); });
+      vurgu.forEach(function (r, k) { if (r) r.setAttribute('opacity', d >= 0 && k === d + 1 ? 1 : 0); });
+      C.forEach(function (c, k) { opak(c, d >= 0 && k !== d + 1 ? .3 : ''); });
+      if (d >= 0) { var q = (tt - z[0]) % 1.1 / 1.1; halka.setAttribute('cx', p[0]); halka.setAttribute('cy', p[1]); halka.setAttribute('r', 9 + 14 * q); halka.setAttribute('opacity', 1 - q); durum.textContent = (d + 1) + ' · ' + AD[d]; }
+      else { halka.setAttribute('opacity', 0); durum.textContent = tt > Z[Z.length - 1][0] ? 'mesaneye geçti' : ''; }
+    });
+    s.dg = function (o) { ip.textContent = o ? '❚❚ dokunun: durdur' : (s.t > 0 ? '▶ dokunun: devam' : ip.textContent); if (o) T.forEach(function (e) { opak(e, 0); }); };
+    dugme(seffaf(hit, { r: [6, 42, 600, 404] }), 'Taşın inişini oynat ya da durdur', function () { if (s.oyn) s.dur(); else s.bas(); });
+  }
+
+  // ------------------------------------------------------------------ 6b · hidronefroz derecesi sürgüyle 0 → 4 (s27_us)
+  function derece(svg) {
+    var D = [0, 1, 2, 3, 4].map(function (i) { return svg.querySelector('[data-etk="d' + i + '"]'); }); if (!D[4]) return;
+    var X = D.map(function (g) { return +g.getAttribute('data-c').split(',')[0]; }), Y0 = 248, sec = -1;
+    var ust = katman(svg), hit = katman(svg, true), ray = el('g', { opacity: 1 }, ust);
+    el('line', { x1: X[0], y1: Y0, x2: X[4], y2: Y0, stroke: '#c9d6e0', 'stroke-width': 4, 'stroke-linecap': 'round' }, ray);
+    X.forEach(function (x) { el('circle', { cx: x, cy: Y0, r: 4, fill: '#fff', stroke: '#9aabba', 'stroke-width': 1.6 }, ray); });
+    var dol = el('line', { x1: X[0], y1: Y0, x2: X[0], y2: Y0, stroke: C.mavi, 'stroke-width': 4, 'stroke-linecap': 'round' }, ray);
+    var dg = el('circle', { cx: X[0], cy: Y0, r: 8.5, fill: C.mavi, stroke: '#fff', 'stroke-width': 2.4, opacity: 0 }, ray);
+    var cer = el('rect', { x: 0, y: 46, width: 196, height: 194, rx: 12, fill: 'none', stroke: C.mavi, 'stroke-width': 2.4, opacity: 0 }, ust);
+    var ip = yazi(ust, X[0] - 86, 252, '↔ sürükleyin', { 'font-size': 11.5, 'font-weight': 700, fill: C.gri });
+    D.forEach(function (g) { g.style.transition = 'opacity .25s'; });
+    function kur(x) {
+      var i = 0; X.forEach(function (xx, k) { if (Math.abs(xx - x) < Math.abs(X[i] - x)) i = k; });
+      if (i === sec) return; sec = i;
+      dg.setAttribute('opacity', 1); ip.setAttribute('opacity', 0);
+      D.forEach(function (g, k) { g.style.opacity = k === i ? 1 : .28; });
+      cer.setAttribute('x', X[i] - 98); cer.setAttribute('opacity', 1);
+      dg.setAttribute('cx', X[i]); dol.setAttribute('x2', X[i]);
+    }
+    var alan = el('rect', { x: 6, y: 42, width: 1068, height: 216, fill: '#000', 'fill-opacity': 0 }, hit);
+    alan.setAttribute('aria-label', 'Hidronefroz derecesini seçin');
+    surukle(svg, alan, function (x) { kur(x); }, function (d) { kur(X[Math.max(0, Math.min(4, (sec < 0 ? 0 : sec) + d))]); });
+  }
+
+  // ------------------------------------------------------------------ 6c · nefrostomi ve double-J stentte idrar akışı (s27_dren)
+  function drenAkis(svg) {
+    var ust = katman(svg), hit = katman(svg, true), A = [];
+    function ekle(ad, n, hiz, durgun) {
+      ogeler(svg, ad).forEach(function (p) {
+        var P = yolNoktalari(p, 120), L = p.getTotalLength(), d = [];
+        for (var k = 0; k < n; k++) d.push(damla(ust, durgun ? 3 : 3.3));
+        A.push({ P: P, L: L, d: d, hiz: hiz, durgun: durgun });
+      });
+    }
+    ekle('kaliks', 2, 26); ekle('akis', 11, 52); ekle('durgun', 4, 14, true);
+    var ip = ipucu(ust, 526, 378, '▶ dokunun: idrar akışı');
+    var s = saat(svg, function (t) {
+      A.forEach(function (a) {
+        a.d.forEach(function (c, k) {
+          var u = ((t * a.hiz / a.L) + k / a.d.length) % 1;
+          if (a.durgun) u = Math.min(u * 1.2, .93 + .02 * Math.sin(t * 5 + k));     // taşın üstünde birikir, geçemez
+          var q = a.P[Math.round(u * (a.P.length - 1))];
+          c.setAttribute('cx', q[0]); c.setAttribute('cy', q[1]);
+          c.setAttribute('opacity', a.durgun ? .55 : (u < .04 ? u / .04 : (u > .96 ? (1 - u) / .04 : .95)));
+        });
+      });
+    });
+    s.dg = function (o) { ip.textContent = o ? '❚❚ dokunun' : '▶ dokunun: idrar akışı'; if (!o) A.forEach(function (a) { a.d.forEach(function (c) { c.setAttribute('opacity', 0); }); }); };
+    var vb = svg.viewBox.baseVal;
+    dugme(seffaf(hit, { r: [vb.x, vb.y, vb.width, 388] }), 'İdrar akışını oynat ya da durdur', function () { if (s.oyn) s.dur(); else s.bas(); });
+  }
+
+  // ------------------------------------------------------------------ 6d · tek ↔ çift taraflı tıkanma: zaman içinde (s27_tek)
+  function tekCift(svg) {
+    var N = ogeler(svg, 'n'), Dd = ogeler(svg, 'd'), ET = ogeler(svg, 'et'), TAS = svg.querySelector('[data-etk="tas"]'); if (N.length < 2 || Dd.length < 2) return;
+    var ust = katman(svg), hit = katman(svg, true), A = [];
+    function ak(ad, n, hiz) { return ogeler(svg, ad).map(function (p) { var d = []; for (var k = 0; k < n; k++) d.push(damla(ust, 3)); var o = { P: yolNoktalari(p, 100), L: p.getTotalLength(), d: d, hiz: hiz, k: 1, ad: ad }; A.push(o); return o; }); }
+    var aS = ak('akis-s', 6, 40), aO = ak('akis-o', 6, 40), aDur = ak('durgun', 4, 14), aR = ak('akis-r', 6, 40), aU = ak('akis-u', 3, 30);
+    function olcer(x, y, bas) {
+      var g = el('g', { opacity: 0 }, ust);
+      yazi(g, x, y, bas, { 'font-size': 11.5, 'font-weight': 800, fill: '#3d4d5c' });
+      el('rect', { x: x, y: y + 6, width: 170, height: 9, rx: 4.5, fill: '#e6ecf1' }, g);
+      var b = el('rect', { x: x, y: y + 6, width: 34, height: 9, rx: 4.5, fill: C.yesil }, g);
+      var t = yazi(g, x + 176, y + 15, 'normal', { 'font-size': 11.5, 'font-weight': 800, fill: C.yesil });
+      return { g: g, b: b, t: t };
+    }
+    var mS = olcer(306, 290, 'serum kreatinin'), mC = olcer(852, 66, 'serum kreatinin');
+    var olay = [yazi(ust, 300, 58, '', { 'font-size': 12, 'font-weight': 800, fill: C.kirmizi }), yazi(ust, 852, 58 - 20, '', { 'font-size': 12, 'font-weight': 800, fill: C.kirmizi })];
+    var ip = ipucu(ust, 1066, 340, '▶ dokunun: tıkanma zaman içinde');
+    var SON = 9.5;
+    function dur_(t) {
+      var a = yumusak(arada(t, 1.6, 4.6)), b = yumusak(arada(t, 2.6, 6.2));
+      opak(Dd[0], Math.min(1, a * 2.2)); opak(N[0], 1 - arada(a, .25, 1)); opak(Dd[1], Math.min(1, b * 2.2)); opak(N[1], 1 - arada(b, .25, 1));
+      opak(TAS, arada(t, 1.5, 1.9)); ET.forEach(function (e, k) { opak(e, arada(t, k ? 3.2 : 2.6, k ? 3.8 : 3.2)); });
+      olay[0].textContent = t > 1.5 ? 'taş üreteri tıkadı' : ''; olay[1].textContent = t > 1.5 ? 'prostat çıkışı tıkadı' : '';
+      aS.forEach(function (o) { o.k = t > 3 ? 1.7 : 1; }); aO.forEach(function (o) { o.k = t < 1.6 ? 1 : 0; }); aDur.forEach(function (o) { o.k = t >= 1.6 ? 1 : 0; });
+      aR.forEach(function (o) { o.k = Math.max(0, 1 - arada(t, 1.6, 5.2)); }); aU.forEach(function (o) { o.k = t < 1.6 ? 1 : 0; });
+      var r = arada(t, 3.2, 7.6), w = 34 + 120 * yumusak(r);
+      mC.b.setAttribute('width', w); mC.b.setAttribute('fill', r > .25 ? C.kirmizi : C.yesil); mC.t.setAttribute('x', 852 + Math.max(w, 170) + 6);
+      mC.t.textContent = r > .25 ? '↑ ABH' : 'normal'; mC.t.setAttribute('fill', r > .25 ? C.kirmizi : C.yesil);
+      mS.t.textContent = 'normal';
+    }
+    var s = saat(svg, function (t, dt) {
+      dur_(Math.min(t, SON));
+      if (t > SON) ip.textContent = '❚❚ dokunun: durdur · yeniden';
+      A.forEach(function (a) {
+        a.u0 = (a.u0 || 0) + dt * a.hiz * (a.k || 0) / a.L;
+        a.d.forEach(function (c, k) {
+          var u = (a.u0 + k / a.d.length) % 1, q;
+          if (a.ad === 'durgun') { u = Math.min(u * 1.25, .94 + .02 * Math.sin(t * 5 + k)); }
+          q = a.P[Math.round(u * (a.P.length - 1))]; c.setAttribute('cx', q[0]); c.setAttribute('cy', q[1]);
+          c.setAttribute('opacity', a.k ? (a.ad === 'durgun' ? .55 : .95) : Math.max(0, +c.getAttribute('opacity') - dt * 2));
+        });
+      });
+    });
+    s.dg = function (o) {
+      ip.textContent = o ? '❚❚ dokunun' : '▶ dokunun: yeniden';
+      if (o) { mS.g.setAttribute('opacity', 1); mC.g.setAttribute('opacity', 1); }
+      else { A.forEach(function (a) { a.d.forEach(function (c) { c.setAttribute('opacity', 0); }); }); }
+    };
+    dugme(seffaf(hit, { r: [6, 6, 1068, 340] }), 'Tıkanmanın zaman içindeki etkisini oynat', function () {
+      if (s.oyn) { s.dur(); if (s.t > SON) { s.t = 0; dur_(SON); } return; }
+      if (s.t === 0) { A.forEach(function (a) { a.u0 = 0; }); dur_(0); }
+      s.bas();
+    });
+  }
+
   // ------------------------------------------------------------------ slayt kimliği → kurulum
   var K = {
     x30_5: function (svg) {
@@ -462,7 +638,8 @@
         { ad: 'Bartter tip 5: MAGE-D2', delik: [{ k: 'Bartter tip 5' }, { c: [440, 296, 52] }, { c: [340, 98, 46] }], etki: [[340, 98, 'y'], [340, 380, 'y']] },
         { ad: 'FHHNC: klodin 16 ve 19', delik: [{ k: 'FHHNC' }, { r: [340, 348, 400, 64] }] }] });
     },
-    x39_8: plazma, x43_43: perfuzyon, s21_avp: avp, x36_4: tasima, s26_uri: urik
+    x39_8: plazma, x43_43: perfuzyon, s21_avp: avp, x36_4: tasima, s26_uri: urik,
+    s26_yer: tasInis, s27_us: derece, s27_dren: drenAkis, s27_tek: tekCift
   };
   var IP = ['☝ şekle dokunun: iyon akışı · etikete: bozukluk'];
   function H_(ad, k, delik, etki) { return { ad: ad, delik: [{ k: k }].concat(delik || []), etki: etki }; }
