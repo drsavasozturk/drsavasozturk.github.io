@@ -140,12 +140,14 @@ def DB(px, py): return (552 + (px - 796) * DS, 42 + (py - 42) * DS)
 def yol(T, ad, pts): F.a(f'<path data-etk="{ad}" d="{A.yol_d([T(*q) for q in pts])}" fill="none" stroke="none"/>')
 for j, ox in enumerate((0, 540)):
     F.r(ox + 6, 6, 528, 380, '#fbf8f2', LINE, 1.2, 12)
-# ---- sol: perkütan nefrostomi
-A.resim(F, 'an_dren_a', 12, 42, 712 * DS, oran=942 / 712)
-for q in (((350, 180), (380, 262)), ((272, 240), (335, 292)), ((262, 330), (335, 330)), ((300, 420), (352, 382))): yol(DA, 'kaliks', q)
-yol(DA, 'durgun', ((400, 300), (420, 380), (440, 460), (452, 540), (456, 572)))
-yol(DA, 'akis', ((372, 312), (395, 330), (330, 385), (270, 410), (200, 440), (140, 460), (90, 490), (72, 530), (80, 600), (108, 680), (124, 722), (125, 760), (125, 840)))
-A.ad(F, *DA(70, 160), 'cilt', 10.8, '#8e7e6b'); A.ad(F, *DA(125, 905), 'torba', 10.8, '#7a5a00')
+# ---- sol: perkütan nefrostomi (resim 1108 × 1400 px; ikinci çizim, kateter papilla ekseninden girer)
+DS2 = 344 / 1400
+def DA(px, py): return (12 + px * DS2, 42 + py * DS2)
+A.resim(F, 'an_dren_a', 12, 42, 1108 * DS2, oran=1400 / 1108)
+for q in (((470, 200), (505, 300)), ((350, 290), (440, 335)), ((330, 420), (440, 405)), ((350, 480), (440, 465))): yol(DA, 'kaliks', q)
+yol(DA, 'akis', ((498, 412), (520, 385), (548, 400), (545, 440), (480, 500), (430, 545), (380, 572), (300, 595), (200, 622), (150, 635), (100, 680), (70, 740),
+                 (85, 820), (115, 900), (135, 960), (138, 1010), (138, 1080), (140, 1260)))
+A.ad(F, *DA(95, 170), 'cilt', 10.8, '#8e7e6b'); A.ad(F, *DA(140, 1300), 'torba', 10.8, '#7a5a00')
 F.t(30, 34, 'Perkütan nefrostomi', 14, 800, BRANDD)
 F.tl(300, 64, ['Tercih edilen durumlar', ], 12.6, 17, fill=BRANDD, fw=800)
 madde(F, 300, 88, [['Ürosepsis, instabilite:', 'lokal anestezi yeterli'], ['Malign bası, mesane', 'invazyonu'], ['Ayrık fonksiyon ve', 'kurtarılabilirlik ölçümü']])
@@ -183,7 +185,7 @@ yol(L_, 'akis-o', ((300, 150), (285, 250), (280, 300), (275, 360)))
 yol(L_, 'durgun', ((300, 150), (290, 220), (285, 268)))
 yol(R_, 'akis-r', ((150, 150), (160, 250), (160, 300), (165, 360))); yol(R_, 'akis-r', ((292, 150), (282, 250), (282, 300), (276, 360)))
 yol(R_, 'akis-u', ((220, 440), (220, 488)))
-A.cagri(F, L_(55, 235), 28, 298, ['Sağlam böbrek', 'hiperfiltrasyonla', 'telafi'], fs=11.6)
+A.cagri(F, L_(55, 235), 28, 298, ['Sağlam böbrek', 'hiperfiltrasyonla', 'telafi'], fs=11.6, grup='data-etk="et"')
 A.cagri(F, L_(330, 100), 306, 100, ['Obstrükte böbrek', 'sessizce fonksiyon kaybeder'], grup='data-etk="et"')
 F.tl(300, 178, ['• Kreatinin normal kalır', '• Tanı yalnız görüntülemeyle', '• Drenaj sonrası poliüri beklenmez', '• Karar: renografide ayrık fonksiyon'], 12, 19, fill=INK)
 F.t(600, 336, 'BPH: mesane çıkım obstrüksiyonu', 11.4, 700, '#7d4f73')
@@ -192,5 +194,5 @@ madde(F, 846, 160, ['ABH, oligüri ya da anüri', 'Hiperkalemi, asidoz, ödem', 
 D.yeni('s27_tek', 'x27_13', 'Ayrım · Şekil', 'Tek Taraflı ve Çift Taraflı — Neden Farklı?', F,
        '<b>Okuma:</b> Karşı böbrek sağlamsa hiperfiltrasyonla telafi eder, kreatinin normal kalır ve obstrükte böbrek sessizce fonksiyon kaybeder; tanı görüntülemeyle konur. '
        'Mesane çıkım obstrüksiyonu gibi çift taraflı tıkanmada ya da tek böbrekte akut böbrek hasarı gelişir; acil drenaj gerekir ve sonrasında poliüri beklenir.',
-       'Şekil: solda tek taraflı obstrüksiyon: bir üreterde taş ve o tarafta genişlemiş pelvis; karşı böbrek daha büyük çizilmiş ve hiperfiltrasyonla telafi ediyor; kreatinin normal. '
+       'Şekil: solda tek taraflı obstrüksiyon: bir üreterde taş ve o tarafta genişlemiş pelvis; karşı böbrek hiperfiltrasyonla telafi ediyor; kreatinin normal. '
        'Sağda benign prostat büyümesine bağlı mesane çıkım obstrüksiyonu: mesane dolu ve duvarı kalın, iki üreter ve iki böbrek toplayıcı sistemi genişlemiş; akut böbrek hasarı ve acil drenaj.')

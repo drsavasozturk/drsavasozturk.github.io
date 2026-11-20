@@ -38,7 +38,7 @@ UY = [P(x, y) for x, y in ((420, 452), (428, 470), (440, 500), (445, 530), (449,
 F.t(40, 342, 'iliyak arter ve ven', 10.8, 700, '#8e2b26')
 kal = A.tas(F, *P(312, 228), 6.5, 3)
 p_upj, p_il, p_uvj = UY[0], P(568, 885), UY[-1]
-AGRI = ((48, 170, 34, 'yan'), (96, 304, 40, 'alt karın · kasık'), (176, 420, 26, 'kasık · genital'))
+AGRI = ((48, 170, 34, 'yan'), (82, 284, 40, 'alt karın · kasık'), (176, 420, 26, 'kasık · genital'))
 TS = []
 for n, ((x, y), tt, r_) in enumerate(((p_upj, 5, 6), (p_il, 7, 6), (p_uvj, 11, 5.5)), 1):
     ag = AGRI[n - 1]
@@ -143,14 +143,14 @@ A.resim(F, 'an_ran', RX0, RY0, 224, h=336, oran=None)
 def R_(px, py): return (RX0 + px * RSK, RY0 + 336 / 2 - 768 * RSK + py * RSK)
 A.cagri(F, R_(515, 1035), 704, 252, ['Randall plağı: papilla ucunda epitel', 'altında kalsiyum fosfat (apatit)'])
 A.cagri(F, R_(600, 1085), 704, 330, ['Ürotel aralanır, plak açığa çıkar;', 'kalsiyum oksalat üzerine tutunur'])
-A.cagri(F, R_(530, 600), 704, 160, ['Henle kulpu ince kollarının', 'bazal membranında başlar, interstisyuma yayılır'])
+A.cagri(F, R_(500, 700), 704, 160, ['İnterstisyel kalsiyum fosfat birikimi', '(Henle ince kolu bazal membranında başlar)'])
 A.ad(F, *R_(300, 140), 'piramit (medulla)', 11); A.ad(F, *R_(512, 870), 'papilla', 11); A.ad(F, *R_(250, 1260), 'kaliks', 11, '#8a5a00')
 F.tl(700, 74, ['1 Süpersatürasyon → 2 heterojen çekirdeklenme', '→ 3 büyüme ve kümelenme → 4 tutunma.', 'Taş için kristal tutulmalı: çoğu kez plağa.'], 12, 17, fill=INK, fw=700)
 D.yeni('s26_ran', 'x26_11', 'Patogenez · Şekil', 'Süpersatürasyondan Taşa — Randall Plağı', F,
        '<b>Okuma:</b> SS 1’in altında kristal çözünür; 1 ile metastabil sınır arasında var olan kristal büyür ve heterojen çekirdeklenme olabilir; sınırın üstünde kendiliğinden çekirdeklenme olur. '
        'Taş için kristalin böbrekte tutulması gerekir: kalsiyum oksalat taşlarının çoğu papilla ucundaki epitel altı kalsiyum fosfat plağına (Randall plağı) tutunarak büyür.',
        'Şekil: solda süpersatürasyon ölçeği: birin altında çözünme, bir ile metastabil sınır arasında var olan kristalin büyümesi ve heterojen çekirdeklenme, sınırın üstünde kendiliğinden çekirdeklenme. '
-       'Sağda koni biçimli renal papilla ve ucunu saran kaliks: Henle kulpu ince kollarının bazal membranında başlayıp interstisyuma yayılan epitel altı kalsiyum fosfat birikimi, yani Randall plağı, papilla ucunda ürotelin aralandığı yerde açığa çıkmış; üzerine kalsiyum oksalat taşı tutunmuş.')
+       'Sağda koni biçimli renal papilla ve ucunu saran kaliks: Henle kulpu ince kolunun bazal membranında başlayıp interstisyuma yayılan kalsiyum fosfat birikimi papilla ucunda epitel altında toplanmış, yani Randall plağı, papilla ucunda ürotelin aralandığı yerde açığa çıkmış; üzerine kalsiyum oksalat taşı tutunmuş.')
 
 # ============================================================================================== 4 · ürik asit ve idrar pH’ı
 F = Fig('uri', 372, 'İdrar pH’ına göre protone (çözünmeyen) ürik asit oranı; pKa 5,5, korunma ve eritme hedefleri', w=1080)
@@ -211,24 +211,24 @@ D.yeni('s26_str', 'x26_37', 'Strüvit · Şekil', 'Strüvit — Bakterinin Yapt�
        '<b>Okuma:</b> Üreaz üreyi amonyak ve karbondioksite parçalar; amonyak idrarı 7,2’nin üstüne alkalileştirir ve amonyum sağlar; magnezyum amonyum fosfat ile karbonat apatit çöker. '
        'Taş hızla büyüyüp pelvis ve kaliksleri doldurur; enfeksiyonun kaynağı olduğu için tamamen çıkarılmalıdır.',
        'Şekil: solda kimyasal zincir: üre, üreazla iki amonyak ve karbondioksite ayrılır; amonyum artar ve idrar pH’ı 7,2’nin üstüne çıkar; magnezyum, amonyum ve fosfat strüvit olarak, '
-       'karbonat apatitle birlikte çöker. Altta üreaz üreten bakteriler ve E. coli’nin üreaz üretmediği notu. Sağda pelvisi ve üç kaliksi dolduran geyik boynuzu biçimli taş.')
+       'karbonat apatitle birlikte çöker. Altta üreaz üreten bakteriler ve E. coli’nin üreaz üretmediği notu. Sağda pelvisi ve kaliksleri dolduran geyik boynuzu biçimli taş.')
 
 # ============================================================================================== 6 · hangi girişim, hangi taşa
 F = Fig('gir', 410, 'Taşın yerine ve boyutuna göre girişim seçimi: ESWL, URS ve RIRS, PCNL', w=1080)
 serit(F, 6, 6, 1068, 'Yer ve boyut belirler', BRANDD); zemin(F, 6, 42, 1068, 362)
-GX0, GY0, GSK = 26, 52, 296 / 1062          # resim: ChatGPT ile çizildi, yazısız (s26_yer resminin üst kısmı)
-A.resim(F, 'an_gir', GX0, GY0, 1024 * GSK, oran=1062 / 1024)
+GX0, GY0, GSK = 30, 50, 316 / 1310          # resim: ChatGPT ile çizildi, yazısız (s26_yer resminin üst kısmı)
+A.resim(F, 'an_gir', GX0, GY0, 1024 * GSK, oran=1310 / 1024)
 def GP(px, py): return (GX0 + px * GSK, GY0 + py * GSK)
 def isa(p, r, tt, c):
     A.tas(F, p[0], p[1], r, tt); F.el(p[0], p[1], r + 5, r + 5, 'none', '#fff', 4.4, op=.85); F.el(p[0], p[1], r + 5, r + 5, 'none', c, 2.4)
 isa(GP(312, 228), 4.5, 2, BRAND); isa(GP(222, 345), 4.5, 7, BRAND)
 pel = GP(350, 372); isa(pel, 9, 4, RED); lk = GP(262, 498); isa(lk, 6, 6, RED)
 ut = GP(449, 590); isa(ut, 4.2, 9, BRAND)
-ua = GP(544, 1036); isa(ua, 4.2, 12, PUR)
+ua = GP(586, 1222); isa(ua, 4.2, 12, PUR)
 A.cagri(F, (pel[0] + 14, pel[1] - 4), 206, 124, ['pelvis', '> 2 cm'], fs=11.8)
 A.cagri(F, (lk[0] + 11, lk[1] + 4), 206, 178, ['alt kaliks', '> 1 cm'], fs=11.8)
-A.cagri(F, (ut[0] + 9, ut[1]), 236, 232, ['proksimal', 'üreter'], fs=11.8)
-A.cagri(F, (ua[0] + 9, ua[1]), 236, 318, ['distal', 'üreter'], fs=11.8)
+A.cagri(F, (ut[0] + 9, ut[1]), 206, 232, ['proksimal', 'üreter'], fs=11.8)
+A.cagri(F, (ua[0] + 9, ua[1]), 250, 318, ['distal', 'üreter'], fs=11.8)
 K = [(300, 54, 'ESWL', BRAND, ['Böbrek taşı < 2 cm: üst ve orta kaliks, pelvis', 'Proksimal üreter taşı < 10 mm', 'Kontrendikasyon: gebelik, kesilemeyen antitrombotik,', 'kanama eğilimi, tedavisiz ÜSE, distal tıkanma,', 'aort anevrizması',
                                   'Dirençli: sistin, brushit, CaOx monohidrat (> 1000 HU)']),
      (300, 210, 'URS / fleksibl URS (RIRS) ± lazer', PUR, ['Üreter taşında birinci seçenek (distal, > 10 mm)', 'Proksimal < 10 mm: ESWL ile eşdeğer', 'ESWL’ye dirençli taş · gebelik (deneyimli merkez)',
