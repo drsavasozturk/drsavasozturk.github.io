@@ -3,7 +3,7 @@
 import sys, os, json, importlib
 D = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, D)
 P = []
-for m in ('sekil_07', 'sekil_08', 'sekil_09', 'sekil_10', 'sekil_11', 'sekil_12', 'sekil_13', 'sekil_14', 'sekil_15', 'sekil_21'):
+for m in ('sekil_07', 'sekil_08', 'sekil_09', 'sekil_10', 'sekil_11', 'sekil_12', 'sekil_13', 'sekil_14', 'sekil_15', 'sekil_19', 'sekil_20', 'sekil_21', 'sekil_22', 'sekil_23'):
     mod = importlib.import_module(m); P += mod.L if hasattr(mod, 'L') else mod.D.L
 ids = [o['id'] for o in P]; assert len(ids) == len(set(ids)), 'yinelenen kimlik'
 out = sys.argv[1] if len(sys.argv) > 1 else os.path.join(D, '..', 'sekiller.json')

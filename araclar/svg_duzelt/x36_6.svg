@@ -19,19 +19,19 @@
       <text x="324" y="100" font-size="10.5" font-weight="700" fill="#c0392b" text-anchor="middle">Sert su hemolizi</text>
       <text x="324" y="122" font-size="10.5" fill="#6b7b8a" text-anchor="middle">RO’yu kireçten korur</text>
 
-      <rect x="391" y="40" width="150" height="98" rx="9" fill="#fdf3e0" stroke="#c98a00" stroke-width="2.4"/>
-      <text x="466" y="60" font-size="11.5" font-weight="800" fill="#7a5300" text-anchor="middle">Aktif karbon × 2</text>
-      <text x="466" y="78" font-size="10.5" font-weight="700" fill="#c0392b" text-anchor="middle">KLOR ve KLORAMİN</text>
-      <text x="466" y="96" font-size="10.5" fill="#3d4d5c" text-anchor="middle">Hemoliz, methemoglobinemi</text>
-      <text x="466" y="114" font-size="10.5" fill="#3d4d5c" text-anchor="middle">Seri iki tank, aradan örnek</text>
-      <text x="466" y="132" font-size="10.5" fill="#6b7b8a" text-anchor="middle">+ mikron filtre (karbon tozu)</text>
+      <rect x="391" y="40" width="157" height="98" rx="9" fill="#fdf3e0" stroke="#c98a00" stroke-width="2.4"/>
+      <text x="469.5" y="60" font-size="11.5" font-weight="800" fill="#7a5300" text-anchor="middle">Aktif karbon × 2</text>
+      <text x="469.5" y="78" font-size="10.5" font-weight="700" fill="#c0392b" text-anchor="middle">KLOR ve KLORAMİN</text>
+      <text x="469.5" y="96" font-size="10.5" fill="#3d4d5c" text-anchor="middle">Hemoliz, methemoglobinemi</text>
+      <text x="469.5" y="114" font-size="10.5" fill="#3d4d5c" text-anchor="middle">Seri iki tank, aradan örnek</text>
+      <text x="469.5" y="132" font-size="10.5" fill="#6b7b8a" text-anchor="middle">+ mikron filtre (karbon tozu)</text>
 
-      <rect x="552" y="30" width="138" height="118" rx="9" fill="#fdeaea" stroke="#c0392b" stroke-width="2.6"/>
-      <text x="621" y="54" font-size="13" font-weight="800" fill="#7b1f14" text-anchor="middle">TERS OZMOZ</text>
-      <text x="621" y="74" font-size="10.5" fill="#3d4d5c" text-anchor="middle">Zincirin kalbi</text>
-      <text x="621" y="92" font-size="10.5" fill="#3d4d5c" text-anchor="middle">İyon, endotoksin,</text>
-      <text x="621" y="110" font-size="10.5" fill="#3d4d5c" text-anchor="middle">bakteri, organik madde</text>
-      <text x="621" y="130" font-size="10.5" font-weight="700" fill="#c0392b" text-anchor="middle">%90–99 uzaklaştırır</text>
+      <rect x="558" y="30" width="132" height="118" rx="9" fill="#fdeaea" stroke="#c0392b" stroke-width="2.6"/>
+      <text x="624" y="54" font-size="13" font-weight="800" fill="#7b1f14" text-anchor="middle">TERS OZMOZ</text>
+      <text x="624" y="74" font-size="10.5" fill="#3d4d5c" text-anchor="middle">Zincirin kalbi</text>
+      <text x="624" y="92" font-size="10.5" fill="#3d4d5c" text-anchor="middle">İyon, endotoksin,</text>
+      <text x="624" y="110" font-size="10.5" fill="#3d4d5c" text-anchor="middle">bakteri, organik madde</text>
+      <text x="624" y="130" font-size="10.5" font-weight="700" fill="#c0392b" text-anchor="middle">%90–99 uzaklaştırır</text>
 
       <rect x="701" y="40" width="112" height="98" rx="9" fill="#f4f7fa" stroke="#6b7b8a" stroke-width="2"/>
       <text x="757" y="62" font-size="11.5" font-weight="800" fill="#3d4d5c" text-anchor="middle">Deiyonizasyon</text>
@@ -56,14 +56,14 @@
       <path d="M126 90 L135 90" stroke="#3d4d5c" stroke-width="2.2" marker-end="url(#ahk)"/>
       <path d="M257 90 L266 90" stroke="#3d4d5c" stroke-width="2.2" marker-end="url(#ahk)"/>
       <path d="M380 90 L389 90" stroke="#3d4d5c" stroke-width="2.2" marker-end="url(#ahk)"/>
-      <path d="M541 90 L550 90" stroke="#3d4d5c" stroke-width="2.2" marker-end="url(#ahk)"/>
+      <path d="M548 90 L556 90" stroke="#3d4d5c" stroke-width="2.2" marker-end="url(#ahk)"/>
       <path d="M690 90 L699 90" stroke="#3d4d5c" stroke-width="2.2" marker-end="url(#ahk)"/>
       <path d="M813 90 L822 90" stroke="#3d4d5c" stroke-width="2.2" marker-end="url(#ahk)"/>
       <path d="M932 90 L941 90" stroke="#3d4d5c" stroke-width="2.2" marker-end="url(#ahk)"/>
 
-      <path d="M268 156 L268 166 L531 166 L531 156" fill="none" stroke="#6a4c93" stroke-width="1.6" stroke-dasharray="4 3"/>
+      <path d="M268 152 L268 160 L548 160 L548 152" fill="none" stroke="#6a4c93" stroke-width="1.6" stroke-dasharray="4 3"/>
       <text x="400" y="182" font-size="11" font-weight="700" fill="#6a4c93" text-anchor="middle">Yumuşatıcı karbondan ÖNCE: kireç karbon yatağını ve RO membranını tıkar</text>
-      <path d="M552 156 L552 166 L690 166 L690 156" fill="none" stroke="#c0392b" stroke-width="1.6" stroke-dasharray="4 3"/>
+      <path d="M391 164 L391 170 L690 170 L690 164" fill="none" stroke="#c0392b" stroke-width="1.6" stroke-dasharray="4 3"/>
       <text x="820" y="182" font-size="11" font-weight="700" fill="#c0392b" text-anchor="middle">Karbon RO’dan hemen ÖNCE: poliamid membran klorla geri dönüşsüz bozulur</text>
 
       <text x="565" y="214" font-size="12.5" font-weight="800" fill="#0d3a52" text-anchor="middle">Hasta her seansta yaklaşık 120 litre suya maruz kalır — ağızdan alınan suyun yüzlerce katı</text>
