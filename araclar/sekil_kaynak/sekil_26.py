@@ -3,6 +3,7 @@
 import random
 from sekil_ortak import *
 from sekil_glom import etk
+import sekil_anat as A
 
 D = Ders('26')
 L = D.L
@@ -27,21 +28,32 @@ def bez(p0, p1, p2, p3, t):
 # ============================================================================================== 1 · taşın yeri, ağrının yeri ve kolik mekanizması
 F = Fig('yer', 452, 'Üriner sistemde taşın yerleri, üç fizyolojik darlık ve ağrının yayılımı; renal koliğin mekanizması', w=1080)
 serit(F, 6, 6, 600, 'Taşın yeri ağrının yerini söyler', BRANDD); zemin(F, 6, 42, 600, 404)
-cx, cy, k = 120, 150, 1.9
-ux, uy = bobrek(F, cx, cy, k, pelvis=1)
-P0, P3 = (ux, uy), (232, 358); P1, P2 = (ux, (uy + 358) / 2), (232, (uy + 358) / 2)
-il = bez(P0, P1, P2, P3, .52)
-F.ln(il[0] - 64, il[1] + 26, il[0] + 70, il[1] - 24, '#c0392b', 8); F.t(il[0] - 70, il[1] + 48, 'iliyak damarlar', 10.8, 700, '#a2564e')
-ureter(F, ux, uy, 232, 358, gen=5)
-mesane(F, 242, 392, 44, 30, uretra=14)
-kal = (cx - 8 * k, cy - 26 * k); tas(F, kal[0], kal[1], 7, 3)                  # üst kaliks taşı
-for t, tt in ((.06, 5), (.52, 7), (.985, 11)):
-    x, y = bez(P0, P1, P2, P3, t); tas(F, x, y, 6.5, tt)
-p_upj, p_il, p_uvj = bez(P0, P1, P2, P3, .06), bez(P0, P1, P2, P3, .52), bez(P0, P1, P2, P3, .985)
-etk(F, kal, 330, 72, ['Kaliks taşı', 'tıkamazsa çoğu kez sessiz'], fs=12)
-etk(F, p_upj, 330, 150, ['1 · Üreteropelvik bileşke · üst üreter', 'yan ağrısı'], fs=12)
-etk(F, p_il, 330, 230, ['2 · İliyak damar çaprazı · orta üreter', 'alt karın ve kasığa yayılan ağrı;', 'apandisiti taklit edebilir'], fs=12)
-etk(F, p_uvj, 330, 322, ['3 · Üreterovezikal bileşke', 'kasık, testis ya da labiaya yayılım;', 'sık idrar, sıkışma, dizüri'], fs=12)
+# Resim: ChatGPT ile çizildi (yazısız, 1024 × 1536 px); konumlar resim pikselinden ölçüldü.
+X0, Y0, SK = 34, 44, 266 / 1024
+A.resim(F, 'an_yer', X0, Y0, 266, oran=1.5)
+def P(px, py): return (X0 + px * SK, Y0 + py * SK)
+UY = [P(x, y) for x, y in ((420, 452), (428, 470), (440, 500), (445, 530), (449, 560), (450, 590), (449, 620), (453, 650), (462, 680), (476, 710),
+                           (495, 740), (519, 770), (540, 800), (557, 830), (567, 860), (571, 890), (570, 920), (565, 950), (558, 980), (549, 1010),
+                           (544, 1040), (541, 1070), (541, 1100), (546, 1130), (552, 1160), (564, 1190), (583, 1220), (610, 1250), (640, 1272))]
+F.t(40, 342, 'iliyak arter ve ven', 10.8, 700, '#8e2b26')
+kal = A.tas(F, *P(312, 228), 6.5, 3)
+p_upj, p_il, p_uvj = UY[0], P(568, 885), UY[-1]
+AGRI = ((48, 170, 34, 'yan'), (82, 284, 40, 'alt karın · kasık'), (176, 420, 26, 'kasık · genital'))
+TS = []
+for n, ((x, y), tt, r_) in enumerate(((p_upj, 5, 6), (p_il, 7, 6), (p_uvj, 11, 5.5)), 1):
+    ag = AGRI[n - 1]
+    TS.append(A.tas(F, x, y, r_, tt, grup=f'data-etk="tas{n}" data-c="{x:.1f},{y:.1f}" data-agri="{ag[0]},{ag[1]},{ag[2]},{ag[3]}"'))
+for n, (x, y) in enumerate((p_upj, p_il, p_uvj), 1): A.rozet(F, x - 20, y + (2 if n == 1 else (-10 if n == 2 else -12)), n)
+A.cagri(F, kal, 330, 74, ['Kaliks taşı', 'tıkamazsa çoğu kez sessiz'], grup='data-etk="c0"')
+A.cagri(F, TS[0], 330, 150, ['1 · Üreteropelvik bileşke · üst üreter', 'yan ağrısı'], grup='data-etk="c1"')
+A.cagri(F, TS[1], 330, 246, ['2 · İliyak damar çaprazı · orta üreter', 'alt karın ve kasığa yayılan ağrı;', 'apandisiti taklit edebilir'], grup='data-etk="c2"')
+A.cagri(F, TS[2], 330, 322, ['3 · Üreterovezikal bileşke', 'kasık, testis ya da labiaya yayılım;', 'sık idrar, sıkışma, dizüri'], grup='data-etk="c3"')
+# hareket yolu (görünmez): pelvisten üreter boyunca mesane içine
+YOL = [P(345, 360), P(400, 420)] + UY + [P(668, 1286), P(700, 1290)]
+uz = [0]
+for i in range(1, len(YOL)): uz.append(uz[-1] + math.hypot(YOL[i][0] - YOL[i - 1][0], YOL[i][1] - YOL[i - 1][1]))
+def oran(q): return uz[min(range(len(YOL)), key=lambda i: (YOL[i][0] - q[0]) ** 2 + (YOL[i][1] - q[1]) ** 2)] / uz[-1]
+F.a(f'<path data-etk="yol" data-dur="{oran(p_upj):.3f} {oran(p_il):.3f} {oran(p_uvj):.3f}" d="{A.yol_d(YOL)}" fill="none" stroke="none"/>')
 F.tl(330, 410, ['Numaralar: üç fizyolojik darlık; taşlar en', 'sık burada takılır. En darı: 3.'], 11.4, 15, fill=INK2)
 serit(F, 616, 6, 458, 'Kolik neden olur?', RED); zemin(F, 616, 42, 458, 404)
 Z = [(845, 82, 'Üreter tıkanır'), (845, 150, 'Proksimal basınç ↑ · üreter spazmı'), (845, 218, 'Prostaglandin salınımı'),
@@ -125,22 +137,20 @@ for yb, t in ((156, 'metastabil sınır'), (266, 'SS = 1')):
     F.ln(34, yb, 116, yb, INK, 2); F.ln(116, yb, 414, yb, INK2, 1, '4 4'); F.t(414, yb - 5, t, 11, 700, INK2, 'end')
 F.t(124, 378, 'SS = iyon aktivite çarpımı / Ksp', 11.4, 700, INK2)
 serit(F, 436, 6, 638, 'Dört adım ve Randall plağı', PUR); zemin(F, 436, 42, 638, 340)
-F.yol('M552,250 Q556,356 600,358 Q644,356 648,250', '#d9b04a', 2.2, '#fff4c4')                                  # kaliks çanağı
-F.yol('M510,62 L690,62 Q682,180 640,276 Q620,314 600,314 Q580,314 560,276 Q518,180 510,62 Z', '#a2564e', 2, '#e9b6ae')   # papilla (koni)
-for x0, x1 in ((540, 590), (570, 596), (600, 600), (630, 604), (660, 610)):
-    F.yol(f'M{x0},70 Q{(x0 + x1) / 2:.0f},180 {x1},270', '#f6e7d8', 3.2, op=.95)
-F.yol('M560,276 Q580,314 588,314', '#f7d9d4', 4); F.yol('M612,314 Q620,314 640,276', '#f7d9d4', 4)         # ürotel (plakta aralık)
-F.el(600, 308, 14, 7, '#f4f1ea', '#9aa9b5', 1.4)                                                              # Randall plağı
-tas(F, 600, 332, 20, 8)
-etk(F, (606, 306), 700, 252, ['Randall plağı: papilla ucunda epitel', 'altında kalsiyum fosfat (apatit)'], fs=12)
-etk(F, (614, 338), 700, 330, ['Ürotel aralanır, plak açığa çıkar;', 'kalsiyum oksalat üzerine tutunur'], fs=12)
-etk(F, (613, 160), 700, 160, ['Henle kulpunun ince kolları', 'çevresinde interstisyumda başlar'], fs=12)
+# Resim: ChatGPT ile çizildi (yazısız, 1024 × 1536 px)
+RX0, RY0, RSK = 456, 44, 224 / 1024
+A.resim(F, 'an_ran', RX0, RY0, 224, h=336, oran=None)
+def R_(px, py): return (RX0 + px * RSK, RY0 + 336 / 2 - 768 * RSK + py * RSK)
+A.cagri(F, R_(515, 1035), 704, 252, ['Randall plağı: papilla ucunda epitel', 'altında kalsiyum fosfat (apatit)'])
+A.cagri(F, R_(600, 1085), 704, 330, ['Ürotel aralanır, plak açığa çıkar;', 'kalsiyum oksalat üzerine tutunur'])
+A.cagri(F, R_(500, 700), 704, 160, ['İnterstisyel kalsiyum fosfat birikimi', '(Henle ince kolu bazal membranında başlar)'])
+A.ad(F, *R_(300, 140), 'piramit (medulla)', 11); A.ad(F, *R_(512, 870), 'papilla', 11); A.ad(F, *R_(250, 1260), 'kaliks', 11, '#8a5a00')
 F.tl(700, 74, ['1 Süpersatürasyon → 2 heterojen çekirdeklenme', '→ 3 büyüme ve kümelenme → 4 tutunma.', 'Taş için kristal tutulmalı: çoğu kez plağa.'], 12, 17, fill=INK, fw=700)
 D.yeni('s26_ran', 'x26_11', 'Patogenez · Şekil', 'Süpersatürasyondan Taşa — Randall Plağı', F,
        '<b>Okuma:</b> SS 1’in altında kristal çözünür; 1 ile metastabil sınır arasında var olan kristal büyür ve heterojen çekirdeklenme olabilir; sınırın üstünde kendiliğinden çekirdeklenme olur. '
        'Taş için kristalin böbrekte tutulması gerekir: kalsiyum oksalat taşlarının çoğu papilla ucundaki epitel altı kalsiyum fosfat plağına (Randall plağı) tutunarak büyür.',
        'Şekil: solda süpersatürasyon ölçeği: birin altında çözünme, bir ile metastabil sınır arasında var olan kristalin büyümesi ve heterojen çekirdeklenme, sınırın üstünde kendiliğinden çekirdeklenme. '
-       'Sağda koni biçimli renal papilla ve ucunu saran kaliks: Henle kulpunun ince kolları çevresinde başlayan epitel altı kalsiyum fosfat birikimi, yani Randall plağı, papilla ucunda ürotelin aralandığı yerde açığa çıkmış; üzerine kalsiyum oksalat taşı tutunmuş.')
+       'Sağda koni biçimli renal papilla ve ucunu saran kaliks: Henle kulpu ince kolunun bazal membranında başlayıp interstisyuma yayılan kalsiyum fosfat birikimi papilla ucunda epitel altında toplanmış, yani Randall plağı, papilla ucunda ürotelin aralandığı yerde açığa çıkmış; üzerine kalsiyum oksalat taşı tutunmuş.')
 
 # ============================================================================================== 4 · ürik asit ve idrar pH’ı
 F = Fig('uri', 372, 'İdrar pH’ına göre protone (çözünmeyen) ürik asit oranı; pKa 5,5, korunma ve eritme hedefleri', w=1080)
@@ -178,10 +188,10 @@ D.yeni('s26_uri', 'x26_36', 'Ürik Asit Taşı · Şekil', 'Ürik Asit — pKa 5
 # ============================================================================================== 5 · strüvit: üreaz kimyası ve staghorn
 F = Fig('str', 352, 'Üreaz üreten bakteride üreden amonyak, alkali idrar ve strüvit çökmesi; staghorn taş', w=1080)
 serit(F, 6, 6, 690, 'Üreaz: üreden taşa', RED); zemin(F, 6, 42, 690, 304)
-A = [(30, 70, 'Üre', 'idrarda bol'), (200, 70, '2 NH₃ + CO₂', 'hidroliz ürünleri'), (408, 70, 'NH₄⁺ ↑ · pH > 7,2', 'amonyak alkalileştirir'),
+AZ = [(30, 70, 'Üre', 'idrarda bol'), (200, 70, '2 NH₃ + CO₂', 'hidroliz ürünleri'), (408, 70, 'NH₄⁺ ↑ · pH > 7,2', 'amonyak alkalileştirir'),
      (30, 180, 'Mg²⁺ + NH₄⁺ + PO₄³⁻', 'alkali ortamda'), (310, 180, 'Strüvit (MgNH₄PO₄·6H₂O)', '+ karbonat apatit çöker')]
 R = []
-for i, (x, y, t1, t2) in enumerate(A):
+for i, (x, y, t1, t2) in enumerate(AZ):
     w = max(gen(t1, 13.2, True), gen(t2, 11.6)) + 30; R.append((x, y, w))
     F.r(x, y, w, 58, '#fdeaea' if i == 4 else '#fff', RED, 1.6, 10); F.t(x + w / 2, y + 25, t1, 13.2, 800, INK, 'middle'); F.t(x + w / 2, y + 44, t2, 11.6, None, INK2, 'middle')
 def sag(i): return R[i][0] + R[i][2]
@@ -193,37 +203,32 @@ F.r(22, 252, 662, 88, '#f2f5f8', INK2, 1.2, 10)
 F.tl(36, 274, ['Üreaz üretenler: Proteus mirabilis (klasik), Klebsiella, Providencia, Morganella, Serratia,', 'Ureaplasma urealyticum, Corynebacterium urealyticum, S. saprophyticus, bazı Pseudomonas suşları'], 11.6, 18, fill=INK, fw=700)
 F.t(36, 326, 'E. coli pratikte üreaz üretmez: en sık idrar yolu enfeksiyonu etkeni olsa da strüvit yapmaz.', 11.6, None, RED)
 serit(F, 706, 6, 368, 'Staghorn (geyik boynuzu) taş', RED); zemin(F, 706, 42, 368, 304)
-bobrek(F, 820, 162, 2.3, pelvis=2)
-uc = ((-8, -26), (-14, 0), (-8, 26))
-def dal(c, ek):
-    g = f'<ellipse cx="8" cy="0" rx="{15 + ek}" ry="{19 + ek}" fill="{c}"/>'
-    for (tx, ty) in uc: g += f'<line x1="6" y1="0" x2="{tx}" y2="{ty}" stroke="{c}" stroke-width="{9 + 2 * ek}" stroke-linecap="round"/><circle cx="{tx}" cy="{ty}" r="{7.2 + ek}" fill="{c}"/>'
-    return g
-F.a(f'<g transform="translate(820,162) scale(2.3)">{dal(TAS_K, .7)}{dal(TAS, 0)}</g>')
-F.tl(930, 112, ['Pelvisi ve', 'kaliksleri', 'doldurur'], 12, 17, fill=INK, fw=700)
+SX0, SY0, SSK = 708, 46, 250 / 760          # resim: ChatGPT ile çizildi, yazısız (760 × 760 px)
+A.resim(F, 'an_str', SX0, SY0, 250, oran=1)
+A.cagri(F, (SX0 + 395 * SSK, SY0 + 330 * SSK), 948, 92, ['Pelvisi ve kaliksleri', 'doldurur'], fs=12)
 F.tl(724, 312, ['Tam çıkarılmalı (çoğunlukla PCNL);', 'kalan parça enfeksiyonu sürdürür.'], 11.8, 16, fill=RED, fw=700)
 D.yeni('s26_str', 'x26_37', 'Strüvit · Şekil', 'Strüvit — Bakterinin Yaptığı Taş', F,
        '<b>Okuma:</b> Üreaz üreyi amonyak ve karbondioksite parçalar; amonyak idrarı 7,2’nin üstüne alkalileştirir ve amonyum sağlar; magnezyum amonyum fosfat ile karbonat apatit çöker. '
        'Taş hızla büyüyüp pelvis ve kaliksleri doldurur; enfeksiyonun kaynağı olduğu için tamamen çıkarılmalıdır.',
        'Şekil: solda kimyasal zincir: üre, üreazla iki amonyak ve karbondioksite ayrılır; amonyum artar ve idrar pH’ı 7,2’nin üstüne çıkar; magnezyum, amonyum ve fosfat strüvit olarak, '
-       'karbonat apatitle birlikte çöker. Altta üreaz üreten bakteriler ve E. coli’nin üreaz üretmediği notu. Sağda pelvisi ve üç kaliksi dolduran geyik boynuzu biçimli taş.')
+       'karbonat apatitle birlikte çöker. Altta üreaz üreten bakteriler ve E. coli’nin üreaz üretmediği notu. Sağda pelvisi ve kaliksleri dolduran geyik boynuzu biçimli taş.')
 
 # ============================================================================================== 6 · hangi girişim, hangi taşa
 F = Fig('gir', 410, 'Taşın yerine ve boyutuna göre girişim seçimi: ESWL, URS ve RIRS, PCNL', w=1080)
 serit(F, 6, 6, 1068, 'Yer ve boyut belirler', BRANDD); zemin(F, 6, 42, 1068, 362)
-k = 1.7
-ux, uy = bobrek(F, 120, 140, k, pelvis=1)
-ureter(F, ux, uy, 190, 340, gen=5)
+GX0, GY0, GSK = 30, 50, 316 / 1310          # resim: ChatGPT ile çizildi, yazısız (s26_yer resminin üst kısmı)
+A.resim(F, 'an_gir', GX0, GY0, 1024 * GSK, oran=1310 / 1024)
+def GP(px, py): return (GX0 + px * GSK, GY0 + py * GSK)
 def isa(p, r, tt, c):
-    tas(F, p[0], p[1], r, tt); F.el(p[0], p[1], r + 4.5, r + 4.5, 'none', c, 2.2)
-isa((120 - 8 * k, 140 - 26 * k), 5.5, 2, BRAND); isa((120 - 14 * k, 140), 5.5, 7, BRAND)
-isa((120 + 8 * k, 140), 11, 4, RED); isa((120 - 8 * k, 140 + 26 * k), 8, 6, RED)
-YU = uyol = ((ux, uy), (ux, (uy + 340) / 2), (190, (uy + 340) / 2), (190, 340))
-ut = bez(*YU, .25); isa(ut, 5, 9, BRAND)
-ua = bez(*YU, .88); isa(ua, 5, 12, PUR)
-etk(F, (120 + 8 * k + 15, 140), 198, 128, ['pelvis', '> 2 cm'], fs=11.6)
-etk(F, (ut[0] + 9, ut[1]), 198, 210, ['proksimal', 'üreter'], fs=11.6)
-etk(F, (ua[0] + 9, ua[1]), 214, 318, ['distal', 'üreter'], fs=11.6)
+    A.tas(F, p[0], p[1], r, tt); F.el(p[0], p[1], r + 5, r + 5, 'none', '#fff', 4.4, op=.85); F.el(p[0], p[1], r + 5, r + 5, 'none', c, 2.4)
+isa(GP(312, 228), 4.5, 2, BRAND); isa(GP(222, 345), 4.5, 7, BRAND)
+pel = GP(350, 372); isa(pel, 9, 4, RED); lk = GP(262, 498); isa(lk, 6, 6, RED)
+ut = GP(449, 590); isa(ut, 4.2, 9, BRAND)
+ua = GP(586, 1222); isa(ua, 4.2, 12, PUR)
+A.cagri(F, (pel[0] + 14, pel[1] - 4), 206, 124, ['pelvis', '> 2 cm'], fs=11.8)
+A.cagri(F, (lk[0] + 11, lk[1] + 4), 206, 178, ['alt kaliks', '> 1 cm'], fs=11.8)
+A.cagri(F, (ut[0] + 9, ut[1]), 206, 232, ['proksimal', 'üreter'], fs=11.8)
+A.cagri(F, (ua[0] + 9, ua[1]), 250, 318, ['distal', 'üreter'], fs=11.8)
 K = [(300, 54, 'ESWL', BRAND, ['Böbrek taşı < 2 cm: üst ve orta kaliks, pelvis', 'Proksimal üreter taşı < 10 mm', 'Kontrendikasyon: gebelik, kesilemeyen antitrombotik,', 'kanama eğilimi, tedavisiz ÜSE, distal tıkanma,', 'aort anevrizması',
                                   'Dirençli: sistin, brushit, CaOx monohidrat (> 1000 HU)']),
      (300, 210, 'URS / fleksibl URS (RIRS) ± lazer', PUR, ['Üreter taşında birinci seçenek (distal, > 10 mm)', 'Proksimal < 10 mm: ESWL ile eşdeğer', 'ESWL’ye dirençli taş · gebelik (deneyimli merkez)',
