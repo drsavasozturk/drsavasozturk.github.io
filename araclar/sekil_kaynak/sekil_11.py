@@ -1,26 +1,27 @@
 #!/usr/bin/env python3
 """Ders 11 · MPGN ve C3 Glomerülopati — şekiller."""
 from sekil_ortak import *
+from sekil_gk import *
 D = Ders('11'); L = D.L
 
 # ---------------------------------------------------------------- 1 · çift kontur
 F = Fig('kon', 436, 'MPGN paterninde lobüler glomerül ve çift konturun oluşumu: mezangiyal interpozisyon ve yeni bazal membran', w=1080, mh=410)
 serit(F, 6, 6, 400, 'Işık mikroskopisi: lobüler görünüm', BRAND); zemin(F, 6, 42, 400, 388)
-G = Glomerul(F, 206, 214, 112, vp=-90, up=90, tubul_boy=.45, arteriyol_boy=.3, mez_genis=1.9, mez_cekirdek=.95, gbm_kalin=True)
-etk(F, G.p_yumak(-150, .78), 98, 120, ['Belirgin', 'lobülasyon'], False, fs=11.5)
-etk(F, G.p_yumak(20, .35), 400, 396, ['Mezangiyal hücre', 've matriks artışı'], False, fs=11.5)
-etk(F, G.p_yumak(160, .75), 98, 330, ['Kalın kapiller', 'duvar'], False, fs=11.5)
+G = GK(F, 'yumak', 112, 50, 286, kirp=(0, 20, 680, 800)); G.mez_agac(); G.lobuler(); G.cekirdekler(40)
+G.etiket((G.kc[0] + G.tr(205) * .9 * math.cos(math.radians(205)), G.kc[1] + G.tr(205) * .9 * math.sin(math.radians(205))), 104, 140, ['Belirgin', 'lobülasyon'], sag=False, fs=11.5)
+G.etiket((G.kc[0] + G.tr(150) * .93 * math.cos(math.radians(150)), G.kc[1] + G.tr(150) * .93 * math.sin(math.radians(150))), 104, 250, ['Kalın', 'kapiller', 'duvar'], sag=False, fs=11.5)
+G.etiket((G.kc[0] + G.tr(80) * .45, G.kc[1] + G.tr(80) * .2), 120, 414, ['Mezangiyal hücre ve matriks artışı'], fs=11.5)
 serit(F, 418, 6, 656, 'Elektron mikroskopisi: çift kontur nasıl oluşur?', BRAND); zemin(F, 418, 42, 656, 388)
-mg = mini_glomerul(F, 482, 112, 34, vp=-90, up=128, fs=9.5); yakinlastir(F, mg, (760, 236), 140, kutu_a=-10)
-k = 1.0
-A = Lobul(F, 760, 236, k, cift=True, subendo=[(0, -90, 64, 5), (1, 30, 64, 5), (2, 150, 64, 5)], mez=2, mez_hiper=4, acik=1.08)
-etk(F, A.p_gbm(-90), 904, 70, ['Eski GBM'], True)
-etk(F, A.p_ic(0, -125, 9 * k), 904, 110, ['Yeni GBM', '(çift kontur)'], True)
-etk(F, A.p_ic(0, -28, 4.5 * k), 904, 160, ['Mezangiyal', 'interpozisyon'], True)
-etk(F, A.yakin('subendo', 860, 280), 904, 330, ['Subendotelyal', 'birikim'], True)
-etk(F, A.p_ic(2, 205, 14 * k), 600, 300, ['Endotel: yeni GBM’nin', 'lümen tarafında'], False)
-etk(F, A.p_mezm(1), 600, 398, ['Mezangiyal artış'], False)
-F.t(904, 400, 'Gümüş boyasında', 11.6, 800, BRANDD); F.t(904, 415, '“tramvay rayı”', 11.6, None, INK)
+A = GK(F, 'lobul', 426, 50, 370, cerceve=LINE); A.kose(54)
+A.cift_kontur(0, 165, 262); A.cift_kontur(0, 300, 30); A.cift_kontur(1, 280, 40); A.cift_kontur(2, 200, 290)
+A.subendotelyal(0, [345, 10], gen=10); A.subendotelyal(2, [240], gen=10); MH = A.mez_hucre(4)
+A.etiket(A.duvar(0, 315, 'gbm'), 808, 70, ['Eski GBM'])
+A.etiket(A.cift_nokta(0, 320, 'yeni_gbm'), 808, 116, ['Yeni GBM', '(çift kontur)'])
+A.etiket(A.cift_nokta(0, 330, 'interpoz'), 808, 172, ['Mezangiyal', 'interpozisyon'])
+A.etiket(A.duvar(0, 10, 'subendo'), 808, 230, ['Subendotelyal', 'birikim'])
+A.etiket(A.cift_nokta(0, 20, 'endotel'), 808, 290, ['Endotel: yeni GBM’nin', 'lümen tarafında'])
+A.etiket(max(MH, key=lambda q: q[0]), 808, 350, ['Mezangiyal artış'])
+F.t(808, 398, 'Gümüş boyasında', 11.6, 800, BRANDD); F.t(808, 413, '“tramvay rayı”', 11.6, None, INK)
 D.yeni('s11_kon', 'x11_9', 'Temel Bilgiler · 5 · Şekil', 'Çift Kontur — Eski GBM, Araya Giren Hücre, Yeni GBM', F,
        '<b>Okuma:</b> Subendotelyal birikimler ve mezangiyal hücre uzantıları endotel ile bazal membran arasına girer; endotel bunun lümen tarafına yeni bir bazal membran döşer. '
        'Gümüş boyasında iki paralel çizgi, eski ve yeni GBM’dir. Işıkta glomerül lobüler, mezangiyum genişlemiş, kapiller duvar kalındır.',
@@ -31,16 +32,18 @@ D.yeni('s11_kon', 'x11_9', 'Temel Bilgiler · 5 · Şekil', 'Çift Kontur — Es
 F = Fig('ddd', 450, 'Yoğun birikim hastalığı ile C3 glomerülonefritinde elektron mikroskopi bulguları', w=1080, mh=410)
 for (x, bas, c) in ((6, 'Yoğun birikim hastalığı (DDD)', '#3a4a5a'), (546, 'C3 glomerülonefriti (C3GN)', PUR)):
     serit(F, x, 6, 528, bas, c); zemin(F, x, 42, 528, 318)
-for (x0, cx) in ((6, 290), (546, 830)):
-    mg = mini_glomerul(F, x0 + 64, 112, 32, vp=-90, up=128, fs=9.5); yakinlastir(F, mg, (cx, 204), 112, kutu_a=-10)
-A = Lobul(F, 290, 204, .86, yogun=True, mez=2, mez_boy=7, efase=[(-100, 40)])
-etk(F, A.p_gbm(-40), 404, 76, ['GBM’nin şeritsel,', 'çok yoğun dönüşümü', '(intramembranöz)'], True)
-etk(F, A.yakin('mez', 290, 260), 404, 300, ['Mezangiyumda', 'büyük yoğun birikimler'], True)
-F.t(20, 334, 'Bowman kapsülü ve tübüler bazal', 11.4, None, INK2); F.t(20, 349, 'membranda da benzer değişiklik', 11.4, None, INK2)
-B = Lobul(F, 830, 204, .86, mez=3, subendo=[(0, -90, 40, 4), (1, 30, 36, 4), (2, 150, 40, 4)], hump=[-30, 210], mez_hiper=3, subendo_renk='#6f7d89', mez_dep_renk='#6f7d89')
-etk(F, B.yakin('mez', 830, 260), 958, 300, ['Mezangiyal', 'birikimler'], True)
-etk(F, B.yakin('subendo', 760, 110), 690, 200, ['Subendotelyal', 'birikimler'], False)
-etk(F, B.dep['hump'][0], 958, 76, ['Ara sıra', 'subepitelyal hörgüç'], True)
+A = GK(F, 'lobul', 14, 50, 296, cerceve=LINE); A.kose(44)
+A.intramembranoz(0, 158, 36); A.intramembranoz(1, 272, 80); A.intramembranoz(2, 176, 303); MD = A.mezangiyal(5, 30)
+A.etiket(A.duvar(0, 340, 'gbm'), 324, 76, ['GBM’nin şeritsel,', 'çok yoğun dönüşümü', '(intramembranöz)'])
+A.etiket(min(MD, key=lambda q: math.hypot(q[0] - 450, q[1] - 700)), 324, 220, ['Mezangiyumda', 'büyük yoğun birikimler'])
+F.tl(324, 300, ['Bowman kapsülü ve', 'tübüler bazal membranda', 'da benzer değişiklik'], 11.4, 15, fill=INK2)
+B = GK(F, 'lobul', 554, 50, 296, cerceve=LINE); B.kose(44)
+MB = B.mezangiyal(7, 13, renk='#56616b', kenar='#2f3840'); B.mez_hucre(3)
+B.subendotelyal(0, [5, 330], gen=12, renk='#56616b', kenar='#2f3840'); B.subendotelyal(2, [250], gen=12, renk='#56616b', kenar='#2f3840')
+B.hump(0, [300], renk='#56616b', kenar='#2f3840'); B.hump(2, [205], renk='#56616b', kenar='#2f3840')
+B.etiket(B.duvar(0, 300, 'ayak'), 864, 76, ['Ara sıra', 'subepitelyal hörgüç'])
+B.etiket(B.duvar(0, 5, 'subendo'), 864, 160, ['Subendotelyal', 'birikimler'])
+B.etiket(max(MB, key=lambda q: q[0] - q[1] * .3), 864, 250, ['Mezangiyal', 'birikimler'])
 F.t(6, 384, 'DDD’de histolojik patern', 12.6, 800, BRANDD)
 segs = [(45, '#7fb3d5', 'mezangiyal proliferatif %45'), (25, PUR, 'membranoproliferatif %25'), (18, RED, 'kresentik %18'), (12, GOLD, 'akut proliferatif-eksüdatif %12')]
 xx = 200

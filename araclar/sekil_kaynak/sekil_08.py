@@ -1,23 +1,30 @@
 #!/usr/bin/env python3
 """Ders 08 · Fokal Segmental Glomerüloskleroz — şekiller."""
 from sekil_ortak import *
+from sekil_gk import *
 D = Ders('08'); L = D.L
 
 # ---------------------------------------------------------------- 1 · Columbia: beş varyant
 F = Fig('col', 410, 'Columbia sınıflamasına göre FSGS’nin beş histolojik varyantı', w=1080)
-VAR = [('Kollapsing', dict(cokme=True), ['Kapiller kollaps + üstteki', 'podositlerde hipertrofi', 've hiperplazi'], ('En kötü prognoz', RED)),
-       ('Tip lezyonu', dict(skleroz=(52, 128), kopuk=True, hiyalin=False), ['Lezyon tübüler kutupta,', 'proksimal tübül çıkışının', 'bitişiğinde'], ('En iyi prognoz', GREEN)),
-       ('Hücresel', dict(endokap_seg=(150, 235)), ['Endokapiller hiperselülarite', '(köpük hücreleri olabilir),', 'sklerozdan önce'], ('Erken lezyon', GOLD)),
-       ('Perihilar', dict(skleroz=(-128, -52), hiyalinoz=True), ['Vasküler kutupta skleroz', 've hiyalinoz (tutulan', 'glomerüllerin >%50’si)'], ('Adaptifte sık', BRAND)),
-       ('NOS', dict(skleroz=(158, 222)), ['Öteki varyantların ölçütü', 'yok; segmental skleroz', 'başka bir yerde'], ('En sık varyant', INK2))]
-for i, (ad, op, sat, (rz, rc)) in enumerate(VAR):
+VAR = [('Kollapsing', 'kol', ['Kapiller kollaps + üstteki', 'podositlerde hipertrofi', 've hiperplazi'], ('En kötü prognoz', RED)),
+       ('Tip lezyonu', 'tip', ['Lezyon tübüler kutupta,', 'proksimal tübül çıkışının', 'bitişiğinde'], ('En iyi prognoz', GREEN)),
+       ('Hücresel', 'huc', ['Endokapiller hiperselülarite', '(köpük hücreleri olabilir),', 'sklerozdan önce'], ('Erken lezyon', GOLD)),
+       ('Perihilar', 'per', ['Vasküler kutupta skleroz', 've hiyalinoz (tutulan', 'glomerüllerin >%50’si)'], ('Adaptifte sık', BRAND)),
+       ('NOS', 'nos', ['Öteki varyantların ölçütü', 'yok; segmental skleroz', 'başka bir yerde'], ('En sık varyant', INK2))]
+for i, (ad, tur, sat, (rz, rc)) in enumerate(VAR):
     x = 6 + i * 216; cx = x + 104
     serit(F, x, 6, 208, ad, rc if rc != INK2 else BRANDD)
     zemin(F, x, 40, 208, 214)
-    G = Glomerul(F, cx, 140, 60, vp=-90, up=90, tubul_boy=.5, arteriyol_boy=.3, **op)
+    G = GK(F, 'yumak', cx - 90, 44, 180, kirp=(0, 20, 680, 800))
+    if tur == 'kol': G.kollaps(pod=(330, 150))
+    elif tur == 'tip':
+        G.skleroz(62, 118, derin=.34); kp_ = G.kopuk(3, 40, 140)
+        if kp_: etk(F, G.xy(kp_[0]), x + 200, 236, ['köpük hücreleri'], False, fs=10.5, kalin=False)
+    elif tur == 'huc': G.cekirdekler(34, 150, 235); G.kopuk(4, 150, 235)
+    elif tur == 'per': G.skleroz(236, 304, derin=.38); G.hiyalinoz()
+    else: G.skleroz(160, 222, derin=.38)
     F.tl(cx, 278, sat, 12, 16, fill=INK, a='middle')
     rozet(F, cx, 344, rz, rc)
-    if i == 1: etk(F, P((cx, 140), 60 * .55, 90), cx - 30, 236, ['köpük hücreleri'], False, fs=10.5, kalin=False)
 F.t(6, 386, 'Değerlendirme sırası:', 12.4, 800, BRANDD)
 xx = 152
 for j, ad in enumerate(['kollapsing (bir glomerül yeter)', 'tip', 'hücresel', 'perihilar', 'NOS']):
@@ -31,19 +38,18 @@ D.yeni('s08_col', 'x08_5', 'Temel Bilgiler · 2 · Şekil', 'Columbia Sınıflam
 
 # ---------------------------------------------------------------- 2 · primer mi adaptif mi: EM ve glomerül boyutu
 F = Fig('pad', 448, 'Primer ve adaptif FSGS’de ayaksı çıkıntı silinmesinin yaygınlığı ve glomerül boyutu', w=1080, mh=410)
-for (x, bas, c) in ((6, 'Primer FSGS', RED), (546, 'Adaptif (sekonder) FSGS', BRAND)):
+for (x, bas, c) in ((6, 'Primer FSGS', RED), (546, 'Adaptif FSGS (sekonder FSGS’nin bir türü)', BRAND)):
     serit(F, x, 6, 528, bas, c); zemin(F, x, 42, 528, 322)
-mg = mini_glomerul(F, 70, 112, 30, vp=-90, up=128, fs=9.5); yakinlastir(F, mg, (300, 204), 105, kutu_a=-10)
-A = Lobul(F, 300, 204, .8, efase=True)
-etk(F, A.p_fp(-35), 418, 82, ['Yaygın silinme', '(>%80, difüz)'], True)
-etk(F, A.p_gbm(25), 418, 182, ['GBM normal'], True)
-etk(F, A.p_gbm(150), 418, 310, ['Glomerül boyutu', 'normal'], True)
-mg = mini_glomerul(F, 614, 118, 40, vp=-90, up=128, fs=9.5); yakinlastir(F, mg, (836, 206), 125, kutu_a=-10)
-F.t(556, 230, 'glomerülomegali', 10.5, 800, BRAND)
-B = Lobul(F, 836, 206, .96, efase=[(-40, 60)], fp_adim=10.5)
-etk(F, B.p_fp(10), 966, 92, ['Segmental silinme', '(genellikle <%50)'], True)
-etk(F, B.p_fp(160), 712, 300, ['Korunmuş ama', 'gerilmiş ayaksı', 'çıkıntılar'], False)
-etk(F, B.p_gbm(110), 966, 330, ['Büyümüş lobül'], True)
+A = GK(F, 'lobul', 16, 66, 286, cerceve=LINE); ka = A.kose(40)
+A.silinme(0, 158, 36); A.silinme(1, 272, 80); A.silinme(2, 176, 303)
+A.etiket(A.duvar(0, 330, 'subepi'), 330, 110, ['Yaygın silinme', '(>%80, difüz)'])
+A.etiket(A.duvar(0, 12, 'gbm'), 330, 222, ['GBM normal'])
+F.t(20, 59, 'Glomerül boyutu normal', 11.5, 800, INK2)
+B = GK(F, 'lobul', 556, 66, 286, cerceve=LINE); kb = B.kose(62)
+B.silinme(0, 300, 30)
+B.etiket(B.duvar(0, 345, 'subepi'), 870, 92, ['Segmental silinme', '(genellikle <%50)'])
+B.etiket(B.duvar(2, 260, 'ayak'), 870, 236, ['Korunmuş ama', 'gerilmiş ayaksı', 'çıkıntılar'])
+F.t(560, 59, 'Glomerülomegali (büyük glomerül)', 11.5, 800, BRAND)
 haplar(F, 14, 392, 510, ['Ani başlangıç', 'Albümin düşük', 'Ödem belirgin', 'İmmünsüpresyon endike'], RED, 12)
 haplar(F, 554, 392, 510, ['Sinsi başlangıç', 'Albümin normal', 'Ödem yok ya da hafif', 'RAAS blokajı, nedene yönelik'], BRAND, 12)
 D.yeni('s08_pad', 'x08_8', 'Temel Bilgiler · 4 · Şekil', 'Primer mi Adaptif mi — EM ve Glomerül Boyutu Söyler', F,
@@ -100,16 +106,16 @@ D.yeni('s08_ork', 'x08_9', 'Temel Bilgiler · 5 · Şekil', 'FSGS Neden Kaçır�
 # ---------------------------------------------------------------- 4 · adaptif FSGS: hiperfiltrasyondan skleroza
 F = Fig('adf', 312, 'Adaptif FSGS’de hiperfiltrasyon, glomerüler hipertrofi, podosit ayrılması ve segmental skleroz basamakları', w=1080)
 ADM = [('1 · Normal', 'Normal glomerül, normal yük'), ('2 · Hipertrofi', 'Nefron başına yük ↑: glomerül büyür,', 'podosit sayısı artmaz; çıkıntılar gerilir'),
-       ('3 · Podosit ayrılır', 'Örtme kapasitesi tükenir; GBM', 'çıplak kalır'), ('4 · Segmental skleroz', 'Paryetal hücreyle yapışıklık (sineşi)', 've skar')]
+       ('3 · Podosit ayrılır', 'Örtme kapasitesi tükenir; GBM', 'çıplak kalır'), ('4 · Segmental skleroz', 'Pariyetal hücreyle yapışıklık (sineşi)', 've skar')]
 for i, t in enumerate(ADM):
     x = 6 + i * 270; zemin(F, x, 6, 258, 226)
     F.t(x + 129, 254, t[0], 13, 800, BRANDD, 'middle'); F.tl(x + 129, 272, list(t[1:]), 11.6, 15.5, fill=INK2, a='middle')
-Lobul(F, 135, 120, .52)
-Lobul(F, 405, 120, .74, fp_adim=12.5)
-Z = Lobul(F, 675, 120, .74, fp_adim=12.5, efase=[(-100, -40)], ayrilma=[(-38, 40)])
-etk(F, Z.p_gbm(0), 744, 30, ['çıplak GBM'], False, fs=11)
+GK(F, 'lobul', 135 - 75, 42, 150)
+GK(F, 'lobul', 405 - 106, 10, 212)
+Z = GK(F, 'lobul', 675 - 106, 10, 212); Z.ayrilma(0, 300, 20)
+Z.etiket(Z.duvar(0, 340, 'gbm'), 742, 30, ['çıplak GBM'], sag=True, fs=11)
 for i in range(3): F.ok(6 + i * 270 + 250, 118, 6 + i * 270 + 282, 118, INK2, 2.6)
-G = Glomerul(F, 945, 116, 74, vp=-90, up=90, tubul_boy=.36, arteriyol_boy=.26, skleroz=(-10, 50), hiyalin=False)
+G = GK(F, 'yumak', 945 - 92, 10, 184, kirp=(0, 30, 680, 790)); G.skleroz(325, 35, derin=.4)
 D.yeni('s08_adf', 'x08_15', 'Patogenez · Şekil', 'Adaptif FSGS — Büyüyen Glomerül, Çoğalamayan Podosit', F,
        '<b>Okuma:</b> Glomerül büyüdükçe aynı sayıdaki podosit daha geniş bir yüzeyi örtmek zorunda kalır; eşik aşılınca hücre ayrılır, çıplak GBM paryetal hücreye yapışır ve '
        'segmental skleroz gelişir. Yetmezlik immünolojik değil mekaniktir; RAAS blokajı glomerüler basıncı düşürerek bu zinciri yavaşlatır.',

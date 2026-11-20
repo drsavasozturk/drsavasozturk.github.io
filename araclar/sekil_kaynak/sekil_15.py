@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Ders 15 · Diğer Glomerüler Hastalıklar — şekiller."""
 from sekil_ortak import *
+from sekil_gk import *
 D = Ders('15'); L = D.L
 
 
@@ -18,12 +19,12 @@ def kart(F, x, y, w, h, bas, satirlar, c=BRAND, fs=11.6, lh=16.5):
 # ---------------------------------------------------------------- 1 · lipoprotein glomerülopatisi
 F = Fig('lpg', 392, 'Lipoprotein glomerülopatisinde genişlemiş kapiller lümenleri dolduran katmanlı lipoprotein tıkaçları', w=1080, mh=392)
 serit(F, 6, 6, 600, 'Glomerül lobülü', GOLD); zemin(F, 6, 42, 600, 344)
-mg = mini_glomerul(F, 70, 112, 34, vp=-90, up=128, fs=9.5); yakinlastir(F, mg, (330, 220), 135, kutu_a=-10)
-A = Lobul(F, 330, 220, .9, lipo=True, lumen=50, efase=[(-60, 30)], eritrosit=False)
-etk(F, A.p_ic(0, -40, 14), 480, 76, ['Soluk, katmanlı', '(lameller) lipoprotein', 'tıkaçları'], True)
-etk(F, A.p_ic(1, 30, 1), 480, 300, ['Belirgin genişlemiş', 'kapiller lümenler'], True)
-etk(F, A.p_ic(2, 200, 14), 176, 330, ['Fibrin negatif:', 'trombüs değildir'], False)
-kart(F, 626, 6, 448, 380, 'Tanı ve ayırım', ['Yağ boyaları (Oil Red O, Sudan) pozitif.', 'İmmünfloresan negatif ya da zayıf ApoE/ApoB.', 'Fibrin boyaları negatif: TMA’dan ayıran nokta.',
+A = GK(F, 'lobul', 14, 46, 326, cerceve=LINE); A.kose(46)
+A.lipo(0); A.lipo(1); A.lipo(2)
+A.etiket(A.kp(0, 300, A.R(0, 300)[0] - 60), 352, 80, ['Soluk, katmanlı', '(lameller) lipoprotein', 'tıkaçları'])
+A.etiket(A.kp(2, 260, A.R(2, 260)[0] - 70), 352, 214, ['Kapiller lümenleri', 'dolduran tıkaç;', 'eritrosit yok'])
+A.etiket(A.kp(2, 300, A.R(2, 300)[0] - 110), 352, 330, ['Fibrin negatif:', 'trombüs değildir'])
+kart(F, 626, 6, 448, 214, 'Tanı ve ayırım', ['Yağ boyaları (Oil Red O, Sudan) pozitif.', 'İmmünfloresan negatif ya da zayıf ApoE/ApoB.', 'Fibrin boyaları negatif: TMA’dan ayıran nokta.',
                                              'Serum ApoE yüksek; tip III hiperlipoproteinemi benzeri profil.', 'Ksantom ve erken ateroskleroz beklenmez — ailevi disbetalipoproteinemiden farkı.',
                                              'İlk tanımlanan varyant: ApoE-Sendai (Arg145Pro).'], GOLD)
 D.yeni('s15_lpg', 'x15_17', 'Lipid ve Matriks · 1 · Şekil', 'Lipoprotein Glomerülopatisi — Lümeni Dolduran Katmanlı Tıkaç', F,
@@ -33,13 +34,13 @@ D.yeni('s15_lpg', 'x15_17', 'Lipid ve Matriks · 1 · Şekil', 'Lipoprotein Glom
 # ---------------------------------------------------------------- 2 · fibronektin glomerülopatisi
 F = Fig('fng', 380, 'Fibronektin depozitli glomerülopatide mezangiyal ve subendotelyal masif PAS pozitif birikimler', w=1080, mh=380)
 serit(F, 6, 6, 600, 'Glomerül lobülü', '#b0466a'); zemin(F, 6, 42, 600, 332)
-mg = mini_glomerul(F, 70, 112, 34, vp=-90, up=128, fs=9.5); yakinlastir(F, mg, (330, 214), 130, kutu_a=-10)
-A = Lobul(F, 330, 214, .88, acik=1.24, mez_m=52, mez_renk='#f4d4df', subendo=[(0, -90, 100, 7), (1, 30, 100, 7), (2, 150, 100, 7)], subendo_renk='#e29ab4',
-          mez=3, mez_dep_renk='#e29ab4', mez_boy=7.5)
-etk(F, A.yakin('mez', 330, 200), 474, 80, ['Mezangiyumda masif', 'PAS pozitif birikim'], True)
-etk(F, A.yakin('subendo', 440, 260), 486, 300, ['Subendotelyal', 'birikimler'], True)
-etk(F, A.p_gbm(-30), 486, 180, ['Lobüler, MPGN', 'benzeri görünüm'], True)
-kart(F, 626, 6, 448, 368, 'Fibronektin depozitli glomerülopati', ['Kalıtım otozomal dominant, değişken penetrans.', 'Birikimler PAS pozitif, Kongo kırmızısı negatif; fibronektin immünhistokimyası pozitif.',
+A = GK(F, 'lobul', 14, 46, 316, cerceve=LINE); A.kose(46)
+A.matriks_artisi(.85); A.mezangiyal(10, 30, renk='#d97aa6', kenar='#9a3560')
+for k, Q in ((0, [195, 230, 300, 340, 15]), (1, [300, 340, 20, 60]), (2, [200, 240, 280])): A.subendotelyal(k, Q, gen=16, yuk=16, renk='#7b2d6b', kenar='#4a1640')
+A.etiket((452, 720) if False else max(A._mzk, key=lambda q: q[0] - q[1] * .2), 344, 80, ['Mezangiyumda masif', 'PAS pozitif birikim'])
+A.etiket(A.duvar(0, 340, 'subendo'), 344, 180, ['Subendotelyal', 'birikimler'])
+A.etiket((450, 800), 344, 290, ['Lobüler, MPGN', 'benzeri görünüm'])
+kart(F, 626, 6, 448, 190, 'Fibronektin depozitli glomerülopati', ['Kalıtım otozomal dominant, değişken penetrans.', 'Birikimler PAS pozitif, Kongo kırmızısı negatif; fibronektin immünhistokimyası pozitif.',
                                                                      'FN1 geninde üç heterozigot missense mutasyon (W1925R, L1974R, Y973C): grubun %40’ı.', 'Klinik: proteinüri, mikroskopik hematüri, hipertansiyon; 2.–4. dekatta yavaş ilerleyen böbrek yetmezliği.'], '#b0466a')
 D.yeni('s15_fng', 'x15_19', 'Lipid ve Matriks · 3 · Şekil', 'Fibronektin Glomerülopatisi — Matriksin Kendisi Birikir', F,
        '<b>Okuma:</b> Birikim bir immün kompleks değil, matriks proteinidir: mezangiyum ve subendotelyal alan PAS pozitif, Kongo kırmızısı negatif homojen materyalle dolar ve glomerül MPGN’yi andırır. '
@@ -49,11 +50,12 @@ D.yeni('s15_fng', 'x15_19', 'Lipid ve Matriks · 3 · Şekil', 'Fibronektin Glom
 # ---------------------------------------------------------------- 3 · obeziteye bağlı glomerülopati
 F = Fig('org', 340, 'Obeziteye bağlı glomerülopatide glomerülomegali ve sabit podosit sayısı', w=1080)
 zemin(F, 6, 6, 660, 328)
-Glomerul(F, 150, 172, 78, vp=180, up=0, tubul_boy=.4, arteriyol_boy=.28, podosit_n=8)
-Glomerul(F, 470, 172, 116, vp=180, up=0, tubul_boy=.3, arteriyol_boy=.24, podosit_n=8, ilmek_k=1.0)
+G1 = GK(F, 'yumak', 150 - 72, 96, 144, kirp=(0, 20, 680, 800)); G1.podosit_isaret(8)
+G2 = GK(F, 'yumak', 470 - 118, 14, 236, kirp=(0, 20, 680, 800)); G2.podosit_isaret(8)
 F.t(150, 286, 'Normal glomerül', 12.6, 800, INK, 'middle'); F.t(150, 304, '8 podosit', 11.6, None, INK2, 'middle')
 F.t(470, 310, 'Glomerülomegali', 12.6, 800, RED, 'middle'); F.t(470, 326, 'yine 8 podosit → yoğunluk düşük', 11.6, None, INK2, 'middle')
-F.ok(258, 116, 326, 116, INK2, 2.6); F.t(292, 104, 'hiperfiltrasyon', 11.4, None, INK2, 'middle')
+F.ok(262, 170, 338, 170, INK2, 2.6); F.t(300, 158, 'hiperfiltrasyon', 11.4, None, INK2, 'middle')
+F.el(32, 26, 7, 5.7, '#e9e3ff', '#3b2a73', 1.6); F.el(32, 26, 3.2, 2.6, '#3b2a73'); F.t(46, 30, 'işaretli: podosit', 11.2, None, INK2)
 ADM = [('1', 'Obezite → metabolik yük ve renal vazodilatasyon → hiperfiltrasyon ve glomerülomegali'),
        ('2', 'Glomerül yüzeyi büyür, podosit sayısı artmaz; her podositin örteceği alan genişler'),
        ('3', 'Podosit gerilir, ayaksı çıkıntılar silinir, ayrılır → segmental skleroz')]
@@ -76,12 +78,12 @@ D.yeni('s15_org', 'x15_22', 'Gözden Kaçanlar · 2 · Şekil', 'Glomerül Büy�
 # ---------------------------------------------------------------- 4 · idiyopatik nodüler glomerüloskleroz
 F = Fig('nod', 360, 'İdiyopatik nodüler glomerülosklerozda Kimmelstiel-Wilson benzeri nodüller ve olguların ortak özellikleri', w=1080)
 zemin(F, 6, 6, 640, 348)
-G = Glomerul(F, 170, 176, 108, vp=180, up=0, tubul_boy=.36, arteriyol_boy=.3, nodul=(1, 4, 8, 11, 14, 17), gbm_kalin=True, mez_genis=1.4, hiyalinoz=True)
-etk(F, G.ilmekler[4][:2], 300, 30, ['Nodüller: mezangiyumda', 'hücreden fakir, lameller', 'matriks birikimi'], True, fs=11.6)
-etk(F, G.p_af(), 30, 330, ['Arteriyolde hiyalinoz'], True, fs=11.6)
-mg = {'c': (170, 176), 'R': 108}
-B = Lobul(F, 486, 196, .7, nodul=True, acik=1.45, gbm=10)
-etk(F, B.nodul_p, 600, 330, ['Kimmelstiel-Wilson', 'benzeri nodül'], False, fs=11.6)
+G = GK(F, 'yumak', 40, 44, 250, kirp=(0, 20, 680, 800)); G.mez_agac(op=.45, cek=0); NP = G.noduller(6, 50); hp = G.hiyalinoz()
+G.etiket(NP[1], 300, 30, ['Nodüller: mezangiyumda', 'hücreden fakir, lameller', 'matriks birikimi'], fs=11.6)
+G.etiket(hp, 132, 24, ['Arteriyolde hiyalinoz'], fs=11.6)
+B = GK(F, 'lobul', 390, 98, 206, cerceve=LINE); B.gbm_kalin(0, 158, 36, 4, 10); B.gbm_kalin(2, 176, 303, 4, 10); B.gbm_kalin(1, 272, 80, 4, 10)
+B.nodul((452, 720), 120)
+B.etiket((452, 720), 400, 336, ['Kimmelstiel-Wilson benzeri nodül'], fs=11.6)
 F.t(666, 22, 'Tanımlayıcı seri · 5073 biyopside 23 olgu (%0,45)', 13, 800, BRANDD)
 for i, (ad, v) in enumerate((('Hipertansiyon', 95.7), ('Sigara (ort. 52,9 paket-yılı)', 91.3), ('Hiperkolesterolemi', 90.0), ('Başvuruda böbrek yetmezliği', 82.6), ('Proteinüri > 3 g/gün', 69.6))):
     y = 40 + i * 28

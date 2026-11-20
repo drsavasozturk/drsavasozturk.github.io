@@ -1,48 +1,51 @@
 #!/usr/bin/env python3
 """Ders 07 · Minimal Değişiklik Hastalığı — şekiller."""
 from sekil_ortak import *
+from sekil_gk import *
 D = Ders('07'); L = D.L
 
 # ---------------------------------------------------------------- 1 · ışık mikroskopisi: normal glomerül + immünfloresan
 F = Fig('mdh_lm', 372, 'Minimal değişiklik hastalığında ışık mikroskopisinde normal görünen glomerül ve immünfloresan bulguları', w=1080)
 zemin(F, 6, 6, 650, 360)
-G = Glomerul(F, 326, 186, 118, vp=180, up=0, tubul_boy=.78, arteriyol_boy=.42)
-etk(F, G.p_af(), 30, 64, ['Afferent arteriyol'], True)
-etk(F, G.p_ef(), 30, 314, ['Efferent arteriyol'], True)
-etk(F, G.p_kapsul(-60), 482, 34, ['Bowman kapsülü', 've paryetal epitel'], True)
-etk(F, G.p_bow(-112), 236, 30, ['Bowman', 'boşluğu'], False)
-etk(F, G.p_yumak(120, .55), 182, 352, ['Kapiller ilmekler: açık, ince duvarlı'], True)
-hp_ = P(G.tc, G.Rt * .98, G.vp); etk(F, (hp_[0] + (G.tc[0] - hp_[0]) * .24, hp_[1] + (G.tc[1] - hp_[1]) * .24), 470, 332, ['Mezangiyum: normal ya da', 'hafif artmış'], True)
-etk(F, G.p_tub(), 488, 262, ['Proksimal tübül'], True)
+G = GK(F, 'yumak', 196, 12, 292, kirp=(0, 0, 680, 800))
+G.etiket('afferent', 186, 44, ['Afferent arteriyol'], sag=False)
+G.etiket('efferent', 500, 44, ['Efferent arteriyol'])
+G.etiket('damar_kutbu', 500, 96, ['Damar kutbu'])
+G.etiket(G.kapsul(200, 'duvar'), 186, 150, ['Bowman kapsülü ve', 'pariyetal epitel'], sag=False)
+G.etiket(G.kapsul(158, 'bosluk') if False else (G.kc[0] + (G.ki - 30) * math.cos(math.radians(158)), G.kc[1] + (G.ki - 30) * math.sin(math.radians(158))), 186, 236, ['Bowman boşluğu'], sag=False)
+G.etiket((470, 340), 500, 168, ['Kapiller ilmekler:', 'açık, ince duvarlı'])
+G.etiket((322, 425), 500, 236, ['Mezangiyum: normal', 'ya da hafif artmış'])
+G.etiket('idrar_kutbu', 186, 318, ['İdrar kutbu'], sag=False)
+G.etiket('tubul', 500, 330, ['Proksimal tübül'])
 serit(F, 668, 6, 406, 'İmmünfloresan', BRAND)
 if_patern(F, 768, 116, 62, 'negatif', baslik='Çoğu olgu: negatif')
 if_patern(F, 974, 116, 62, 'mez', renk='#7ad7f0', baslik='Alt grup: mezangiyal', alt=['IgM ya da C1q'])
 F.r(668, 252, 406, 114, '#fff', LINE, 1.4, 10)
 F.tl(682, 274, ['• Işıkta glomerül normal ya da minimaldir', '• Glomerüllerin <%10’unda global (segmental değil)', '  skleroz olabilir: yaşlanma', '• Mezangiyal IgM ya da C1q birikimi olan alt grupların', '  sonucu daha kötü bildirilmiştir'], 12, 17.5, fill=INK)
 D.yeni('s07_isik', 'x07_8', 'Temel Bilgiler · 4 · Şekil', 'Işıkta “Minimal” — Normal Görünen Glomerül', F,
-       '<b>Okuma:</b> Vasküler kutupta afferent ve efferent arteriyol, karşı uçta proksimal tübüle açılan tübüler kutup. Kapiller ilmekler açık, mezangiyum en çok hafif artmıştır; '
+       '<b>Okuma:</b> Üstte damar kutbunda afferent ve efferent arteriyol, altta proksimal tübüle açılan idrar kutbu. Kapiller ilmekler açık, mezangiyum en çok hafif artmıştır; '
        'segmental skleroz görülürse tanı yeniden düşünülür. İmmünfloresan çoğu olguda negatiftir.',
-       'Şekil: ışık mikroskopisinde normal görünen bir glomerül. Solda vasküler kutupta afferent ve efferent arteriyol, sağda proksimal tübüle açılan tübüler kutup. '
+       'Şekil: ışık mikroskopisinde normal görünen bir glomerül. Üstte damar kutbunda afferent ve efferent arteriyol, altta proksimal tübüle açılan idrar kutbu. '
        'Kapiller ilmekler açık ve ince duvarlıdır. Sağda immünfloresan: çoğu olguda negatif, küçük bir alt grupta mezangiyal IgM ya da C1q.')
 
 # ---------------------------------------------------------------- 2 · elektron mikroskopisi: normal ve MDH lobülü
 F = Fig('mdh_em', 430, 'Normal glomerül lobülü ile minimal değişiklik hastalığında yaygın ayaksı çıkıntı silinmesi', w=1080, mh=410)
 for (x, bas, c) in ((6, 'Normal', GREEN), (546, 'Minimal değişiklik hastalığı (EM)', BRAND)):
     serit(F, x, 6, 528, bas, c); zemin(F, x, 42, 528, 318)
-k = .9; cy = 200
-for (x0, cx) in ((6, 270), (546, 810)):
-    mg = mini_glomerul(F, x0 + 64, 112, 34, vp=-90, up=128, fs=9.5); yakinlastir(F, mg, (cx, cy), 115, kutu_a=-10)
-A = Lobul(F, 270, cy, k)
-etk(F, A.p_fp(-72), 372, 76, ['Ayaksı çıkıntılar ve', 'aralarında yarık diyaframı'], True)
-etk(F, A.p_gbm(20), 404, 168, ['GBM: normal'], True)
-etk(F, A.p_ic(2, 205, 3), 146, 226, ['Pencereli endotel'], False)
-etk(F, A.p_mez(), 146, 288, ['Mezangiyal hücre'], False)
-etk(F, A.p_pod(1), 404, 306, ['Podosit gövdesi'], True)
-B = Lobul(F, 810, cy, k, efase=True, mikrovillus=[(-170, -110), (-60, -10), (70, 120)], vakuol=True)
-etk(F, B.p_fp(-72), 944, 76, ['Yaygın ayaksı çıkıntı', 'silinmesi (füzyon)'], True)
-etk(F, B.p_podc(-140), 686, 210, ['Mikrovillus', 'dönüşümü'], False)
-q = B.p_pod(1); etk(F, (q[0] - 14, q[1] - 2), 944, 306, ['Podosit: vakuolizasyon'], True)
-etk(F, B.p_gbm(20), 944, 168, ['GBM normal;', 'birikim yok'], True)
+LL = []
+for x0 in (6, 546):
+    A_ = GK(F, 'lobul', x0 + 10, 50, 300, cerceve=LINE); A_.kose(); LL.append(A_)
+A, B = LL
+A.etiket(A.duvar(0, 320, 'ayak'), 324, 168, ['Ayaksı çıkıntılar ve', 'aralarında yarık', 'diyaframı'])
+A.etiket(A.duvar(0, 8, 'gbm'), 324, 230, ['GBM: normal'])
+A.etiket(A.duvar(0, 30, 'endotel'), 324, 272, ['Pencereli endotel'])
+A.etiket('mez_hucre2', 324, 318, ['Mezangiyal hücre'])
+A.etiket('pod_govde', 324, 76, ['Podosit gövdesi'])
+B.silinme(0, 158, 36); B.silinme(1, 272, 80); B.silinme(2, 176, 303); B.mikrovillus(); B.vakuol(4)
+B.etiket(B.duvar(0, 345, 'subepi'), 864, 186, ['Yaygın ayaksı', 'çıkıntı silinmesi', '(füzyon)'])
+B.etiket(max(B.T['dis_kontur'], key=lambda q: q[0] - 3 * abs(q[1] - 330) if q[1] < 600 else -9e9), 864, 122, ['Mikrovillus', 'dönüşümü'])
+B.etiket((628, 148), 864, 66, ['Podosit:', 'vakuolizasyon'])
+B.etiket(B.duvar(0, 15, 'gbm'), 864, 262, ['GBM normal;', 'birikim yok'])
 F.r(6, 370, 1068, 54, TINT[BRAND], BRAND, 1.4, 10)
 F.t(540, 393, 'MDH tanısı iki mikroskopinin birlikte okunmasıyla konur', 13.5, 800, BRANDD, 'middle')
 F.t(540, 413, 'Işık mikroskopisi normal + EM’de yaygın ayaksı çıkıntı silinmesi + elektron-yoğun birikim yok', 12.4, None, INK, 'middle')

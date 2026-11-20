@@ -1,19 +1,27 @@
 #!/usr/bin/env python3
 """Ders 13 · Hızlı İlerleyen Glomerülonefrit — şekiller."""
 from sekil_ortak import *
+from sekil_gk import *
 D = Ders('13'); L = D.L
 
 # ---------------------------------------------------------------- 1 · kresentin evrimi (slayt içi, x13_5)
 F = Fig('kre', 298, 'Kapiller duvar yırtığından fibröz kresente: kresentin dört evresi', mh=306)
-EV = [('1 · Kapiller duvarda yırtık', dict(nekroz=(195, 250)), ['Fibrinoid nekroz; fibrinojen', 'Bowman boşluğuna geçer'], None),
-      ('2 · Hücresel kresent', dict(hilal=(150, 300, 'hucresel')), ['Paryetal epitel çoğalır,', 'makrofaj ve T hücresi göçer'], ('Geri dönüşlü', GREEN)),
-      ('3 · Fibroselüler kresent', dict(hilal=(140, 320, 'fibroselular'), kapsul_yirtik=(230, 26)), ['Bowman kapsülünde yırtık,', 'fibroblast göçü'], ('Kısmen geri dönüşlü', GOLD)),
-      ('4 · Fibröz kresent', dict(hilal=(110, 350, 'fibroz'), skleroz=(150, 300), yapisiklik=False, hiyalin=False), ['Kollajen ve skar;', 'glomerül kaybı'], ('Geri dönüşsüz', RED))]
-for i, (ad, op, sat, rz) in enumerate(EV):
+EV = [('1 · Kapiller duvarda yırtık', ['Fibrinoid nekroz; fibrinojen', 'Bowman boşluğuna geçer'], None),
+      ('2 · Hücresel kresent', ['Pariyetal epitel çoğalır,', 'makrofaj ve T hücresi göçer'], ('Geri dönüşlü', GREEN)),
+      ('3 · Fibroselüler kresent', ['Bowman kapsülünde yırtık,', 'fibroblast göçü'], ('Kısmen geri dönüşlü', GOLD)),
+      ('4 · Fibröz kresent', ['Kollajen ve skar;', 'glomerül kaybı'], ('Geri dönüşsüz', RED))]
+for i, (ad, sat, rz) in enumerate(EV):
     x = 8 + i * 284; cx = x + 134
     zemin(F, x, 4, 268, 196)
-    G = Glomerul(F, cx, 108, 62, vp=-90, up=90, tubul_boy=.38, arteriyol_boy=.26, **op)
-    if i == 0: etk(F, G.nekroz_p, x + 44, 34, ['fibrin'], False, fs=10.5, kalin=False)
+    G = GK(F, 'yumak', cx - 84, 7, 168, kirp=(0, 20, 680, 800))
+    if i == 0:
+        q = G.fibrinoid(160, .8, 46)
+        with G.g():
+            G._ciz(G._dilim(150, 170, G.tr(160) - 12, G.ki - 4).buffer(6, join_style=1).buffer(-4), '#a31f44', 1.2, FIB, op=.82)
+        etk(F, G.xy(q), x + 44, 34, ['fibrin'], False, fs=10.5, kalin=False)
+    elif i == 1: G.kresent(60, 225, 'hucresel')
+    elif i == 2: G.kresent(30, 250, 'fibroselular'); G.kapsul_yirtik(150, 26)
+    else: G.kresent(290, 250, 'fibroz'); G.skleroz(100, 240, derin=.5, sinesi=False, hiyalin=0)
     F.t(cx, 222, ad, 12.6, 800, BRANDD, 'middle'); F.tl(cx, 240, sat, 11.2, 14.5, fill=INK, a='middle')
     if rz: rozet(F, cx, 278, rz[0], rz[1], 11)
     if i < 3: F.ok(x + 270, 104, x + 282, 104, INK2, 2)

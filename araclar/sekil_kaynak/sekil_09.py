@@ -58,30 +58,36 @@ yeni('s09_antijen', 'x09_7', 'Temel Bilgiler · 3 · Şekil', 'Antijen Haritası
 
 # ============================================================================================== B · primer mi sekonder mi: glomerül lobülü
 from sekil_glom import Lobul, etk, mini_glomerul, yakinlastir, BOW as _BOW
+from sekil_gk import GK
 F = Fig('psk', 470, 'Primer ve sekonder membranöz nefropatide glomerül lobülü: birikim yerleşimi ve immünfloresan bulguları', w=1080, mh=420)
 for (x, bas, c) in ((6, 'Primer MN', BRAND), (546, 'Sekonder MN — örnek: sınıf V lupus', PUR)):
     F.r(x, 6, 528, 30, TINT[c], None, rx=8); F.t(x + 264, 27, bas, 14, 800, c, 'middle')
     F.r(x, 42, 528, 310, _BOW, None, rx=10)
-k = .88; cy = 197
-mg = mini_glomerul(F, 70, 112, 34, vp=-90, up=128, fs=9.5)
-yakinlastir(F, mg, (270, cy), 112, kutu_a=-10)
-A = Lobul(F, 270, cy, k, subepi=dict(evre=2, aralik=14), efase=True)
-etk(F, A.yakin('subepi', 170, 180), 146, 206, ['Subepitelyal', 'birikim (yalnız)'], False)
-etk(F, A.p_ic(2, 205, 3), 146, 256, ['Pencereli endotel'], False)
-etk(F, A.p_mez(), 146, 304, ['Mezangiyum:', 'sakin, birikim yok'], False)
-pd_ = A.yakin('subepi', 340, 82); etk(F, (pd_[0] + 3, pd_[1] - 3), 396, 70, ['GBM dikenleri', '(birikimler', 'arasında)'], True)
-etk(F, A.p_fp(-12), 396, 150, ['Podosit: ayaksı', 'çıkıntılar', 'silinmiş'], True)
-etk(F, A.p_gbm(42), 396, 244, ['Glomerüler', 'bazal membran'], True)
-etk(F, A.p_pod(1), 396, 312, ['Podosit gövdesi'], True)
-mg = mini_glomerul(F, 610, 112, 34, vp=-90, up=128, fs=9.5)
-yakinlastir(F, mg, (810, cy), 112, kutu_a=-10)
-B = Lobul(F, 810, cy, k, subepi=dict(evre=2, aralik=18), efase=True, mez=3, mez_hiper=6, mez_m=50, tri=True, tri_i=1,
-          subendo=[(0, -90, 34, 3.2), (2, 180, 26, 3.2)])
-etk(F, B.yakin('subepi', 700, 190), 686, 210, ['Subepitelyal', 'birikim'], False)
-etk(F, B.yakin('subendo', 740, 140), 686, 252, ['Seyrek', 'subendotelyal birikim'], False)
-etk(F, B.yakin('mez', 800, 260), 686, 286, ['Mezangiyal birikim', 've hipersellülarite'], False)
-etk(F, B.tri_p, 936, 228, ['Tübüloretiküler', 'inklüzyon', '(endotel)'], True)
-etk(F, B.p_fp(-30), 936, 100, ['Podosit: ayaksı', 'çıkıntılar', 'silinmiş'], True)
+A = GK(F, 'lobul', 14, 50, 288, cerceve=LINE); A.kose(44)
+A.silinme(0, 158, 36); A.silinme(1, 272, 80); A.silinme(2, 176, 303)
+for k, n in ((0, 16), (1, 8), (2, 7)):
+    Q = A.dagit(k, n); A.subepitelyal(k, Q); A.diken(k, A.aralar(Q))
+    if k == 0: QA = Q
+a1 = min(QA, key=lambda a: abs(((a - 335) + 180) % 360 - 180)); a2 = min(A.aralar(QA), key=lambda a: abs(((a - 5) + 180) % 360 - 180))
+A.etiket(A.duvar(0, 300, 'ayak'), 318, 66, ['Podosit: ayaksı', 'çıkıntılar silinmiş'])
+A.etiket(A.duvar(0, a1, 'subepi'), 318, 116, ['Subepitelyal', 'birikim (yalnız)'])
+A.etiket(A.duvar(0, a2, 'subepi'), 318, 166, ['GBM dikenleri', '(birikimler arasında)'])
+A.etiket(A.duvar(0, 22, 'gbm'), 318, 216, ['Glomerüler', 'bazal membran'])
+A.etiket(A.duvar(0, 40, 'endotel'), 318, 262, ['Pencereli endotel'])
+A.etiket('matriks', 318, 306, ['Mezangiyum:', 'sakin, birikim yok'])
+B = GK(F, 'lobul', 554, 50, 288, cerceve=LINE); B.kose(44)
+B.silinme(0, 158, 36); B.silinme(1, 272, 80); B.silinme(2, 176, 303)
+for k, n in ((0, 12), (1, 6), (2, 5)):
+    Q = B.dagit(k, n); B.subepitelyal(k, Q)
+    if k == 0: QB = Q
+B.mezangiyal(7); B.mez_hucre(3); B.subendotelyal(0, [12]); B.subendotelyal(2, [258], gen=12)
+t = B.tri(2, 290)
+b1 = min(QB, key=lambda a: abs(((a - 320) + 180) % 360 - 180))
+B.etiket(B.duvar(0, 285, 'ayak'), 858, 66, ['Podosit: ayaksı', 'çıkıntılar silinmiş'])
+B.etiket(B.duvar(0, b1, 'subepi'), 858, 116, ['Subepitelyal', 'birikim'])
+B.etiket(B.duvar(0, 12, 'subendo'), 858, 166, ['Seyrek', 'subendotelyal birikim'])
+B.etiket(t, 858, 222, ['Tübüloretiküler', 'inklüzyon (endotel)'])
+B.etiket(B.T['mez_nokta'][0] if False else max(B._mzk, key=lambda q: q[0]), 858, 296, ['Mezangiyal birikim', 've hiperselülarite'])
 IFL = [(6, BRAND, ['IgG4 baskın ya da eş baskın', 'PLA2R pozitif, IgG ile birlikte', 'C1q negatif ya da zayıf', 'IgA ve IgM yok']),
        (546, PUR, ['IgG1, IgG2 ya da IgG3 baskın', 'IgA ve/veya IgM bulunabilir', 'C1q pozitif', 'PLA2R negatif · EXT1/EXT2, NCAM1, TGFBR3'])]
 for (x, c, hl) in IFL:

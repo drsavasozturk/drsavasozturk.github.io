@@ -1,22 +1,26 @@
 #!/usr/bin/env python3
 """Ders 14 · Enfeksiyon ve Glomerüler Hastalık — şekiller."""
 from sekil_ortak import *
+from sekil_gk import *
 D = Ders('14'); L = D.L
 
 # ---------------------------------------------------------------- 1 · PSGN lobülü ve mekanizma
 F = Fig('psg', 436, 'Poststreptokoksik glomerülonefritte eksüdatif glomerül lobülü ve patogenez basamakları', w=1080, mh=410)
 serit(F, 6, 6, 620, 'Eksüdatif glomerülonefrit', RED); zemin(F, 6, 42, 620, 388)
-mg = mini_glomerul(F, 70, 112, 34, vp=-90, up=128, fs=9.5); yakinlastir(F, mg, (340, 236), 135, kutu_a=-10)
-A = Lobul(F, 340, 236, .92, endokap=True, endokap_n=5, hump=[-55, 5, 100, 160, 220, 285], mez=1)
-etk(F, A.dep['hump'][1], 492, 80, ['Subepitelyal hörgüç', '(hump)'], True)
-etk(F, A.p_lumen(1), 492, 300, ['Lümende nötrofil', 've monosit'], True)
-etk(F, A.p_endo(2), 186, 300, ['Şişmiş endotel,', 'daralmış lümen'], False)
-etk(F, A.yakin('mez', 340, 280), 492, 396, ['Mezangiyal birikim'], True)
+A = GK(F, 'lobul', 14, 48, 370, cerceve=LINE); A.kose(54)
+A.endotel_sis(0, kalin=46); A.endotel_sis(1); A.endotel_sis(2)
+A.hump(0, [300, 340, 15, 200, 240]); A.hump(2, [215, 285]); A.hump(1, [300, 20])
+NL = A.lumende(0, 'notrofil', 6, 32); A.lumende(0, 'monosit', 2, 32); A.lumende(2, 'notrofil', 3, 30); A.lumende(2, 'monosit', 1, 30); A.lumende(1, 'notrofil', 2, 30)
+MP = A.mezangiyal(4, 15)
+A.etiket(A.duvar(0, 340, 'subepi'), 400, 80, ['Subepitelyal hörgüç', '(hump)'])
+A.etiket(max(NL, key=lambda q: q[0]), 400, 190, ['Lümende nötrofil', 've monosit'])
+A.etiket(A.duvar(2, 300, 'endotel'), 400, 300, ['Şişmiş endotel,', 'daralmış lümen'])
+A.etiket(max(MP, key=lambda q: q[0]), 400, 396, ['Mezangiyal birikim'])
 serit(F, 640, 6, 434, 'Patogenez', BRANDD)
 ADM = [('Nefritojenik suş', 'deri: M 49, 55, 57, 60 · boğaz: M 1, 2, 4, 12', RED),
        ('Glomerüle yerleşen antijen', 'NAPlr ve SPEB (öncüsü zSPEB); iyileşme serumlarının %92’sinde anti-NAPlr', GOLD),
        ('Alternatif yol', 'C3 düşük, C1q normal; bazı olgularda mezangiyal MBL (lektin yolu)', PUR),
-       ('Klasik yol neden yok?', '“Evazinler” C1q’yu bağlar ve IgG’yi keser', BRAND)]
+       ('Klasik yol neden yok?', 'Streptokok proteinleri C1q’yu bağlar ve IgG’yi keser', BRAND)]
 for i, (ad, tx, c) in enumerate(ADM):
     y = 48 + i * 92
     F.r(650, y, 414, 76, TINT.get(c, '#fff'), c, 1.4, 10)
@@ -74,22 +78,29 @@ D.ic('s14_psz', 'x14_8', F)
 
 # ---------------------------------------------------------------- 4 · üç virüs, üç lezyon
 F = Fig('vir', 440, 'Hepatit B, hepatit C ve HIV’in imza glomerüler lezyonları', w=1080, mh=410)
-VR = [('HBV · membranöz nefropati', BRAND, 'L', dict(subepi=dict(evre=2, aralik=18), mez=2, mez_hiper=3, efase=True, subendo=[(2, 160, 26, 3)]),
-       ['HBeAg küçük, katyonik → subepitelyal', 'HBsAg, HBcAg büyük → subendotelyal,', 'mezangiyal · IgG4 baskın değil']),
-      ('HCV · kriyoglobulinemik MPGN', PUR, 'L', dict(cift=True, kriyo=(0, 2), subendo=[(1, 30, 70, 5)], mez=2, mez_hiper=3),
-       ['Lümende kriyoglobulin “yalancı trombüs”ü;', 'çift kontur · C4 belirgin düşük,', 'romatoid faktör yüksek']),
-      ('HIV · kollapsing glomerülopati', RED, 'G', dict(cokme=True),
-       ['Yumak çöker, podositler çoğalır; tübüler', 'mikrokistler, endotelde tübüloretiküler', 'inklüzyon · APOL1 · hipertansiyon yok'])]
-for i, (ad, c, tur, op, sat) in enumerate(VR):
+VR = [('HBV · membranöz nefropati', BRAND, 'L', ['HBeAg küçük, katyonik → subepitelyal', 'HBsAg, HBcAg büyük → subendotelyal,', 'mezangiyal · IgG4 baskın değil']),
+      ('HCV · kriyoglobulinemik MPGN', PUR, 'L', ['Lümende kriyoglobulin “yalancı trombüs”ü;', 'çift kontur · C4 belirgin düşük,', 'romatoid faktör yüksek']),
+      ('HIV · kollapsing glomerülopati', RED, 'G', ['Yumak çöker, podositler çoğalır; tübüler', 'mikrokistler, endotelde tübüloretiküler', 'inklüzyon · APOL1 · hipertansiyon çoğu kez yok'])]
+for i, (ad, c, tur, sat) in enumerate(VR):
     x = 6 + i * 358; cx = x + 175
     serit(F, x, 6, 350, ad, c); zemin(F, x, 42, 350, 290)
     if tur == 'L':
-        mg = mini_glomerul(F, x + 52, 92, 26, vp=-90, up=128, etiket=False); yakinlastir(F, mg, (cx + 20, 200), 100, kutu_a=-10)
-        A = Lobul(F, cx + 20, 200, .74, **op)
-        if i == 1: etk(F, A.p_lumen(0), x + 340, 60, ['kriyoglobulin'], False, fs=11, kalin=False)
+        A = GK(F, 'lobul', cx - 136, 48, 272, cerceve=LINE); A.kose(40)
+        if i == 0:
+            A.silinme(0, 158, 36); A.silinme(2, 176, 303)
+            for k, n in ((0, 14), (1, 6), (2, 6)):
+                Q = A.dagit(k, n); A.subepitelyal(k, Q); A.diken(k, A.aralar(Q))
+                if k == 0: Q0 = Q
+            A.subendotelyal(0, [20], gen=12); A.subendotelyal(2, [250], gen=12); A.mez_hucre(2); A.mezangiyal(3, 16)
+            A.etiket(A.duvar(0, min(Q0, key=lambda a: abs(((a - 330) + 180) % 360 - 180)), 'subepi'), x + 340, 60, ['subepitelyal'], False, fs=11, kalin=False)
+            A.etiket(A.duvar(0, 20, 'subendo'), x + 340, 200, ['subendotelyal'], False, fs=11, kalin=False)
+        else:
+            A.cift_kontur(0, 165, 262); A.cift_kontur(0, 300, 30); A.cift_kontur(2, 200, 290)
+            A.kriyo(0); A.kriyo(2); A.subendotelyal(1, [10], gen=12); A.mez_hucre(3); A.mezangiyal(2, 15)
+            etk(F, A.xy(A.C[0][0] + 40, A.C[0][1] - 20), x + 340, 60, ['kriyoglobulin'], False, fs=11, kalin=False)
     else:
-        Glomerul(F, cx, 186, 84, vp=180, up=0, tubul_boy=.55, arteriyol_boy=.32, **op)
-        etk(F, P((cx, 186), 84 * .66, 90), x + 336, 312, ['hiperplastik podositler'], False, fs=11, kalin=False)
+        G = GK(F, 'yumak', cx - 116, 46, 232, kirp=(0, 20, 680, 800)); G.kollaps()
+        etk(F, G.xy(G.kc[0] + G.tr(20) + 8, G.kc[1] + 40), x + 336, 312, ['hiperplastik podositler'], False, fs=11, kalin=False)
     F.tl(x + 10, 358, sat, 11.8, 16.5, fill=INK)
 D.yeni('s14_vir', 'x14_11', 'Temel Bilgiler · 6 · Şekil', 'Üç Virüs, Üç İmza — MN, MPGN, Kollapsing', F,
        '<b>Okuma:</b> HBV’de antijenin büyüklüğü ve yükü birikimin yerini belirler: küçük, katyonik HBeAg bazal membranı geçip subepitelyal birikir. HCV’de tip II kriyoglobulinler MPGN paterni '

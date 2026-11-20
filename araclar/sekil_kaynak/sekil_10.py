@@ -1,18 +1,19 @@
 #!/usr/bin/env python3
 """Ders 10 · IgA Nefropatisi — şekiller."""
 from sekil_ortak import *
+from sekil_gk import *
 D = Ders('10'); L = D.L
 
 # ---------------------------------------------------------------- 1 · patoloji: lobül + immünfloresan
 F = Fig('igap', 436, 'IgA nefropatisinde mezangiyal birikim ve hiperselülarite ile immünfloresan bulguları', w=1080, mh=410)
 serit(F, 6, 6, 600, 'Işık ve elektron mikroskopisi', BRAND); zemin(F, 6, 42, 600, 388)
-mg = mini_glomerul(F, 70, 112, 34, vp=-90, up=128, fs=9.5); yakinlastir(F, mg, (330, 236), 140, kutu_a=-10)
-A = Lobul(F, 330, 236, .9, acik=1.22, mez_m=52, mez_hiper=6, mez=3, mez_boy=5.4)
-etk(F, A.yakin('mez', 330, 180), 482, 72, ['Mezangiyal ve', 'paramezangiyal', 'birikim'], True)
-etk(F, A.p_mezm(1), 482, 396, ['Mezangiyal hücre', 've matriks artışı'], True)
-etk(F, A.p_gbm(-60), 482, 166, ['Kapiller duvar', 'çoğu kez', 'korunmuş'], True)
-etk(F, A.p_ic(2, 200, 3), 170, 330, ['Pencereli endotel'], False)
-etk(F, A.p_pod(2), 170, 400, ['Podosit'], False)
+A = GK(F, 'lobul', 16, 50, 356, cerceve=LINE); A.kose(52)
+A.matriks_artisi(.32); A.mezangiyal(10); PA = A.paramezangiyal(0, 3); A.mez_hucre(4)
+A.etiket(A.duvar(0, 330, 'gbm'), 386, 78, ['Kapiller duvar', 'çoğu kez korunmuş'])
+A.etiket(A.duvar(0, PA[len(PA) // 2], 'subepi'), 386, 152, ['Mezangiyal ve', 'paramezangiyal', 'birikim'])
+A.etiket(A.duvar(0, 20, 'endotel'), 386, 238, ['Pencereli endotel'])
+A.etiket('mez_hucre2', 386, 300, ['Mezangiyal hücre', 've matriks artışı'])
+A.etiket(A.duvar(2, 300, 'podosit'), 386, 380, ['Podosit'])
 serit(F, 620, 6, 454, 'İmmünfloresan', BRAND)
 if_patern(F, 690, 112, 52, 'mez', baslik='IgA', alt=['baskın / eş baskın', 'mezangiyal'], fs=11.5)
 if_patern(F, 847, 112, 52, 'mez', renk='#a6f0b0', baslik='C3', alt=['olguların %90’ına', 'kadar'], fs=11.5)
@@ -27,17 +28,21 @@ D.yeni('s10_pat', 'x10_9', 'Temel Bilgiler · 5 · Şekil', 'IgA Nefropatisi —
 
 # ---------------------------------------------------------------- 2 · Oxford MEST-C
 F = Fig('mest', 400, 'Oxford MEST-C sınıflamasının beş lezyonu', w=1080)
-MS = [('M', 'Mezangiyal hiperselülarite', dict(mez_genis=1.75, mez_cekirdek=.95), ['M0 ≤ %50 · M1 > %50 glomerülde', 'mezangiyal alanda > 3 hücre']),
-      ('E', 'Endokapiller hiperselülarite', dict(endokap=True), ['E0 yok · E1 var', 'tedaviyle geri döner']),
-      ('S', 'Segmental skleroz', dict(skleroz=(150, 215)), ['S0 yok · S1 var', 'podositopatik alt grup olabilir']),
+MS = [('M', 'Mezangiyal hiperselülarite', 'M', ['M0 ≤ %50 · M1 > %50 glomerülde', 'mezangiyal alanda > 3 hücre']),
+      ('E', 'Endokapiller hiperselülarite', 'E', ['E0 yok · E1 var', 'tedaviyle geri döner']),
+      ('S', 'Segmental skleroz', 'S', ['S0 yok · S1 var', 'podositopatik alt grup olabilir']),
       ('T', 'Tübüler atrofi / interstisyel fibroz', None, ['T0 %0–25 · T1 %26–50 · T2 > %50', 'en güçlü prognostik belirteç']),
-      ('C', 'Kresent (hücresel/fibroselüler)', dict(hilal=(200, 320, 'hucresel')), ['C0 yok · C1 < %25 · C2 ≥ %25', 'glomerülde'])]
+      ('C', 'Kresent (hücresel/fibroselüler)', 'C', ['C0 yok · C1 < %25 · C2 ≥ %25', 'glomerülde'])]
 for i, (h, ad, op, sat) in enumerate(MS):
     x = 6 + i * 216; cx = x + 104
     F.r(x, 6, 208, 30, TINT[BRAND], None, rx=8); F.t(x + 14, 28, h, 17, 800, BRAND); F.t(x + 34, 27, ad, 11.6 if len(ad) < 28 else 10.6, 800, BRANDD)
     zemin(F, x, 42, 208, 240)
     if op is not None:
-        Glomerul(F, cx, 160, 66, vp=-90, up=90, tubul_boy=.42, arteriyol_boy=.3, **op)
+        G = GK(F, 'yumak', cx - 98, 48, 196, kirp=(0, 20, 680, 800))
+        if op == 'M': G.mez_agac(kalin=22, op=.38, cek=0); G.cekirdekler(34, 0, 359, r=11) if False else None; [elips(F, *G.xy(q), 11 * G.k, 8 * G.k, 30, CEK, CEK_K, .8) for q in G._sac(G.tuft.intersection(Point(G.kc[0], G.kc[1] - 40).buffer(120)).difference(Point(G.HILUS).buffer(40)), 20, 4)[:30]]
+        elif op == 'E': G.lokosit(26, r=15)
+        elif op == 'S': G.skleroz(150, 215, derin=.4)
+        else: G.kresent(100, 215, 'hucresel')
     else:
         F.r(x + 104, 50, 98, 224, '#e8eef1', None, rx=8)
         for j in range(6): F.yol('M' + ' L'.join('%.1f,%.1f' % (x + 108 + t * 3.2, 56 + j * 38 + 3 * math.sin(t * .7)) for t in range(30)), '#b9c9d1', 1)

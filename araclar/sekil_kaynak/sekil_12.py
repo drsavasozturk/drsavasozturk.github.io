@@ -1,23 +1,38 @@
 #!/usr/bin/env python3
 """Ders 12 · Lupus Nefriti — şekiller."""
 from sekil_ortak import *
+from sekil_gk import *
 D = Ders('12'); L = D.L
 
 # ---------------------------------------------------------------- 1 · ISN/RPS sınıfları
 F = Fig('isn', 452, 'ISN/RPS lupus nefriti sınıfları I–VI', w=1080)
-SN = [('I · Minimal mezangiyal', 'L', dict(mez=2, mez_boy=4), ['Işıkta normal glomerül; İF/EM’de', 'yalnız mezangiyal birikim'], None),
-      ('II · Mezangiyal proliferatif', 'L', dict(acik=1.2, mez_hiper=6, mez=3), ['Mezangiyal hiperselülarite', '(≥ 4 çekirdek) + mezangiyal birikim'], None),
-      ('III · Fokal', 'G', dict(endokap_seg=(140, 260), nekroz=(200, 240)), ['Segmental ya da global, aktif ya da', 'inaktif GN; < %50 glomerül'], 3),
-      ('IV · Diffüz', 'L', dict(endokap=True, subendo=[(0, -90, 150, 8), (1, 30, 150, 8), (2, 150, 150, 8)], mez=2), ['Aynı lezyonlar, ≥ %50 glomerül;', 'subendotelyal birikim (“tel halka”)'], 7),
-      ('V · Membranöz', 'L', dict(subepi=dict(evre=2, aralik=16), mez=2, efase=True), ['GBM kalınlaşması + subepitelyal', 've mezangiyal birikim; PLA2R negatif'], None),
-      ('VI · İleri sklerozan', 'G', dict(**{'global': True}), ['≥ %90 glomerül global sklerotik;', 'rezidüel aktivite yok'], 9)]
+SN = [('I · Minimal mezangiyal', 'L', 'I', ['Işıkta normal glomerül; İF/EM’de', 'yalnız mezangiyal birikim'], None),
+      ('II · Mezangiyal proliferatif', 'L', 'II', ['Mezangiyal hiperselülarite', '(≥ 4 çekirdek) + mezangiyal birikim'], None),
+      ('III · Fokal', 'G', 'III', ['Segmental ya da global, aktif ya da', 'inaktif GN; < %50 glomerül'], 3),
+      ('IV · Diffüz', 'G', 'IV', ['Aynı lezyonlar, ≥ %50 glomerül;', 'subendotelyal birikim (“tel halka”)'], 7),
+      ('V · Membranöz', 'L', 'V', ['GBM kalınlaşması + subepitelyal', 've mezangiyal birikim; PLA2R negatif'], None),
+      ('VI · İleri sklerozan', 'G', 'VI', ['≥ %90 glomerül global sklerotik;', 'rezidüel aktivite yok'], 9)]
 for i, (ad, tur, op, sat, ik) in enumerate(SN):
     r_, c_ = divmod(i, 3); x = 6 + c_ * 358; y = 6 + r_ * 224; cx = x + (130 if ik is not None else 175)
     renk = (GREEN, GREEN, GOLD, RED, BRAND, INK2)[i]
     serit(F, x, y, 350, ad, renk if renk != INK2 else BRANDD, h=26, fs=13.5)
     zemin(F, x, y + 30, 350, 144)
-    if tur == 'L': Lobul(F, cx, y + 102, .52, **op)
-    else: Glomerul(F, cx, y + 102, 50, vp=180, up=0, tubul_boy=.5, arteriyol_boy=.3, **op)
+    if tur == 'L':
+        G = GK(F, 'lobul', cx - 76, y + 34, 152, kirp=(190, 430, 790, 980), cerceve=LINE)
+        if op == 'I': G.mezangiyal(5, 22)
+        elif op == 'II': G.mez_hucre(6, 26); G.mezangiyal(4, 20)
+        elif op == 'IV':
+            for k, n in ((0, 7), (1, 3), (2, 3)): G.subendotelyal(k, G.dagit(k, n), gen=14, yuk=16)
+            G.lumende(0, 'monosit', 2, 36); G.lumende(0, 'notrofil', 1, 32); G.mez_hucre(2); G.mezangiyal(3, 20)
+        elif op == 'V':
+            G.silinme(0, 158, 36); G.silinme(2, 176, 303)
+            for k, n in ((0, 14), (1, 6), (2, 6)): Q = G.dagit(k, n); G.subepitelyal(k, Q, gen=9, yuk=20); G.diken(k, G.aralar(Q))
+            G.mezangiyal(3, 20)
+    else:
+        G = GK(F, 'yumak', cx - 61, y + 33, 122, kirp=(0, 20, 680, 800))
+        if op == 'III': G.lokosit(12, 140, 250, r=17); G.lobuler(13, .85, '#6e2a5c', (150, 205)); G.fibrinoid(180, .66, 50)
+        elif op == 'IV': G.lokosit(30, r=17); G.lobuler(13, .85, '#6e2a5c', (150, 115, 80, 45, 10, 335, 205)); G.fibrinoid(60, .62, 46)
+        else: G.global_skleroz()
     F.tl(x + 6, y + 194, sat, 13, 17, fill=INK)
     if ik is not None:
         for j in range(10):
@@ -33,16 +48,20 @@ D.yeni('s12_isn', 'x12_8', 'Temel Bilgiler · 3 · Şekil', 'ISN/RPS — Altı S
 # ---------------------------------------------------------------- 2 · İF ve EM imzası
 F = Fig('imz', 420, 'Lupus nefritinde birikimlerin her yerde bulunması, tübüloretiküler inklüzyon, parmak izi yapısı ve full-house immünfloresan', w=1080, mh=410)
 serit(F, 6, 6, 600, 'Elektron mikroskopisi: birikim her yerde', PUR); zemin(F, 6, 42, 600, 372)
-mg = mini_glomerul(F, 70, 112, 34, vp=-90, up=128, fs=9.5); yakinlastir(F, mg, (320, 232), 130, kutu_a=-10)
-A = Lobul(F, 320, 232, .92, subepi=dict(evre=1, aralik=26), subendo=[(0, -110, 60, 5), (1, 40, 60, 5), (2, 160, 50, 5)], mez=3, mez_hiper=3, tri=True, tri_i=1, efase=[(-40, 60)])
-etk(F, A.yakin('subepi', 200, 140), 170, 240, ['Subepitelyal'], False)
-etk(F, A.yakin('subendo', 300, 110), 170, 300, ['Subendotelyal'], False)
-etk(F, A.yakin('mez', 320, 300), 170, 384, ['Mezangiyal'], False)
-etk(F, A.tri_p, 470, 360, ['Tübüloretiküler', 'inklüzyon (endotel)'], True)
-q = A.yakin('subendo', 420, 260)
-F.el(540, 150, 44, 44, '#f2f2f2', '#3a4a5a', 1.6)
-for j in range(7): F.yol(f'M{506 + j * 3:.0f},{126 + j * 6:.0f} q{34 - j * 2},{-14 + j * 2} {68 - j * 6},0', '#3a4a5a', 1.4)
-F.ln(q[0], q[1], 504, 168, '#3a4a5a', 1.1, '3 3'); F.t(540, 210, '“Parmak izi”', 11.8, 800, '#3a4a5a', 'middle'); F.t(540, 225, 'organize alt yapı', 11.2, None, INK2, 'middle')
+A = GK(F, 'lobul', 14, 48, 350, cerceve=LINE); A.kose(50)
+A.silinme(0, 300, 30)
+Q = A.dagit(0, 10, 'dis', 250, 35); A.subepitelyal(0, Q); A.subepitelyal(2, A.dagit(2, 4))
+A.subendotelyal(0, [195, 345], gen=12); A.subendotelyal(1, [10], gen=12); A.subendotelyal(2, [250], gen=12)
+MZ = A.mezangiyal(6, 17); A.mez_hucre(2)
+t = A.tri(2, 288)
+A.etiket(A.duvar(0, Q[len(Q) // 2], 'subepi'), 380, 212, ['Subepitelyal'])
+A.etiket(A.duvar(0, 345, 'subendo'), 380, 252, ['Subendotelyal'])
+A.etiket(max(MZ, key=lambda q: q[0]), 380, 300, ['Mezangiyal'])
+A.etiket(t, 380, 352, ['Tübüloretiküler', 'inklüzyon (endotel)'])
+q = A.xy(A.duvar(0, 345, 'subendo'))
+F.el(530, 118, 44, 44, '#f2f2f2', '#3a4a5a', 1.6)
+for j in range(7): F.yol(f'M{496 + j * 3:.0f},{94 + j * 6:.0f} q{34 - j * 2},{-14 + j * 2} {68 - j * 6},0', '#3a4a5a', 1.4)
+F.ln(q[0], q[1], 490, 136, '#3a4a5a', 1.1, '3 3'); F.t(530, 178, '“Parmak izi”', 11.8, 800, '#3a4a5a', 'middle'); F.t(530, 193, 'organize alt yapı', 11.2, None, INK2, 'middle')
 serit(F, 620, 6, 454, 'İmmünfloresan: “full-house”', PUR)
 for j, ad in enumerate(['IgG', 'IgA', 'IgM', 'C3', 'C1q']):
     cx = 676 + (j % 3) * 150; cy = 100 + (j // 3) * 150
