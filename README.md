@@ -40,3 +40,12 @@ python3 -I araclar/imza_ekle.py dersler/nefroloji-ders-serisi/index.html
 - `araclar/metin_duzelt.py`: hakem denetiminde bulunan slayt metni düzeltmeleri; slayt kimliğiyle sınırlı ve tekrar çalıştırmak güvenlidir. Seri kaynağından yeniden üretilirse bu aracı da çalıştırın.
 - Kural: şekil mümkünse mevcut slayda, metin küçülmeden sığıyorsa oraya; sığmıyorsa yeni slayda konur. Her şekil yayından önce bağımsız bir hakemce denetlenir.
 
+## Tek dosyalık derslerin yeni sürümü (21 Kasım 2026)
+
+Parenteral / İstatistik / Makale motoruyla üretilmiş bir dersin yeni tek dosyası yayındaki sayfaya şöyle aktarılır (site kabuğu, ortak kapı ve servis çalışanı kaydı korunur; iç ikinci onay kutusu ve "2026–2027" ibaresi çıkarılır; slayt ibaresi yinelenmez):
+
+```bash
+python3 -I araclar/ders_guncelle.py <yeni_tek_dosya.html> dersler/<ad>/index.html
+```
+
+Ardından `sw.js` sürüm etiketi artırılır, `sitemap.xml` tarihi ve `surum-notlari.html` güncellenir, `araclar/test_site.py` çalıştırılır.
