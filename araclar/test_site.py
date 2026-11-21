@@ -5,7 +5,7 @@ from playwright.async_api import async_playwright
 ROOT = sys.argv[1] if len(sys.argv) > 1 else '/home/claude/site'; PORT = 8765; B = f'http://localhost:{PORT}/'
 srv = subprocess.Popen([sys.executable, '-m', 'http.server', str(PORT), '-d', ROOT], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL); time.sleep(1)
 N_IL, N_SN = 819, 45   # dahiliye atlası sayıları (site_kur ile aynı)
-PAGES = ['', 'ozgecmis.html', 'yayinlar.html', 'atlaslar.html', 'kunye.html', 'kullanim-kosullari.html', 'gizlilik.html', 'surum-notlari.html', 'yok/olmayan-sayfa.html', 'dahiliye-ilac-atlasi/', 'nefroloji-yeni-ilaclar/', 'dersler/parenteral-sivilar/', 'dersler/nefroloji-ders-serisi/', 'hasta.html', 'literatur/2026-10/', 'dersler/klinisyenler-icin-istatistik/', 'dersler/klinisyenler-icin-makale-yazma/']
+PAGES = ['', 'ozgecmis.html', 'yayinlar.html', 'atlaslar.html', 'kunye.html', 'kullanim-kosullari.html', 'gizlilik.html', 'surum-notlari.html', 'yok/olmayan-sayfa.html', 'dahiliye-ilac-atlasi/', 'nefroloji-yeni-ilaclar/', 'dersler/parenteral-sivilar/', 'dersler/nefroloji-ders-serisi/', 'hasta.html', 'literatur/2026-10/', 'dersler/klinisyenler-icin-istatistik/', 'dersler/klinik-hemodiyaliz/', 'dersler/klinisyenler-icin-makale-yazma/']
 SON = []
 def ok(ad, kosul, ek=''): SON.append((ad, bool(kosul), ek)); print(('✓' if kosul else '✗'), ad, ek, flush=True)
 async def main():

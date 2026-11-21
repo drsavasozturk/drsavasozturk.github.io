@@ -11,7 +11,7 @@ site kabuğu korunur; yalnız sunumun kendisi değişir:
   - Tek dosyadaki ikinci iç onay kutusu (onayCb2: izinsiz kullanılamaz) çıkarılır; sitede aynı beyan ortak kapıdaki dk3 kutusudur.
   - Kapaktaki "2026–2027 Eğitim-Öğretim Yılı" ibaresi çıkarılır (kullanıcı isteği, 8.11.2026).
   - Slayt ibaresi (i.soimza) imza_ekle.py ile aynı ögedir; araç sonunda imza_ekle.isle çağrılır (yinelemez).
-Denetim: sunum gövdesinde dış adres (http/https), indirme özniteliği ve tarayıcı depolaması olmamalı; varsa yazmayı reddeder.
+Denetim: sunum gövdesinde dış adres (http/https; kaynak için yalnız doi.org ve PubMed serbest, 21.11.2026), indirme özniteliği ve tarayıcı depolaması olmamalı; varsa yazmayı reddeder.
 İstisna (kullanıcı onayı, 21.11.2026): İstatistik dersinin sentetik uygulama veri setleri gömülü veriden (window.VERISET) .vsbtn düğmesiyle indirilir;
 bu, betik içinde üretilen bir indirmedir ve gövdede indirme özniteliği taşımaz.
 """
@@ -41,7 +41,8 @@ def aktar(yeni, eski):
     # denetim: sunum gövdesi (betikler hariç) dışarıya bağlanmamalı, indirme ve depolama olmamalı
     govde_html = re.sub(r'<script>.*?</script>', '', orta, flags=re.S)
     assert 'id="onayCb2"' not in govde_html
-    dis = re.findall(r'(?:href|src)="(https?:[^"]+)"', govde_html)
+    dis = [u for u in re.findall(r'(?:href|src)="(https?:[^"]+)"', govde_html)
+           if not re.match(r'https://(doi\.org|pubmed\.ncbi\.nlm\.nih\.gov)/', u)]   # kaynak bağlantısına izin: yalnız doi.org ve PubMed
     assert not dis, f'sunum gövdesinde dış adres: {dis[:3]}'
     assert ' download' not in govde_html, 'sunum gövdesinde indirme özniteliği'
     for yasak in ('localStorage', 'sessionStorage', 'indexedDB', 'document.cookie'):
