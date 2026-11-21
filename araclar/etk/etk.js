@@ -731,6 +731,38 @@
     dugme(seffaf(hit, { r: [6, 6, 350, 138] }), 'ADPKD böbreğinin yaşla büyümesini oynat', function () { if (s.oyn) { s.dur(); return; } s.t = 0; s.bas(); });
   }
 
+  // ------------------------------------------------------------------ 6h · VUR: kontrast mesaneden yukarı kaçar, derece I → V (x21_31)
+  function reflu(svg) {
+    var U = [0, 1, 2, 3, 4].map(function (i) {
+      var g = svg.querySelector('[data-etk="v' + i + '"]'), y = svg.querySelector('[data-etk="vy' + i + '"]');
+      return g && y ? { g: g, e: svg.querySelector('[data-etk="ve' + i + '"]'), P: yolNoktalari(y, 90) } : null;
+    });
+    if (!U[4]) return;
+    var ust = katman(svg), hit = katman(svg, true), SURE = 1.9, SON = SURE * 5 + .4;
+    U.forEach(function (u) {
+      u.d = [0, 1, 2, 3].map(function () { return el('circle', { r: 2.7, fill: '#fff', stroke: '#8a5a00', 'stroke-width': 1.3, opacity: 0 }, ust); });
+      var b = u.g.getBBox(); u.cer = el('rect', { x: b.x - 6, y: b.y - 6, width: b.width + 12, height: 323 - b.y, rx: 10, fill: 'none', stroke: C.mavi, 'stroke-width': 2, opacity: 0 }, ust);
+      u.g.style.transition = 'opacity .25s'; if (u.e) u.e.style.transition = 'opacity .25s';
+    });
+    var ip = ipucu(ust, 634, 22, '▶ dokunun: kontrast yukarı kaçar');
+    function sifir() { U.forEach(function (u) { u.g.style.opacity = 1; if (u.e) u.e.style.opacity = 1; u.cer.setAttribute('opacity', 0); u.d.forEach(function (c) { c.setAttribute('opacity', 0); }); }); }
+    var s = saat(svg, function (t) {
+      var i = Math.min(4, Math.floor(t / SURE)), tl = t - i * SURE;
+      U.forEach(function (u, k) {
+        var a = k === i; u.g.style.opacity = a ? 1 : .3; if (u.e) u.e.style.opacity = a ? 1 : .35; u.cer.setAttribute('opacity', a ? 1 : 0);
+        u.d.forEach(function (c, n) {
+          if (!a) { c.setAttribute('opacity', 0); return; }
+          var q = (tl / 1.5) - n * .14;                          // damlalar art arda, mesaneden ulaştığı yere
+          if (q < 0 || q > 1.02) { c.setAttribute('opacity', q > 1.02 ? .9 : 0); if (q > 1.02) { var z = u.P[u.P.length - 1 - n * 3]; c.setAttribute('cx', z[0]); c.setAttribute('cy', z[1]); } return; }
+          var z2 = u.P[Math.round(yumusak(Math.min(1, q)) * (u.P.length - 1 - n * 3))]; c.setAttribute('cx', z2[0]); c.setAttribute('cy', z2[1]); c.setAttribute('opacity', 1);
+        });
+      });
+      if (t > SON) s.dur();
+    });
+    s.dg = function (o) { ip.textContent = o ? '❚❚ dokunun' : '▶ dokunun: yeniden'; if (!o) sifir(); };
+    dugme(seffaf(hit, { r: [6, 28, 634, 286] }), 'Reflü derecelerini sırayla oynat', function () { if (s.oyn) { s.dur(); return; } s.t = 0; s.bas(); });
+  }
+
   // ------------------------------------------------------------------ slayt kimliği → kurulum
   var K = {
     x30_5: function (svg) {
@@ -754,7 +786,7 @@
         { ad: 'FHHNC: klodin 16 ve 19', delik: [{ k: 'FHHNC' }, { r: [340, 348, 400, 64] }] }] });
     },
     x39_8: plazma, x43_43: perfuzyon, s21_avp: avp, x36_4: tasima, s26_uri: urik,
-    s26_yer: tasInis, s27_us: derece, s27_dren: drenAkis, s27_tek: tekCift, s23_gold: goldblatt, s17_orak: orak, s19_har: kistYas
+    s26_yer: tasInis, s27_us: derece, s27_dren: drenAkis, s27_tek: tekCift, s23_gold: goldblatt, s17_orak: orak, s19_har: kistYas, x21_31: reflu
   };
   var IP = ['☝ şekle dokunun: iyon akışı · etikete: bozukluk'];
   function H_(ad, k, delik, etki) { return { ad: ad, delik: [{ k: k }].concat(delik || []), etki: etki }; }

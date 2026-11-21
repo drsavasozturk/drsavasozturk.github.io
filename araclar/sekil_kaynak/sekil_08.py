@@ -2,6 +2,7 @@
 """Ders 08 · Fokal Segmental Glomerüloskleroz — şekiller."""
 from sekil_ortak import *
 from sekil_gk import *
+import sekil_anat as AN
 D = Ders('08'); L = D.L
 
 # ---------------------------------------------------------------- 1 · Columbia: beş varyant
@@ -61,25 +62,18 @@ D.yeni('s08_pad', 'x08_8', 'Temel Bilgiler · 4 · Şekil', 'Primer mi Adaptif m
 # ---------------------------------------------------------------- 3 · örnekleme
 F = Fig('ork', 336, 'FSGS’de örnekleme hatası: yüzeyel korteks örneği ve glomerül sayısına göre lezyonu kaçırma olasılığı', w=1080)
 F.t(6, 22, 'Korteks kesiti: lezyon önce derin korteksi tutar', 13.5, 800, BRANDD)
-F.r(20, 40, 560, 230, '#fbf3ec', '#d9b9a0', 1.4, 0); F.r(20, 270, 560, 28, '#f1e3d6', None, rx=0)
-for xx in range(28, 580, 14): F.ln(xx, 272, xx + 6, 296, '#e0c9b4', 2)
-F.ln(14, 40, 586, 40, '#9a7b62', 3)
-F.t(590, 46, 'kapsül', 11.5, 700, '#7a5b42'); F.t(590, 286, 'medulla', 11.5, 700, '#7a5b42')
-F.t(30, 62, 'yüzeyel korteks', 11.5, 800, '#7a5b42'); F.t(30, 260, 'jukstamedüller (derin) korteks', 11.5, 800, '#7a5b42')
-rng = random.Random(4)
-gl = []
-for yy in range(78, 256, 30):
-    for xx in range(46, 570, 34):
-        gl.append((xx + rng.uniform(-8, 8), yy + rng.uniform(-6, 6)))
+KS = 560 / 1538                                  # resim: ChatGPT ile çizildi (yazısız, 1538 × 756 px): üç sıra normal, alttaki iki sırada segmental skleroz
+F.a('<clipPath id="ork_kl"><rect x="20" y="36" width="560" height="%.1f" rx="6"/></clipPath><g clip-path="url(#ork_kl)">' % (756 * KS))
+AN.resim(F, 'an_ork', 20, 36, 560, oran=756 / 1538); F.a('</g>')
+F.r(20, 36, 560, 756 * KS, 'none', '#c79a8a', 1.2, 6)
+F.t(590, 46, 'kapsül', 11.5, 700, '#7a5b42'); F.t(590, 36 + 722 * KS, 'medulla', 11.5, 700, '#7a5b42')
+AN.ad(F, 30, 36 + 40 * KS + 4, 'yüzeyel korteks', 11.5, '#6a3c2c', 'start'); AN.ad(F, 30, 36 + 668 * KS, 'jukstamedüller (derin) korteks', 11.5, '#6a3c2c', 'start')
 def mini_g(x, y, lez):
-    F.el(x, y, 10, 10, BOW, GBM_K, 1.1); F.el(x, y, 7.2, 7.2, '#f4b7b4', '#c95c58', .8)
-    if lez: F.yol(f'M{x:.1f},{y:.1f} L{x + 7.6:.1f},{y - 2:.1f} A7.6,7.6 0 0 1 {x - 1:.1f},{y + 7.6:.1f} Z', '#4f5f68', .9, '#8c9ba4')
-for (x, y) in gl:
-    lez = (y > 200 and rng.random() < .45) or (180 < y <= 200 and rng.random() < .3)
-    mini_g(x, y, lez)
-F.r(150, 34, 70, 140, 'none', BRAND, 2.4, 10, dash='7 4'); F.etiket(228, 112, 150, ['Yüzeyel örnek', 'lezyon yok →', '“MDH” raporu'], BRAND, 12, fill='#ffffff')
-F.r(400, 34, 70, 250, 'none', GREEN, 2.4, 10, dash='7 4'); F.etiket(476, 112, 108, ['Derin korteksi', 'de içeren', 'örnek'], GREEN, 12, fill='#ffffff')
-mini_g(30, 320, False); F.t(46, 324, 'normal glomerül', 11.5, None, INK2); mini_g(170, 320, True); F.t(186, 324, 'segmental skleroz', 11.5, None, INK2)
+    F.el(x, y, 10, 10, '#fdf1ea', '#d9a79a', 1.1); F.el(x, y, 7.2, 7.2, '#e2506a', '#b8324c', .8)
+    if lez: F.yol(f'M{x:.1f},{y:.1f} L{x + 7.6:.1f},{y - 2:.1f} A7.6,7.6 0 0 1 {x - 1:.1f},{y + 7.6:.1f} Z', '#55688f', .9, '#8a9cc0')
+F.r(152, 30, 76, 36 + 396 * KS - 30, 'none', BRAND, 2.6, 10, dash='7 4'); F.etiket(236, 100, 150, ['Yüzeyel örnek', 'lezyon yok →', '“MDH” raporu'], BRAND, 12, fill='#ffffff')
+F.r(414, 30, 76, 36 + 690 * KS - 30, 'none', GREEN, 2.6, 10, dash='7 4'); F.etiket(498, 100, 108, ['Derin korteksi', 'de içeren', 'örnek'], GREEN, 12, fill='#ffffff')
+mini_g(30, 326, False); F.t(46, 330, 'normal glomerül', 11.5, None, INK2); mini_g(170, 326, True); F.t(186, 330, 'segmental skleroz', 11.5, None, INK2)
 F.ln(640, 10, 640, 330, LINE, 1.5)
 F.t(664, 22, 'Örnek hesap: lezyonu hiç görmeme olasılığı', 13.5, 800, BRANDD)
 GX, GY, GW, GH = 708, 52, 350, 214

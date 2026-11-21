@@ -1,34 +1,27 @@
 <svg viewBox="0 0 1120 250" style="width:100%;height:auto;max-height:242px" role="img" aria-label="Uc damar erisim tipi semasi">
       <rect x="12" y="12" width="352" height="226" rx="12" fill="#e8f6ef" stroke="#1f8a4c" stroke-width="2.2"/>
-      <text x="188" y="40" font-size="15" font-weight="800" fill="#12603a" text-anchor="middle">ARTERİYOVENÖZ FİSTÜL</text>
-      <text x="188" y="60" font-size="12" fill="#6b7b8a" text-anchor="middle">Hastanın kendi atardamarı + kendi toplardamarı</text>
-      <line x1="60" y1="108" x2="316" y2="108" stroke="#c0392b" stroke-width="7" stroke-linecap="round"/>
-      <path d="M150 108 C185 70 240 76 300 88" fill="none" stroke="#2b6cb0" stroke-width="9" stroke-linecap="round"/>
-      <circle cx="150" cy="108" r="8" fill="#1f8a4c"/>
-      <text x="150" y="136" font-size="11.5" fill="#12603a" text-anchor="middle">anastomoz</text>
-      <text x="188" y="172" font-size="12.5" font-weight="700" fill="#1f8a4c" text-anchor="middle">En uzun ömürlü · en az enfeksiyon</text>
-      <text x="188" y="194" font-size="12" fill="#c0392b" text-anchor="middle">En uzun olgunlaşma · en yüksek primer yetmezlik</text>
-      <text x="188" y="220" font-size="12" fill="#3d4d5c" text-anchor="middle">Kullanıma hazır: haftalar–aylar</text>
+      <text x="188" y="34" font-size="15" font-weight="800" fill="#12603a" text-anchor="middle">ARTERİYOVENÖZ FİSTÜL</text>
+      <text x="188" y="51" font-size="12" fill="#6b7b8a" text-anchor="middle">Hastanın kendi atardamarı + kendi toplardamarı</text>
+      <clipPath id="eri_k0"><rect x="56.4" y="58" width="263.1" height="102" rx="8"/></clipPath><image href="/dersler/nefroloji-ders-serisi/gorsel/an_eri0.webp" x="56.4" y="58" width="263.1" height="102" clip-path="url(#eri_k0)" preserveAspectRatio="none"/><rect x="56.4" y="58" width="263.1" height="102" rx="8" fill="none" stroke="#d9c9b4" stroke-width="1"/><path d="M193.2,123.1 L210.5,136.5" stroke="#fff" stroke-width="3" opacity=".85"/><path d="M193.2,123.1 L210.5,136.5" stroke="#12603a" stroke-width="1.1"/><circle cx="193.2" cy="123.1" r="2.8" fill="#fff" stroke="#12603a" stroke-width="1.2"/><text x="210.5" y="147.5" font-size="11" font-weight="800" fill="#12603a" text-anchor="middle" stroke="#fff" stroke-width="3" stroke-linejoin="round" paint-order="stroke">anastomoz</text><path d="M129.1,96.0 L129.1,75.5" stroke="#fff" stroke-width="3" opacity=".85"/><path d="M129.1,96.0 L129.1,75.5" stroke="#2b4fa0" stroke-width="1.1"/><circle cx="129.1" cy="96.0" r="2.8" fill="#fff" stroke="#2b4fa0" stroke-width="1.2"/><text x="129.1" y="71.5" font-size="11" font-weight="800" fill="#2b4fa0" text-anchor="middle" stroke="#fff" stroke-width="3" stroke-linejoin="round" paint-order="stroke">olgunlaşmış (geniş) ven</text><path d="M96.6,127.4 L96.6,139.7" stroke="#fff" stroke-width="3" opacity=".85"/><path d="M96.6,127.4 L96.6,139.7" stroke="#b03020" stroke-width="1.1"/><circle cx="96.6" cy="127.4" r="2.8" fill="#fff" stroke="#b03020" stroke-width="1.2"/><text x="96.6" y="150.7" font-size="11" font-weight="800" fill="#b03020" text-anchor="middle" stroke="#fff" stroke-width="3" stroke-linejoin="round" paint-order="stroke">radiyal arter</text>
+      <text x="188" y="180" font-size="12.5" font-weight="700" fill="#1f8a4c" text-anchor="middle">En uzun ömürlü · en az enfeksiyon</text>
+      <text x="188" y="200" font-size="12" fill="#c0392b" text-anchor="middle">En uzun olgunlaşma · en yüksek primer yetmezlik</text>
+      <text x="188" y="222" font-size="12" fill="#3d4d5c" text-anchor="middle">Kullanıma hazır: haftalar–aylar</text>
 
       <rect x="384" y="12" width="352" height="226" rx="12" fill="#fff6e5" stroke="#c98a00" stroke-width="2.2"/>
-      <text x="560" y="40" font-size="15" font-weight="800" fill="#8a6000" text-anchor="middle">ARTERİYOVENÖZ GREFT</text>
-      <text x="560" y="60" font-size="12" fill="#6b7b8a" text-anchor="middle">Sentetik tüp (genellikle PTFE) köprü kurar</text>
-      <line x1="430" y1="108" x2="690" y2="108" stroke="#c0392b" stroke-width="7" stroke-linecap="round"/>
-      <path d="M470 108 C500 58 620 58 655 96" fill="none" stroke="#c98a00" stroke-width="11" stroke-linecap="round" stroke-dasharray="1 0"/>
-      <path d="M655 96 C672 104 682 106 690 108" fill="none" stroke="#2b6cb0" stroke-width="9" stroke-linecap="round"/>
-      <text x="560" y="150" font-size="11.5" fill="#8a6000" text-anchor="middle">venöz anastomoz = darlığın klasik yeri</text>
-      <text x="560" y="176" font-size="12.5" font-weight="700" fill="#c98a00" text-anchor="middle">Hızlı kullanılabilir · damarı zayıf hastada seçenek</text>
-      <text x="560" y="198" font-size="12" fill="#c0392b" text-anchor="middle">Daha çok girişim · daha çok tromboz ve enfeksiyon</text>
+      <text x="560" y="34" font-size="15" font-weight="800" fill="#8a6000" text-anchor="middle">ARTERİYOVENÖZ GREFT</text>
+      <text x="560" y="51" font-size="12" fill="#6b7b8a" text-anchor="middle">Sentetik tüp (genellikle PTFE) köprü kurar</text>
+      <clipPath id="eri_k1"><rect x="428.2" y="58" width="263.7" height="102" rx="8"/></clipPath><image href="/dersler/nefroloji-ders-serisi/gorsel/an_eri1.webp" x="428.2" y="58" width="263.7" height="102" clip-path="url(#eri_k1)" preserveAspectRatio="none"/><rect x="428.2" y="58" width="263.7" height="102" rx="8" fill="none" stroke="#d9c9b4" stroke-width="1"/><path d="M522.0,119.9 L570.9,136.5" stroke="#fff" stroke-width="3" opacity=".85"/><path d="M522.0,119.9 L570.9,136.5" stroke="#6b5a2a" stroke-width="1.1"/><circle cx="522.0" cy="119.9" r="2.8" fill="#fff" stroke="#6b5a2a" stroke-width="1.2"/><text x="570.9" y="147.5" font-size="11" font-weight="800" fill="#6b5a2a" text-anchor="middle" stroke="#fff" stroke-width="3" stroke-linejoin="round" paint-order="stroke">PTFE greft (halka)</text><path d="M467.8,101.4 L500.3,75.5" stroke="#fff" stroke-width="3" opacity=".85"/><path d="M467.8,101.4 L500.3,75.5" stroke="#8a6000" stroke-width="1.1"/><circle cx="467.8" cy="101.4" r="2.8" fill="#fff" stroke="#8a6000" stroke-width="1.2"/><text x="500.3" y="71.5" font-size="11" font-weight="800" fill="#8a6000" text-anchor="middle" stroke="#fff" stroke-width="3" stroke-linejoin="round" paint-order="stroke">venöz anastomoz: darlığın klasik yeri</text>
+      <text x="560" y="180" font-size="12.5" font-weight="700" fill="#c98a00" text-anchor="middle">Hızlı kullanılabilir · damarı zayıf hastada seçenek</text>
+      <text x="560" y="200" font-size="12" fill="#c0392b" text-anchor="middle">Daha çok girişim · daha çok tromboz ve enfeksiyon</text>
       <text x="560" y="222" font-size="12" fill="#3d4d5c" text-anchor="middle">Kullanıma hazır: 2–4 hafta (erken kanülasyonda günler)</text>
 
       <rect x="756" y="12" width="352" height="226" rx="12" fill="#fdeaea" stroke="#c0392b" stroke-width="2.2"/>
-      <text x="932" y="40" font-size="15" font-weight="800" fill="#7b1f14" text-anchor="middle">SANTRAL VENÖZ KATETER</text>
-      <text x="932" y="60" font-size="12" fill="#6b7b8a" text-anchor="middle">Tünelli, kaflı — tercihen sağ internal juguler</text>
-      <path d="M790 128 L852 106 L996 88" fill="none" stroke="#6a4c93" stroke-width="9" stroke-linecap="round"/>
-      <circle cx="996" cy="88" r="7" fill="#6a4c93"/>
-      <text x="1010" y="92" font-size="11.5" fill="#6a4c93">uç: sağ atriyum</text>
-      <text x="932" y="150" font-size="12.5" font-weight="700" fill="#1f8a4c" text-anchor="middle">Hemen kullanılır · iğne gerektirmez</text>
-      <text x="932" y="176" font-size="12.5" font-weight="800" fill="#c0392b" text-anchor="middle">En yüksek enfeksiyon ve ölüm ilişkisi</text>
-      <text x="932" y="200" font-size="12" fill="#c0392b" text-anchor="middle">Santral ven darlığı → kolu kalıcı olarak kaybettirir</text>
-      <text x="932" y="222" font-size="12" fill="#3d4d5c" text-anchor="middle">Kullanıma hazır: aynı gün</text>
+      <text x="932" y="34" font-size="15" font-weight="800" fill="#7b1f14" text-anchor="middle">SANTRAL VENÖZ KATETER</text>
+      <text x="932" y="51" font-size="12" fill="#6b7b8a" text-anchor="middle">Tünelli, kaflı — tercihen sağ internal juguler</text>
+      <clipPath id="eri_k2"><rect x="813.9" y="58" width="192.1" height="102" rx="8"/></clipPath><image href="/dersler/nefroloji-ders-serisi/gorsel/an_eri2.webp" x="813.9" y="58" width="192.1" height="102" clip-path="url(#eri_k2)" preserveAspectRatio="none"/><rect x="813.9" y="58" width="192.1" height="102" rx="8" fill="none" stroke="#d9c9b4" stroke-width="1"/><path d="M919.1,141.8 L1012.1,136" stroke="#6a4c93" stroke-width="1.1"/><circle cx="919.1" cy="141.8" r="2.8" fill="#fff" stroke="#6a4c93" stroke-width="1.2"/><text x="1016.1" y="140" font-size="11" font-weight="800" fill="#6a4c93" text-anchor="start">uç: sağ</text><path d="M908.0,62.7 L1012.1,70" stroke="#2b4fa0" stroke-width="1.1"/><circle cx="908.0" cy="62.7" r="2.8" fill="#fff" stroke="#2b4fa0" stroke-width="1.2"/><text x="1016.1" y="74" font-size="11" font-weight="800" fill="#2b4fa0" text-anchor="start">sağ internal</text><text x="1016.0" y="87" font-size="11" font-weight="800" fill="#2b4fa0">juguler ven</text><path d="M888.3,76.6 L807.9,100" stroke="#7b1f14" stroke-width="1.1"/><circle cx="888.3" cy="76.6" r="2.8" fill="#fff" stroke="#7b1f14" stroke-width="1.2"/><text x="803.9" y="104" font-size="11" font-weight="800" fill="#7b1f14" text-anchor="end">tünel kafı</text><path d="M859.4,102.3 L807.9,142" stroke="#7b1f14" stroke-width="1.1"/><circle cx="859.4" cy="102.3" r="2.8" fill="#fff" stroke="#7b1f14" stroke-width="1.2"/><text x="803.9" y="146" font-size="11" font-weight="800" fill="#7b1f14" text-anchor="end">cilt çıkışı</text>
+      <text x="1016.1" y="153" font-size="11" font-weight="800" fill="#6a4c93">atriyum</text>
+      <text x="932" y="180" font-size="12.5" font-weight="700" fill="#1f8a4c" text-anchor="middle">Hemen kullanılır · iğne gerektirmez</text>
+      <text x="932" y="197" font-size="12.5" font-weight="800" fill="#c0392b" text-anchor="middle">En yüksek enfeksiyon ve ölüm ilişkisi</text>
+      <text x="932" y="213" font-size="12" fill="#c0392b" text-anchor="middle">Santral ven darlığı → kolu kalıcı olarak kaybettirir</text>
+      <text x="932" y="229" font-size="12" fill="#3d4d5c" text-anchor="middle">Kullanıma hazır: aynı gün</text>
     </svg>

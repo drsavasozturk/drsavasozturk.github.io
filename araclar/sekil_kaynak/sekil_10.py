@@ -2,6 +2,7 @@
 """Ders 10 · IgA Nefropatisi — şekiller."""
 from sekil_ortak import *
 from sekil_gk import *
+import sekil_anat as AN
 D = Ders('10'); L = D.L
 
 # ---------------------------------------------------------------- 1 · patoloji: lobül + immünfloresan
@@ -79,28 +80,28 @@ D.yeni('s10_stp', 'x10_19', 'Kortikosteroid · Şekil', 'STOP-IgAN ve TESTING �
 # ---------------------------------------------------------------- 4 · Nefecon: mukozal kaynak
 F = Fig('nef', 330, 'Hedefli salınımlı budesonidin distal ileumda Peyer plaklarında etkisi ve NefIgArd sonuçları', w=1080)
 zemin(F, 6, 6, 680, 318)
-# ileum
-F.yol('M30,130 C150,90 300,90 420,130 C470,146 520,150 560,140', '#c98a7a', 34); F.yol('M30,130 C150,90 300,90 420,130 C470,146 520,150 560,140', '#f6d6cc', 26)
-for t in range(0, 26):
-    x = 40 + t * 20; y = 112 + 18 * math.sin((x - 30) / 170 * math.pi) * -.9 + (0 if x < 420 else (x - 420) * .05)
-    F.ln(x, y + 26, x, y + 36, '#e8a898', 3)
-for (x, y) in ((300, 150), (322, 148), (344, 152)):
-    F.el(x, y, 11, 9, '#d9ccef', PUR, 1.2); F.el(x, y, 4.5, 4, PUR)
-F.t(322, 182, 'Peyer plakları (distal ileum)', 12, 800, PUR, 'middle')
-F.t(30, 80, 'İnce bağırsak', 12, 800, '#9a5a4a')
-F.r(150, 92, 34, 16, GOLD, '#8a5a00', 1.2, 8); F.r(167, 92, 17, 16, '#fff2cc', '#8a5a00', 1.2, 8)
-F.t(150, 82, 'Nefecon kapsülü', 11.6, 800, GOLD)
-F.ok(200, 104, 286, 136, GOLD, 2.4, '6 4'); F.t(236, 104, 'ilaç burada açılır', 11.2, None, GOLD)
+# resimler: ChatGPT ile çizildi (yazısız): distal ileum yarım kesiti (1405 × 294 px, üç Peyer plağı) ve karaciğer (396 × 259 px)
+IS = 640 / 1405
+AN.resim(F, 'an_ileum', 26, 58, 640, oran=294 / 1405)
+def IP(px, py): return (26 + (px - 15) * IS, 58 + (py - 112) * IS)
+F.t(22, 30, 'İnce bağırsak (distal ileum)', 12, 800, '#9a5a4a')
+kx, ky = IP(300, 252)
+F.yol(f'M{kx + 22:.1f},{ky:.1f} C{kx + 90:.1f},{ky - 8:.1f} {kx + 150:.1f},{ky - 4:.1f} {IP(770, 262)[0]:.1f},{IP(770, 262)[1]:.1f}', GOLD, 2.4, ok=True, dash='6 4')
+F.r(kx - 17, ky - 8, 34, 16, GOLD, '#8a5a00', 1.2, 8); F.r(kx, ky - 8, 17, 16, '#fff2cc', '#8a5a00', 1.2, 8)
+AN.cagri(F, (kx - 4, ky - 8), 196, 50, ['Nefecon kapsülü'], fs=11.8, c=GOLD, renk='#8a5a00')
+AN.cagri(F, IP(800, 262), 452, 78, ['ilaç burada açılır'], fs=11.4, c=GOLD, renk='#8a5a00')
+AN.cagri(F, IP(960, 345), 470, 208, ['Peyer plakları'], fs=12, c=PUR, renk=PUR)
 # B hücresi → Gd-IgA1
-F.ok(332, 196, 332, 232, PUR, 2.4)
-F.el(332, 252, 16, 16, '#e3dbf5', PUR, 1.4); F.el(332, 252, 7, 6, PUR)
-F.t(356, 248, 'Mukozal B hücresi', 11.6, 800, PUR); F.t(356, 264, 'galaktozdan yoksun IgA1 (Gd-IgA1)', 11.4, None, INK2)
-F.ok(350, 274, 420, 290, PUR, 2.2); F.t(426, 294, '→ dolaşım → immün kompleks', 11.4, 800, INK); F.t(426, 308, '→ böbrekte mezangiyum', 11.4, 800, INK)
+F.ok(440, 212, 252, 244, PUR, 2.2)
+F.el(230, 252, 16, 16, '#e3dbf5', PUR, 1.4); F.el(230, 252, 7, 6, PUR)
+F.t(256, 254, 'Mukozal B hücresi', 11.6, 800, PUR); F.t(256, 269, 'galaktozdan yoksun IgA1 (Gd-IgA1)', 11.4, None, INK2)
+F.t(256, 285, '→ dolaşım → immün kompleks → böbrekte mezangiyum', 11.4, 800, INK)
 # karaciğer
-F.yol('M560,214 q40,-30 96,-6 q10,30 -26,42 q-44,10 -70,-6 z', '#8a4a3a', 1.4, '#c98370')
-F.t(610, 272, 'Karaciğer', 11.6, 800, '#6a3426', 'middle')
-F.ok(560, 156, 590, 196, GOLD, 2.2, '5 4'); F.t(552, 196, 'emilen ilacın >%90’ı', 11.2, 800, GOLD, 'end'); F.t(552, 211, 'ilk geçişte yıkılır', 11.2, None, GOLD, 'end')
-F.tl(20, 298, ['Yüksek lokal doz, sınırlı sistemik maruziyet;', 'ödem, hipertansiyon, akne gibi steroid etkileri yine de görülebilir.'], 11.4, 15, fill=INK2)
+AN.resim(F, 'an_kc', 568, 198, 110, oran=259 / 396)
+F.t(623, 284, 'Karaciğer', 11.6, 800, '#6a3426', 'middle')
+q = IP(1290, 372); F.ok(q[0], q[1] + 4, 610, 200, GOLD, 2.2, '5 4')
+F.t(623, 300, 'emilen ilacın >%90’ı', 11.2, 800, GOLD, 'middle'); F.t(623, 314, 'ilk geçişte yıkılır', 11.2, None, GOLD, 'middle')
+F.tl(20, 304, ['Yüksek lokal doz, sınırlı sistemik maruziyet;', 'ödem, hipertansiyon, akne gibi steroid etkileri yine de görülebilir.'], 11.4, 15, fill=INK2)
 F.t(708, 22, 'NefIgArd · 2 yıl (9 ay ilaç + 15 ay izlem)', 13, 800, BRANDD)
 cubuk(F, 760, 70, 300, 150, [(['eGFR değişimi', '2 yıl, zaman ağırlıklı ort.'], [2.47, 7.52], ['−2,47', '−7,52'])], [('Nefecon', BRAND), ('Plasebo', MUT)], ymax=10, adim=2, birim='azalma', fs=12.4, bw=64)
 F.t(708, 274, 'Zaman ağırlıklı ortalama eGFR farkı', 12, 700, INK)
