@@ -763,6 +763,36 @@
     dugme(seffaf(hit, { r: [6, 28, 634, 286] }), 'Reflü derecelerini sırayla oynat', function () { if (s.oyn) { s.dur(); return; } s.t = 0; s.bas(); });
   }
 
+  // ------------------------------------------------------------------ 6i · endovasküler fistül: üç aşama + akım (s38_eav)
+  function endoAvf(svg) {
+    var G = [0, 1, 2].map(function (i) { return svg.querySelector('[data-etk="e' + i + '"]'); });
+    var y1 = svg.querySelector('[data-etk="ak1"]'), y2 = svg.querySelector('[data-etk="ak2"]'), kv = svg.querySelector('[data-etk="kv"]');
+    if (!G[2] || !y1 || !y2) return;
+    var P1 = yolNoktalari(y1, 80), P2 = yolNoktalari(y2, 110), ust = katman(svg), hit = katman(svg, true), SON = 9.5;
+    G.forEach(function (g) { g.style.transition = 'opacity .3s'; });
+    var kx = kv ? +kv.getAttribute('cx') : 0, ky = kv ? +kv.getAttribute('cy') : 0;
+    var hal = el('circle', { cx: kx, cy: ky, r: 6, fill: 'none', stroke: '#ff9a2e', 'stroke-width': 3, opacity: 0 }, ust);
+    var D1 = [0, 1, 2, 3, 4].map(function () { return el('circle', { r: 3, fill: '#fff', stroke: C.kirmizi, 'stroke-width': 1.4, opacity: 0 }, ust); });
+    var D2 = [0, 1, 2, 3, 4, 5].map(function () { return el('circle', { r: 3, fill: '#fff', stroke: '#6a3ea1', 'stroke-width': 1.4, opacity: 0 }, ust); });
+    var ip = ipucu(ust, 1074, 422, '▶ dokunun: adım adım');
+    function sifir() { G.forEach(function (g) { g.style.opacity = 1; }); hal.setAttribute('opacity', 0); D1.concat(D2).forEach(function (c) { c.setAttribute('opacity', 0); }); }
+    function akit(D, P, t, hiz) {
+      D.forEach(function (c, n) {
+        var q = ((t * hiz) + n / D.length) % 1, z = P[Math.round(q * (P.length - 1))];
+        c.setAttribute('cx', z[0]); c.setAttribute('cy', z[1]); c.setAttribute('opacity', 1);
+      });
+    }
+    var s = saat(svg, function (t) {
+      var i = t < 2 ? 0 : (t < 4 ? 1 : 2);
+      G.forEach(function (g, k) { g.style.opacity = k === i ? 1 : .3; });
+      if (i === 1) { var q = ((t - 2) % .8) / .8; hal.setAttribute('r', 5 + 16 * q); hal.setAttribute('opacity', (1 - q).toFixed(2)); } else hal.setAttribute('opacity', 0);
+      if (i === 2) { akit(D1, P1, t - 4, .35); akit(D2, P2, t - 4, .28); } else D1.concat(D2).forEach(function (c) { c.setAttribute('opacity', 0); });
+      if (t > SON) s.dur();
+    });
+    s.dg = function (o) { ip.textContent = o ? '❚❚ dokunun' : '▶ dokunun: yeniden'; if (!o) sifir(); };
+    dugme(seffaf(hit, { r: [6, 6, 1068, 372] }), 'Endovasküler fistül aşamalarını oynat', function () { if (s.oyn) { s.dur(); return; } s.t = 0; s.bas(); });
+  }
+
   // ------------------------------------------------------------------ slayt kimliği → kurulum
   var K = {
     x30_5: function (svg) {
@@ -786,7 +816,7 @@
         { ad: 'FHHNC: klodin 16 ve 19', delik: [{ k: 'FHHNC' }, { r: [340, 348, 400, 64] }] }] });
     },
     x39_8: plazma, x43_43: perfuzyon, s21_avp: avp, x36_4: tasima, s26_uri: urik,
-    s26_yer: tasInis, s27_us: derece, s27_dren: drenAkis, s27_tek: tekCift, s23_gold: goldblatt, s17_orak: orak, s19_har: kistYas, x21_31: reflu
+    s26_yer: tasInis, s27_us: derece, s27_dren: drenAkis, s27_tek: tekCift, s23_gold: goldblatt, s17_orak: orak, s19_har: kistYas, x21_31: reflu, s38_eav: endoAvf
   };
   var IP = ['☝ şekle dokunun: iyon akışı · etikete: bozukluk'];
   function H_(ad, k, delik, etki) { return { ad: ad, delik: [{ k: k }].concat(delik || []), etki: etki }; }
