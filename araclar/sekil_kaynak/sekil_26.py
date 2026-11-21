@@ -77,44 +77,21 @@ D.yeni('s26_yer', 'x26_6', 'Temel Bilgiler · 3 · Şekil', 'Taşın Yeri, Ağr�
 F = Fig('kri', 434, 'İdrar mikroskopisinde taş tiplerinin kristalleri: kalsiyum oksalat, ürik asit, strüvit, sistin, kalsiyum fosfat', w=1080)
 
 
-def alan(x0, y0, bas, alt, c):
+def alan(x0, y0, bas, alt, c, resim):
+    """Kristal alanı: ChatGPT ile çizilmiş yazısız mikroskop alanı (yuvarlak, saydam kenarlı webp)."""
     F.r(x0, y0, 350, 200, '#fbf8f2', LINE, 1.2, 10)
-    F.el(x0 + 82, y0 + 100, 74, 74, '#eef3f6', '#9aa9b5', 1.4)
+    F.a(f'<image href="/dersler/nefroloji-ders-serisi/gorsel/an_{resim}.webp" x="{x0 + 6}" y="{y0 + 24}" width="152" height="152"/>')
     bas = bas if isinstance(bas, list) else [bas]
-    F.tl(x0 + 166, y0 + 36, bas, 13.2, 17, fw=800, fill=c)
-    F.tl(x0 + 166, y0 + 44 + 17 * len(bas), alt, 11.6, 17, fill=INK)
-    return x0 + 82, y0 + 100
+    F.tl(x0 + 172, y0 + 36, bas, 13.2, 17, fw=800, fill=c)
+    F.tl(x0 + 172, y0 + 44 + 17 * len(bas), alt, 11.6, 17, fill=INK)
 
 
-def kare_zarf(x, y, s, a=0):
-    F.a(f'<g transform="rotate({a} {x} {y})"><rect x="{x - s}" y="{y - s}" width="{2 * s}" height="{2 * s}" fill="#ffffff" fill-opacity=".7" stroke="#5d7385" stroke-width="1.3"/>'
-        f'<path d="M{x - s},{y - s} L{x + s},{y + s} M{x + s},{y - s} L{x - s},{y + s}" stroke="#5d7385" stroke-width="1"/></g>')
-
-
-def poly(x, y, pts, fill, st='#5d7385', a=0):
-    F.a(f'<polygon transform="rotate({a} {x} {y})" points="{" ".join(f"{x + u:.1f},{y + v:.1f}" for u, v in pts)}" fill="{fill}" stroke="{st}" stroke-width="1.3" stroke-linejoin="round"/>')
-
-
-x, y = alan(6, 6, ['Kalsiyum oksalat', 'dihidrat'], ['“Zarf” (oktahedron)', 'CaOx (mono + di) %60–70', 'pH değişken · opak'], BRANDD)
-for (u, v, s, a) in ((-30, -26, 15, 0), (18, -34, 11, 10), (-6, 16, 19, -8), (36, 26, 10, 20), (-44, 30, 9, 5)): kare_zarf(x + u, y + v, s, a)
-x, y = alan(366, 6, ['Kalsiyum oksalat', 'monohidrat'], ['“Bisküvi”, kum saati', 'Daha sert; ESWL’ye dirençli', 'pH değişken · opak'], BRANDD)
-for (u, v, a) in ((-28, -24, 20), (20, -30, -30), (-8, 14, 70), (34, 24, 0), (-42, 34, -10)):
-    F.a(f'<g transform="rotate({a} {x + u} {y + v})"><ellipse cx="{x + u - 7}" cy="{y + v}" rx="9" ry="7" fill="#fff" fill-opacity=".8" stroke="#5d7385" stroke-width="1.3"/>'
-        f'<ellipse cx="{x + u + 7}" cy="{y + v}" rx="9" ry="7" fill="#fff" fill-opacity=".8" stroke="#5d7385" stroke-width="1.3"/></g>')
-x, y = alan(726, 6, 'Ürik asit', ['Elmas, eşkenar dörtgen,', 'rozet · %5–10', 'Oral tedaviyle eritilebilir', 'pH < 5,5 · RADYOLÜSEN'], GOLD)
-for (u, v, s, a) in ((-30, -24, 18, 10), (16, -30, 13, -20), (-4, 18, 22, 35), (36, 22, 12, 0), (-44, 34, 10, -30)):
-    poly(x + u, y + v, [(0, -s), (s * .62, 0), (0, s), (-s * .62, 0)], '#f2c96b', '#a8781a', a)
-x, y = alan(6, 214, ['Strüvit', '(Mg-amonyum-fosfat)'], ['“Tabut kapağı” prizması', '%5–15 · staghorn', 'pH > 7,2 · opak'], RED)
-for (u, v, s, a) in ((-24, -22, 1, 15), (22, 8, 1.25, -20), (-30, 34, .8, 40)):
-    poly(x + u, y + v, [(-26 * s, -8 * s), (-16 * s, -14 * s), (16 * s, -14 * s), (26 * s, -8 * s), (26 * s, 8 * s), (-26 * s, 8 * s)], '#fff', '#5d7385', a)
-    F.a(f'<line transform="rotate({a} {x + u} {y + v})" x1="{x + u - 16 * s:.1f}" y1="{y + v - 14 * s:.1f}" x2="{x + u - 26 * s:.1f}" y2="{y + v - 8 * s:.1f}" stroke="#5d7385" stroke-width="1"/>')
-x, y = alan(366, 214, 'Sistin', ['Altıgen saydam levha', '%1–2 (çocukta daha sık)', 'Asit idrarda çöker (pH < 7)', 'Hafif opak (kükürt)'], PUR)
-for (u, v, s, a) in ((-24, -22, 18, 0), (18, -10, 14, 15), (-14, 26, 15, 30), (36, 32, 10, 5)):
-    poly(x + u, y + v, [(s * math.cos(math.radians(60 * i)), s * math.sin(math.radians(60 * i))) for i in range(6)], '#fff', '#5d7385', a)
-x, y = alan(726, 214, ['Kalsiyum fosfat', '(brushit)'], ['İnce iğne kümeleri', 'CaP %10–15 (çoğu apatit;', 'brushit nadir, çok sert)', 'pH > 6,5 · opak'], GREEN)
-for (u, v) in ((-24, -20), (22, 14), (-28, 34)):
-    for a in range(0, 180, 30):
-        ra = math.radians(a); F.ln(x + u - 18 * math.cos(ra), y + v - 18 * math.sin(ra), x + u + 18 * math.cos(ra), y + v + 18 * math.sin(ra), '#5d7385', 1.4)
+alan(6, 6, ['Kalsiyum oksalat', 'dihidrat'], ['“Zarf” (oktahedron)', 'CaOx (mono + di) %60–70', 'pH değişken · opak'], BRANDD, 'kr_cod')
+alan(366, 6, ['Kalsiyum oksalat', 'monohidrat'], ['“Bisküvi”, kum saati', 'Daha sert; ESWL’ye dirençli', 'pH değişken · opak'], BRANDD, 'kr_com')
+alan(726, 6, 'Ürik asit', ['Elmas, eşkenar dörtgen,', 'rozet · %5–10', 'Oral tedaviyle eritilebilir', 'pH < 5,5 · RADYOLÜSEN'], GOLD, 'kr_ua')
+alan(6, 214, ['Strüvit', '(Mg-amonyum-fosfat)'], ['“Tabut kapağı” prizması', '%5–15 · staghorn', 'pH > 7,2 · opak'], RED, 'kr_str')
+alan(366, 214, 'Sistin', ['Altıgen saydam levha', '%1–2 (çocukta daha sık)', 'Asit idrarda çöker (pH < 7)', 'Hafif opak (kükürt)'], PUR, 'kr_sis')
+alan(726, 214, ['Kalsiyum fosfat', '(brushit)'], ['İnce iğne kümeleri', 'CaP %10–15 (çoğu apatit;', 'brushit nadir, çok sert)', 'pH > 6,5 · opak'], GREEN, 'kr_cap')
 F.t(540, 428, 'Kristal tek başına taş tipini kanıtlamaz; taş analizi gerekir.', 11.2, None, INK2, 'middle')
 D.yeni('s26_kri', 'x26_5', 'Temel Bilgiler · 2 · Şekil', 'Taş Tipleri — İdrarda Görülen Kristaller', F,
        '<b>Okuma:</b> Kalsiyum oksalat dihidrat zarf, monohidrat bisküvi ya da kum saati; ürik asit elmas ya da rozet; strüvit tabut kapağı; sistin altıgen; brushit iğne kümeleri verir. '
@@ -200,8 +177,11 @@ F.ok(sag(1) + 3, 99, R[2][0] - 4, 99, RED, 2.2)
 F.yol(f'M{R[2][0] + R[2][2] / 2:.0f},{130} C{R[2][0] + R[2][2] / 2:.0f},160 {R[3][0] + R[3][2] / 2:.0f},146 {R[3][0] + R[3][2] / 2:.0f},176', RED, 2.2, ok=True)
 F.ok(sag(3) + 3, 209, R[4][0] - 4, 209, RED, 2.2)
 F.r(22, 252, 662, 88, '#f2f5f8', INK2, 1.2, 10)
-F.tl(36, 274, ['Üreaz üretenler: Proteus mirabilis (klasik), Klebsiella, Providencia, Morganella, Serratia,', 'Ureaplasma urealyticum, Corynebacterium urealyticum, S. saprophyticus, bazı Pseudomonas suşları'], 11.6, 18, fill=INK, fw=700)
-F.t(36, 326, 'E. coli pratikte üreaz üretmez: en sık idrar yolu enfeksiyonu etkeni olsa da strüvit yapmaz.', 11.6, None, RED)
+I_ = 'i'                                    # bakteri cins ve tür adları italik
+F.t(36, 272, ['Üreaz üretenler: ', ('Proteus mirabilis', I_), ' (klasik), ', ('Klebsiella', I_), ', ', ('Providencia', I_), ', ', ('Morganella', I_), ', ', ('Serratia', I_), ','], 11.6, 700, INK)
+F.t(36, 289, [('Ureaplasma urealyticum', I_), ', ', ('Corynebacterium urealyticum', I_), ', ', ('Staphylococcus saprophyticus', I_), ','], 11.6, 700, INK)
+F.t(36, 306, ['bazı ', ('Pseudomonas', I_), ' suşları'], 11.6, 700, INK)
+F.t(36, 328, [('E. coli', I_), ' pratikte üreaz üretmez: en sık idrar yolu enfeksiyonu etkeni olsa da strüvit yapmaz.'], 11.6, None, RED)
 serit(F, 706, 6, 368, 'Staghorn (geyik boynuzu) taş', RED); zemin(F, 706, 42, 368, 304)
 SX0, SY0, SSK = 708, 46, 250 / 760          # resim: ChatGPT ile çizildi, yazısız (760 × 760 px)
 A.resim(F, 'an_str', SX0, SY0, 250, oran=1)
@@ -221,6 +201,8 @@ A.resim(F, 'an_gir', GX0, GY0, 1024 * GSK, oran=1310 / 1024)
 def GP(px, py): return (GX0 + px * GSK, GY0 + py * GSK)
 def isa(p, r, tt, c):
     A.tas(F, p[0], p[1], r, tt); F.el(p[0], p[1], r + 5, r + 5, 'none', '#fff', 4.4, op=.85); F.el(p[0], p[1], r + 5, r + 5, 'none', c, 2.4)
+for q_ in (GP(312, 228), GP(222, 345)):                     # üst ve orta kaliks < 2 cm: ESWL (mavi) ya da RIRS (mor)
+    F.el(q_[0], q_[1], 14.5, 14.5, 'none', '#fff', 4.4, op=.85); F.el(q_[0], q_[1], 14.5, 14.5, 'none', PUR, 2.4)
 isa(GP(312, 228), 4.5, 2, BRAND); isa(GP(222, 345), 4.5, 7, BRAND)
 pel = GP(350, 372); isa(pel, 9, 4, RED); lk = GP(262, 498); isa(lk, 6, 6, RED)
 ut = GP(449, 590); isa(ut, 4.2, 9, BRAND)
@@ -229,19 +211,20 @@ A.cagri(F, (pel[0] + 14, pel[1] - 4), 206, 124, ['pelvis', '> 2 cm'], fs=11.8)
 A.cagri(F, (lk[0] + 11, lk[1] + 4), 206, 178, ['alt kaliks', '> 1 cm'], fs=11.8)
 A.cagri(F, (ut[0] + 9, ut[1]), 206, 232, ['proksimal', 'üreter'], fs=11.8)
 A.cagri(F, (ua[0] + 9, ua[1]), 250, 318, ['distal', 'üreter'], fs=11.8)
-K = [(300, 54, 'ESWL', BRAND, ['Böbrek taşı < 2 cm: üst ve orta kaliks, pelvis', 'Proksimal üreter taşı < 10 mm', 'Kontrendikasyon: gebelik, kesilemeyen antitrombotik,', 'kanama eğilimi, tedavisiz ÜSE, distal tıkanma,', 'aort anevrizması',
+K = [(300, 54, 'ESWL', BRAND, ['Üst/orta kaliks ve renal pelviste 2 cm’den küçük', 'taşlar: ESWL veya RIRS; seçim taş özelliklerine', 've anatomiye göre yapılır.', 'Proksimal üreter taşı < 10 mm', 'Kontrendikasyon: gebelik, kesilemeyen antitrombotik,', 'kanama eğilimi, tedavisiz ÜSE, distal tıkanma,', 'aort anevrizması',
                                   'Dirençli: sistin, brushit, CaOx monohidrat (> 1000 HU)']),
      (300, 210, 'URS / fleksibl URS (RIRS) ± lazer', PUR, ['Üreter taşında birinci seçenek (distal, > 10 mm)', 'Proksimal < 10 mm: ESWL ile eşdeğer', 'ESWL’ye dirençli taş · gebelik (deneyimli merkez)',
-                                                      'Antitrombotik kesilemiyorsa tercih edilen', 'RIRS ile 2 cm’e kadar böbrek taşı']),
+                                                      'Antitrombotik kesilemiyorsa tercih edilen', 'RIRS ile 2 cm’ye kadar böbrek taşı']),
      (690, 54, 'PCNL', RED, ['Taş > 2 cm · staghorn · strüvit (tam çıkarım)', 'Alt kaliks > 1 cm: PCNL ya da RIRS', 'ESWL ya da URS başarısız',
                              'Anomali: at nalı böbrek, kaliks divertikülü', 'Taşsızlık en yüksek; kanama ve sepsis riski', 'Antitrombotik genellikle kesilir ya da köprülenir']),
      (690, 210, 'Açık / laparoskopik', INK2, ['Modern pratikte < %1', 'Karmaşık anatomi, eş zamanlı düzeltici', 'cerrahi, endoskopik yöntemin', 'tekrarlayan başarısızlığı'])]
 for x, y, bas, c, sat in K:
-    F.r(x, y, 376, 148, TINT.get(c, '#fff'), c, 1.6, 10); F.t(x + 14, y + 24, bas, 14, 800, c); F.tl(x + 14, y + 46, sat, 11.6, 16, fill=INK)
+    y, h = (y, 162) if y < 100 else (y + 12, 140)
+    F.r(x, y, 376, h, TINT.get(c, '#fff'), c, 1.6, 10); F.t(x + 14, y + 24, bas, 14, 800, c); F.tl(x + 14, y + 44, sat, 11.4, 15.5, fill=INK)
 F.tl(22, 382, ['Komplikasyonsuz küçük üreter taşı (≲ 10 mm): önce izlem; distal taşta alfa blokerle medikal atılım.',
                'Tıkalı ve enfekte böbrek: önce acil stent ya da nefrostomi; kesin taş tedavisi enfeksiyon geçince.'], 11.6, 16, fill=INK2, fw=700)
 D.yeni('s26_gir', 'x26_43', 'Girişim · Şekil', 'Hangi Girişim, Hangi Taşa — Harita', F,
-       '<b>Okuma:</b> Halkaların rengi kutularla eşleşir. 2 cm’in altındaki böbrek taşında ESWL ya da RIRS; 2 cm’in üstünde, staghorn ve strüvit taşında PCNL; distal ve büyük üreter taşında URS birinci seçenektir. '
+       '<b>Okuma:</b> Halkaların rengi kutularla eşleşir. 2 cm’nin altındaki böbrek taşında ESWL ya da RIRS; 2 cm’nin üstünde, staghorn ve strüvit taşında PCNL; distal ve büyük üreter taşında URS birinci seçenektir. '
        'ESWL’nin kontrendikasyonları ve dirençli taş tipleri seçimi değiştirir; antitrombotik kesilemiyorsa URS tercih edilir. Küçük üreter taşında önce izlem, enfekte tıkalı böbrekte önce drenaj gelir.',
        'Şekil: solda böbrekte üst ve orta kalikste mavi halkalı küçük taşlar, pelviste ve alt kalikste kırmızı halkalı büyük taşlar; üreterde mavi halkalı proksimal ve mor halkalı distal taş. '
        'Sağda dört kutu aynı renklerle: ESWL iki santimetrenin altındaki böbrek ve on milimetrenin altındaki proksimal üreter taşında; URS ya da RIRS üreter taşında birinci seçenek ve antitrombotik kesilemiyorsa tercih edilir; '

@@ -800,9 +800,19 @@ def yakinlastir(F, mg, hedef, hr, kutu_a=0, kutu_f=.42, kutu_s=None):
 IF_Y = '#79f08b'
 
 
-def if_patern(F, cx, cy, R, tip, renk=IF_Y, baslik=None, alt=None, fs=12):
-    """Karanlık zeminde floresan glomerül paterni. tip: mez · ince · lineer · kaba · yildiz · mez_kap · negatif."""
+def if_patern(F, cx, cy, R, tip, renk=IF_Y, baslik=None, alt=None, fs=12, resim=None):
+    """Karanlık zeminde floresan glomerül paterni. tip: mez · ince · lineer · kaba · yildiz · mez_kap · negatif.
+    resim: gorsel/an_<resim>.webp (ChatGPT ile çizilmiş floresan glomerül, kare) — verilirse vektör desen yerine çizilir."""
     fid = f'{F.fid}g{len(F.p)}'
+    if resim:
+        x0, s_ = cx - R * 1.14, R * 2.28
+        F.a(f'<clipPath id="{fid}k"><rect x="{x0:.1f}" y="{cy - R * 1.14:.1f}" width="{s_:.1f}" height="{s_:.1f}" rx="10"/></clipPath>'
+            f'<rect x="{x0:.1f}" y="{cy - R * 1.14:.1f}" width="{s_:.1f}" height="{s_:.1f}" rx="10" fill="#000"/>'
+            f'<image href="/dersler/nefroloji-ders-serisi/gorsel/an_{resim}.webp" x="{x0:.1f}" y="{cy - R * 1.14:.1f}" width="{s_:.1f}" height="{s_:.1f}" clip-path="url(#{fid}k)"/>')
+        if baslik: F.t(cx, cy + R * 1.14 + 17, baslik, fs + .5, 800, INK, 'middle')
+        for i, l in enumerate((alt if isinstance(alt, list) else [alt]) if alt else []):
+            F.t(cx, cy + R * 1.14 + 17 + (i + 1) * (fs + 3), l, fs - .5, None, INK2, 'middle')
+        return
     F.a(f'<defs><filter id="{fid}" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="1.1"/></filter></defs>')
     F.r(cx - R * 1.14, cy - R * 1.14, R * 2.28, R * 2.28, '#08110b', None, rx=10)
     F.el(cx, cy, R * 1.02, R * 1.02, 'none', '#1d3324', 1.4)

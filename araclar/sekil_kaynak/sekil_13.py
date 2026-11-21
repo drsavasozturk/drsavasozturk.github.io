@@ -35,7 +35,7 @@ SN = [('Tip 1 · Lineer', 'lineer', 'IgG, GBM boyunca düz çizgi', 'Anti-GBM ha
 for i, (ad, t, pat, hs, sk, km) in enumerate(SN):
     x = 6 + i * 358; cx = x + 175
     serit(F, x, 6, 350, ad, (RED, PUR, BRAND)[i])
-    if_patern(F, cx, 122, 70, t)
+    if_patern(F, cx, 122, 70, t, resim=('if_lin', 'if_gra', 'if_pau')[i])
     F.t(cx, 222, pat, 12.2, 800, INK, 'middle')
     F.t(cx, 248, hs, 12, 700, (RED, PUR, BRAND)[i], 'middle')
     F.t(cx, 270, sk, 11.6, None, INK2, 'middle'); F.t(cx, 290, km, 11.6, None, INK2, 'middle')

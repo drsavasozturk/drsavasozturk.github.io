@@ -167,7 +167,7 @@ for x0, bas, fmd, ad, pw in ((16, 'Aterosklerotik darlık', False, 'an_fmd_a', 8
         q = (x0 + 650 * s_, 84 + 236 * s_)
         F.ln(q[0], q[1], q[0], 226, INK2, 1.2); F.el(q[0], q[1], 2.6, 2.6, '#fff', INK2, 1.1)
         F.t(q[0] - 30, 242, '“boncuk dizisi”: orta–distal segment', 11.8, 700, INK, 'middle')
-        F.tl(x0 + 10, 270, ['Genç–orta yaş kadın; balon anjiyoplasti', '(stentsiz) çok etkilidir'], 11.4, 15, fill=INK2)
+        F.tl(x0 + 10, 266, ['Genç–orta yaş kadınlarda daha sık; girişim', 'gereken olgularda ilk seçenek stentsiz balon', 'anjiyoplastidir. Stent yalnızca gerekli', 'komplikasyonlarda kullanılır.'], 11.4, 15, fill=INK2)
 serit(F, 676, 6, 398, 'Kolesterol ateroembolizmi', RED); zemin(F, 676, 42, 398, 308)
 F.el(875, 150, 120, 92, '#f3e3d6', '#b98c6b', 1.6); F.el(875, 150, 100, 76, '#e7a8a0', '#a2564e', 1.4); F.el(875, 150, 78, 58, '#f8efe6', '#c9a98d', 1.2)
 for (x, y, a) in ((840, 130, -18), (880, 160, 12), (905, 130, -30), (850, 170, 25), (900, 178, -8)):

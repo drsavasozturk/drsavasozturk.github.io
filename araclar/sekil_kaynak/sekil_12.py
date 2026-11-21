@@ -65,7 +65,7 @@ F.ln(q[0], q[1], 490, 136, '#3a4a5a', 1.1, '3 3'); F.t(530, 178, '“Parmak izi�
 serit(F, 620, 6, 454, 'İmmünfloresan: “full-house”', PUR)
 for j, ad in enumerate(['IgG', 'IgA', 'IgM', 'C3', 'C1q']):
     cx = 676 + (j % 3) * 150; cy = 100 + (j // 3) * 150
-    if_patern(F, cx, cy, 44, 'mez_kap', baslik=ad, fs=11.5)
+    if_patern(F, cx, cy, 44, 'mez_kap', baslik=ad, fs=11.5, resim='if_fh')
 F.r(920, 214, 154, 132, '#fff', LINE, 1.4, 10)
 F.tl(932, 236, ['IgG çoğu kez baskın;', 'güçlü C1q klasik yolu', 'gösterir. Hastaların', '~%50’sinde tübüler bazal', 'membranda da birikim.', 'Fibrin: aktif lezyon.'], 11.2, 15.5, fill=INK)
 D.yeni('s12_imz', 'x12_9', 'Temel Bilgiler · 4 · Şekil', 'Lupusun İmzası — Her Yerde Birikim, Her Antikor', F,

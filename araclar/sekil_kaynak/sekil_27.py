@@ -189,12 +189,12 @@ yol(R_, 'akis-r', ((150, 150), (160, 250), (160, 300), (165, 360))); yol(R_, 'ak
 yol(R_, 'akis-u', ((220, 440), (220, 488)))
 A.cagri(F, L_(55, 235), 28, 298, ['Sağlam böbrek', 'hiperfiltrasyonla', 'telafi'], fs=11.6, grup='data-etk="et"')
 A.cagri(F, L_(330, 100), 306, 100, ['Obstrükte böbrek', 'sessizce fonksiyon kaybeder'], grup='data-etk="et"')
-F.tl(300, 178, ['• Kreatinin normal kalır', '• Tanı yalnız görüntülemeyle', '• Drenaj sonrası poliüri beklenmez', '• Karar: renografide ayrık fonksiyon'], 12, 19, fill=INK)
+madde(F, 300, 178, ['Kreatinin normal kalır', 'Tanı yalnız görüntülemeyle', ['Drenaj sonrası belirgin post-obstrüktif', 'diürez (POD) gelişme olasılığı daha', 'düşüktür; ancak tamamen dışlanamaz'], 'Karar: renografide ayrık fonksiyon'], lh=19)
 F.t(600, 336, 'BPH: mesane çıkım obstrüksiyonu', 11.4, 700, '#7d4f73')
 A.cagri(F, R_(300, 380), 852, 296, ['Mesane dolu, duvar kalın;', 'iki sistem genişlemiş'], grup='data-etk="et"')
-madde(F, 846, 160, ['ABH, oligüri ya da anüri', 'Hiperkalemi, asidoz, ödem', 'Acil drenaj, sonra neden', ['Drenaj sonrası poliüri', '(POD) beklenir']], lh=19)
+madde(F, 846, 160, ['ABH, oligüri ya da anüri', 'Hiperkalemi, asidoz, ödem', 'Acil drenaj, sonra neden', ['Drenaj sonrası POD gelişebilir;', 'idrar çıkışı ve elektrolitler', 'izlenmelidir']], lh=19)
 D.yeni('s27_tek', 'x27_13', 'Ayrım · Şekil', 'Tek Taraflı ve Çift Taraflı — Neden Farklı?', F,
        '<b>Okuma:</b> Karşı böbrek sağlamsa hiperfiltrasyonla telafi eder, kreatinin normal kalır ve obstrükte böbrek sessizce fonksiyon kaybeder; tanı görüntülemeyle konur. '
-       'Mesane çıkım obstrüksiyonu gibi çift taraflı tıkanmada ya da tek böbrekte akut böbrek hasarı gelişir; acil drenaj gerekir ve sonrasında poliüri beklenir.',
+       'Mesane çıkım obstrüksiyonu gibi çift taraflı tıkanmada ya da tek böbrekte akut böbrek hasarı gelişir; acil drenaj gerekir; sonrasında post-obstrüktif diürez (POD) gelişebilir, idrar çıkışı ve elektrolitler izlenmelidir.',
        'Şekil: solda tek taraflı obstrüksiyon: bir üreterde taş ve o tarafta genişlemiş pelvis; karşı böbrek hiperfiltrasyonla telafi ediyor; kreatinin normal. '
        'Sağda benign prostat büyümesine bağlı mesane çıkım obstrüksiyonu: mesane dolu ve duvarı kalın, iki üreter ve iki böbrek toplayıcı sistemi genişlemiş; akut böbrek hasarı ve acil drenaj.')

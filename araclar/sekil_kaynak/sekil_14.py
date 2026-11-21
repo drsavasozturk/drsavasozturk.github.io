@@ -45,7 +45,7 @@ PT = [('1 · Yıldızlı gök', 'yildiz', ['akut/subakut evre', 'kapiller duvar 
 for i, (ad, t, sat) in enumerate(PT):
     x = 6 + i * 358; cx = x + 175
     serit(F, x, 6, 350, ad, (RED, GOLD, BRAND)[i])
-    if_patern(F, cx, 116, 66, t)
+    if_patern(F, cx, 116, 66, t, resim=('if_yil', 'if_cel', 'if_mez')[i])
     F.tl(cx, 222, sat, 12, 16, fill=INK, a='middle')
 F.t(6, 292, 'EM: subepitelyal hörgüç tipiktir ama patognomonik değildir. C3 ilk haftada %90’dan fazlasında düşüktür.', 11.6, None, INK2)
 D.yeni('s14_psi', 'x14_7', 'Temel Bilgiler · 3 · Şekil', 'Üç Floresan Paterni — Hastalığın Saati', F,
