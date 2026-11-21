@@ -357,7 +357,7 @@ mark.mk{background:linear-gradient(101deg,rgba(255,233,92,0) 0,rgba(255,233,92,.
 table[style*="table-layout"] td.k{white-space:normal}
 .slide>.soimza{position:absolute;left:54px;top:10px;z-index:6;pointer-events:none;font:600 10.5px/1.5 "Source Sans 3","Segoe UI",system-ui,-apple-system,Arial,sans-serif;font-style:normal;letter-spacing:.02em;color:#4a5a66;background:rgba(255,255,255,.82);border-radius:999px;padding:1px 9px;white-space:nowrap;text-transform:none}.slide>.soimza::after{content:"Prof. Dr. Savaş Öztürk tarafından hazırlanmıştır"}@media print{.slide>.soimza{position:static;order:-1;align-self:flex-start;flex:none;margin:-24px 0 8px}}#onayTik2{margin-top:6px}
 #sunucu{position:absolute;left:0;top:0;width:0;height:0;z-index:45;pointer-events:none;opacity:0;mix-blend-mode:multiply;
-  transition:left .95s cubic-bezier(.45,.05,.2,1),top .95s cubic-bezier(.45,.05,.2,1),opacity .35s}
+  transition-property:left,top,opacity;transition-duration:.42s,.42s,.3s;transition-timing-function:cubic-bezier(.22,.8,.3,1),cubic-bezier(.22,.8,.3,1),ease}
 #sunucu.on{opacity:1}
 #sunucu::before{content:"";position:absolute;left:-27px;top:-27px;width:54px;height:54px;border-radius:50%;
   background:radial-gradient(circle,rgba(255,170,0,.42) 0,rgba(255,190,0,.26) 32%,rgba(255,205,0,.11) 56%,rgba(255,215,0,0) 72%);animation:snNabiz 1.8s ease-in-out infinite}
@@ -368,7 +368,7 @@ table[style*="table-layout"] td.k{white-space:normal}
 @keyframes snNabiz{0%,100%{transform:scale(.85);opacity:.8}50%{transform:scale(1.18);opacity:1}}
 #sunucuHalka{position:absolute;left:0;top:0;width:0;height:0;z-index:44;pointer-events:none;opacity:0;mix-blend-mode:multiply;
   border:2px solid rgba(240,165,0,.70);border-radius:10px;background:rgba(255,222,90,.10);box-shadow:0 0 14px rgba(242,169,0,.22);
-  transition:left .6s ease,top .6s ease,width .6s ease,height .6s ease,opacity .35s}
+  transition:opacity .2s ease}
 #sunucuHalka.on{opacity:1}
 #sunucuHalka.koyu{mix-blend-mode:screen;border-color:rgba(255,215,110,.75);background:rgba(255,220,120,.06)}
 #notes p.an{margin:0 0 7px;padding:3px 8px;border-left:3px solid transparent;border-radius:4px;opacity:.72}
@@ -478,7 +478,7 @@ window.ANLATIM={"T": [["@h", "Klinisyenler için Makale Yazmanın Temel Prensipl
   function syncSpeaking(){ if(!synth) return; var real=!!(synth.speaking||synth.pending); if(!real&&speaking){speaking=false;paused=false;anEk='';speechUI();imlecGizle();} }
   function stopSpeech(silent){ anSeq++; anEk=''; imlecGizle(); if(synth){try{synth.resume();}catch(e){} try{synth.cancel();}catch(e){}} speaking=false;paused=false;
     if(!silent){voiceOn=false; var bv=document.getElementById('bVoice'); if(bv) bv.classList.remove('active');} speechUI(); }
-  function togglePause(){ if(!synth||!speaking) return; try{ if(paused){synth.resume();paused=false;} else {synth.pause();paused=true;} }catch(e){paused=false;} speechUI(); }
+  function togglePause(){ if(!synth||!speaking) return; try{ if(paused){synth.resume();paused=false;} else {synth.pause();paused=true;} }catch(e){paused=false;} speechUI(); if(paused) anDondur(); }
   function speak(text){ if(!synth) return; try{synth.cancel();}catch(e){} speaking=false;paused=false;speechUI(); if(!text) return;
     var u=new SpeechSynthesisUtterance(text); u.lang='tr-TR'; if(trVoice) u.voice=trVoice; u.rate=0.96;
     u.onstart=function(){speaking=true;paused=false;speechUI();}; u.onend=u.onerror=function(){speaking=false;paused=false;speechUI();};
@@ -491,7 +491,8 @@ window.ANLATIM={"T": [["@h", "Klinisyenler için Makale Yazmanın Temel Prensipl
   var imlec=document.createElement('div'); imlec.id='sunucu'; imlec.setAttribute('aria-hidden','true');
   var halka=document.createElement('div'); halka.id='sunucuHalka'; halka.setAttribute('aria-hidden','true');
   deck.appendChild(halka); deck.appendChild(imlec);
-  function imlecGizle(){ imlec.classList.remove('on'); halka.classList.remove('on'); anHedefEl=null; }
+  var anHalkaT=null, anGlideT=null, anSatirEl=null, anPlanNo=-1;
+  function imlecGizle(){ clearTimeout(anGlideT); clearTimeout(anHalkaT); imlec.classList.remove('on'); halka.classList.remove('on'); anHedefEl=null; anSatirEl=null; }
   function anNorm(s){ return (s||'').replace(/[–—−‑]/g,'-').replace(/[‘’“”«»"']/g,"'").replace(/ /g,' ').replace(/\s+/g,' ').trim().toLocaleLowerCase('tr'); }
   function anBul(sl,a,kuru){
     var h=sl.querySelector('h2')||sl.querySelector('h1')||sl, m;
@@ -500,7 +501,7 @@ window.ANLATIM={"T": [["@h", "Klinisyenler için Makale Yazmanın Temel Prensipl
     if(a==='@tablo'){ var t=sl.querySelector('table'); return {el:t||h,ok:!!t}; }
     if(a==='@arac'){ var c=sl.querySelector('.calc'); if(c&&c.parentElement&&c.parentElement.querySelector('.svgbox')) c=c.parentElement; return {el:c||h,ok:!!c}; }
     if((m=/^@cevap(\d+)$/.exec(a))){ var b=sl.querySelectorAll('.cvp-btn')[+m[1]-1]; if(!b) return {el:h,ok:false};
-      var d=document.getElementById(b.getAttribute('data-cvp')); if(!kuru&&d&&!d.classList.contains('vis')) b.click(); return {el:(kuru?b:d)||h,ok:!!d}; }
+      var d=document.getElementById(b.getAttribute('data-cvp')), acti=false; if(!kuru&&d&&!d.classList.contains('vis')){ b.click(); acti=true; } return {el:(kuru?b:d)||h,ok:!!d,acti:acti}; }
     if((m=/^@soru(\d+)$/.exec(a))){ var q=sl.querySelectorAll('.q')[+m[1]-1]; return {el:q||h,ok:!!q}; }
     var svgOnly=a.charAt(0)==='~'; if(svgOnly) a=a.slice(1);
     var key=anNorm(a), best=null, bl=1e9;
@@ -516,17 +517,46 @@ window.ANLATIM={"T": [["@h", "Klinisyenler için Makale Yazmanın Temel Prensipl
     if(w&&sl.contains(w)&&w!==sl){ var r=w.getBoundingClientRect(), sr=sl.getBoundingClientRect(); if(r.width*r.height<0.62*sr.width*sr.height) e=w; }
     return {el:e,ok:true};
   }
-  function anKutu(el){ var dr=deck.getBoundingClientRect(), s=dr.width/1280||1, r=el.getBoundingClientRect();
-    return {x:(r.left-dr.left)/s, y:(r.top-dr.top)/s, w:r.width/s, h:r.height/s}; }
-  function anYer(j,m){ var el=anHedefEl; if(!el||!document.body.contains(el)) return; var R=anKutu(el); if(R.w<=0&&R.h<=0) return;
+  /* konum slayta göre ölçülür: slayt giriş animasyonu (kayma, ölçek) ölçümü bozmaz */
+  function anKutu(el){ var sl=slides[i], sr=sl.getBoundingClientRect(), s=(sr.width/1280)||1, r=el.getBoundingClientRect();
+    return {x:(r.left-sr.left)/s, y:(r.top-sr.top)/s, w:r.width/s, h:r.height/s}; }
+  /* okunan cümleyi hedef kutudaki satırla eşleştir (sözcük kökü örtüşmesi) */
+  var AN_DUR={}; ('için olarak olan gibi daha değil sonra önce kadar bunu şunu sizin bizim yalnızca burada şimdi ancak ayrıca çünkü yine bile hangi nasıl neden birlikte arasında üzerinde altında slaytta slayt bakın dikkat böyle şöyle diye yani eğer olur vardır yoktur bunlar onlar'.split(' ')).forEach(function(w){ AN_DUR[w]=1; });
+  function anKok(t){ var o={__n:0}, w=anNorm(t).replace(/[âà]/g,'a').replace(/[îì]/g,'i').replace(/[ûù]/g,'u').replace(/[^0-9a-zçğıöşü]+/g,' ').split(' ');
+    for(var q=0;q<w.length;q++){ var x=w[q]; if(x.length<4||AN_DUR[x]) continue; var k=x.slice(0,5); if(!o[k]){ o[k]=1; o.__n++; } } return o; }
+  var AN_ADAY='li,tr,p,h3,h4,h5,label,.t,.stem,figcaption,.htt,.vsyol,.lbl,text';
+  function anSatir(el,cumle){ if(!el||!el.querySelectorAll) return null; var ks=anKok(cumle); if(ks.__n<1) return null;
+    var ns=el.querySelectorAll(AN_ADAY), best=null, bm=0, bn=1e9;
+    for(var q=0;q<ns.length;q++){ var e=ns[q];
+      if((e.matches&&e.matches('li[data-o]'))||(e.closest&&(e.closest('.fn')||e.closest('.ans')||e.closest('li[data-o]')))) continue;
+      var r=e.getBoundingClientRect(); if(r.width<2||r.height<2) continue;
+      var kc=e.__ank||(e.__ank=anKok(e.textContent)); if(kc.__n<1) continue;
+      var m=0; for(var k in ks){ if(k!=='__n'&&kc[k]) m++; }
+      if(!(m>=2||(m>=1&&kc.__n<=2))) continue;
+      if(m>bm||(m===bm&&kc.__n<bn)){ best=e; bm=m; bn=kc.__n; } }
+    return best; }
+  function anHalka(hemen){ clearTimeout(anHalkaT);
+    function koy(){ if(!anHedefEl||!document.body.contains(anHedefEl)) return; var R=anKutu(anHedefEl), p=6, hx=Math.max(4,R.x-p), hy=Math.max(4,R.y-p);
+      halka.style.left=hx+'px'; halka.style.top=hy+'px'; halka.style.width=Math.min(1276-hx,R.w+2*p)+'px'; halka.style.height=Math.min(716-hy,R.h+2*p)+'px'; halka.classList.add('on'); }
+    if(hemen||!halka.classList.contains('on')){ koy(); return; }
+    halka.classList.remove('on'); anHalkaT=setTimeout(koy,170); }
+  function anImlec(x,y,sure,duz){ var tf=duz?'linear':'cubic-bezier(.22,.8,.3,1)';
+    imlec.style.transitionDuration=sure+'s,'+sure+'s,.3s'; imlec.style.transitionTimingFunction=tf+','+tf+',ease';
+    imlec.style.left=Math.max(8,Math.min(1262,x))+'px'; imlec.style.top=Math.max(8,Math.min(708,y))+'px'; imlec.classList.add('on'); }
+  function anDondur(){ clearTimeout(anGlideT); var cs=getComputedStyle(imlec); imlec.style.transitionDuration='0s,0s,.3s'; imlec.style.left=cs.left; imlec.style.top=cs.top; }
+  /* bir cümle: önce hedefe kısa yolculuk (0,42 sn), sonra cümle süresince satır boyunca ya da kutu içinde aşağı doğru düzgün akış */
+  function anGoster(cumle,j,m,sure){ var el=anHedefEl; clearTimeout(anGlideT); if(!el||!document.body.contains(el)) return;
+    var R=anKutu(el); if(R.w<=0&&R.h<=0) return;
     var dk=!!(slides[i]&&slides[i].classList.contains('section')); imlec.classList.toggle('koyu',dk); halka.classList.toggle('koyu',dk);
-    var p=5, hx=Math.max(4,R.x-p), hy=Math.max(4,R.y-p), hw=Math.min(1272-hx,R.w+2*p), hh=Math.min(712-hy,R.h+2*p);
-    halka.style.left=hx+'px'; halka.style.top=hy+'px'; halka.style.width=hw+'px'; halka.style.height=hh+'px'; halka.classList.add('on');
-    var f=(j+0.5)/Math.max(1,m), x, y;
-    if(R.h<64){ x=R.x+Math.min(R.w,620)*(0.10+0.72*f); y=R.y+R.h*0.62; }
-    else { x=R.x+Math.min(R.w,760)*((j%2)?0.62:0.20); y=R.y+R.h*(0.18+0.62*f); }
-    x=Math.max(8,Math.min(1250,x)); y=Math.max(8,Math.min(700,y));
-    imlec.style.left=x+'px'; imlec.style.top=y+'px'; imlec.classList.add('on'); }
+    var sat=anSatir(el,cumle), S=sat?anKutu(sat):null, ayni=!!(sat&&sat===anSatirEl), x0,y0,x1,y1;
+    anSatirEl=sat;
+    if(S&&S.w>0){ var lw=Math.min(S.w,560), ly=Math.min(S.h*0.55,15); x0=S.x+Math.min(12,S.w*0.06); y0=S.y+ly; x1=S.x+lw*0.88; y1=(S.h>42)?S.y+S.h-ly:y0; }
+    else if(R.h<64){ var w=Math.min(R.w,640); x0=R.x+w*0.06; x1=R.x+w*0.88; y0=y1=R.y+Math.min(R.h*0.6,R.h-6); }
+    else { var f0=j/Math.max(1,m), f1=(j+1)/Math.max(1,m), xs=R.x+Math.min(R.w*0.1,36); x0=x1=xs; y0=R.y+R.h*(0.08+0.84*f0); y1=R.y+R.h*(0.08+0.84*f1); }
+    var g=Math.max(0.8,sure-0.45);
+    if(ayni){ anImlec(x1,y1,g,true); return; }
+    anImlec(x0,y0,0.42,false);
+    anGlideT=setTimeout(function(){ anImlec(x1,y1,g,true); },440); }
   function anCumle(t){ var a=t.match(/[^.!?]+[.!?]+["”’)]*\s*|[^.!?]+$/g)||[t], o=[], buf='';
     for(var k=0;k<a.length;k++){ buf+=a[k]; if(buf.replace(/\s+/g,' ').trim().length>=28||k===a.length-1){ var c=buf.replace(/\s+/g,' ').trim(); if(c) o.push(c); buf=''; } }
     return o.length?o:[t]; }
@@ -534,32 +564,38 @@ window.ANLATIM={"T": [["@h", "Klinisyenler için Makale Yazmanın Temel Prensipl
     var c=ps[k], nb=document.getElementById('notes'); if(c&&nb&&nb.classList.contains('on')){ try{ nb.scrollTop=Math.max(0,c.offsetTop-60); }catch(e){} } }
   function anHtml(cur){ var L=AN[cur.id]; if(!L||!L.length) return '';
     return L.map(function(x){ return '<p class="an">'+String(x[1]).replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</p>'; }).join(''); }
-  function anSegGit(seq,sl,k,j,m){ if(seq!==anSeq) return;
-    if(k!==anSeg){ anSeg=k; var r=anBul(sl,anList[k][0],false); anHedefEl=r.el; anEk=' · '+(k+1)+'/'+anList.length; anNotIsaret(k); speechUI();
-      setTimeout(function(){ if(seq===anSeq&&anSeg===k) anYer(j,m); },420); }
-    anYer(j,m); }
+  /* her cümle yalnız bir kez işlenir (önceki cümlenin onend'i ile bunun onstart'ı aynı anda gelebilir) */
+  function anSegGit(seq,sl,n,p){ if(seq!==anSeq||n<=anPlanNo) return; anPlanNo=n;
+    if(p.k!==anSeg){ anSeg=p.k; anSatirEl=null; var r=anBul(sl,anList[p.k][0],false); anHedefEl=r.el;
+      anEk=' · '+(p.k+1)+'/'+anList.length; anNotIsaret(p.k); speechUI();
+      if(r.acti){ clearTimeout(anGlideT); halka.classList.remove('on'); setTimeout(function(){ if(seq===anSeq&&anPlanNo===n){ anHalka(true); anGoster(p.t,p.j,p.m,p.s-0.42); } },420); return; }
+      anHalka(false); }
+    anGoster(p.t,p.j,p.m,p.s); }
   function anlat(){
     var sl=slides[i], L=AN[sl.id];
     if(!synth) return;
     if(!L||!L.length){ anSeq++; imlecGizle(); anEk=''; speak(notesText()); return; }
     try{synth.cancel();}catch(e){}
-    var seq=++anSeq; anUts=[]; anSeg=-1; anList=L; anEk=''; speaking=true; paused=false;
-    var plan=[]; L.forEach(function(x,k){ var cs=anCumle(String(x[1])); cs.forEach(function(c,j){ plan.push({k:k,j:j,m:cs.length,t:c}); }); });
+    var seq=++anSeq; anUts=[]; anSeg=-1; anPlanNo=-1; anList=L; anEk=''; speaking=true; paused=false;
+    var plan=[]; L.forEach(function(x,k){ var cs=anCumle(String(x[1])); cs.forEach(function(c,j){ plan.push({k:k,j:j,m:cs.length,t:c,s:c.length/14}); }); });
     plan.forEach(function(p,n){ var u=new SpeechSynthesisUtterance(p.t); u.lang='tr-TR'; if(trVoice) u.voice=trVoice; u.rate=0.95;
-      u.onstart=function(){ if(seq!==anSeq) return; speaking=true; anSegGit(seq,sl,p.k,p.j,p.m); };
+      u.onstart=function(){ if(seq!==anSeq) return; speaking=true; anSegGit(seq,sl,n,p); };
       u.onend=function(){ if(seq!==anSeq) return; if(n===plan.length-1){ speaking=false; paused=false; anEk=''; speechUI(); setTimeout(function(){ if(seq===anSeq) imlecGizle(); },900); }
-        else { var q=plan[n+1]; anSegGit(seq,sl,q.k,q.j,q.m); } };
+        else anSegGit(seq,sl,n+1,plan[n+1]); };
       u.onerror=function(ev){ if(seq!==anSeq) return; if(ev&&(ev.error==='interrupted'||ev.error==='canceled')) return; if(n===plan.length-1){ speaking=false; paused=false; speechUI(); imlecGizle(); } };
       anUts.push(u); });
-    setTimeout(function(){ if(seq!==anSeq) return; anSegGit(seq,sl,0,0,plan[0].m); anUts.forEach(function(u){ try{synth.speak(u);}catch(e){} }); speechUI(); },60);
+    setTimeout(function(){ if(seq!==anSeq) return; anSegGit(seq,sl,0,plan[0]); anUts.forEach(function(u){ try{synth.speak(u);}catch(e){} }); speechUI(); },60);
     speechUI(); if(!uiTimer) uiTimer=setInterval(syncSpeaking,700);
   }
-  window.addEventListener('resize',function(){ if(anHedefEl&&imlec.classList.contains('on')) setTimeout(function(){ anYer(0,1); },120); });
+  window.addEventListener('resize',function(){ if(anHedefEl&&halka.classList.contains('on')) setTimeout(function(){ anHalka(true); },120); });
   window.__anlatimTest=function(){ var bad=[], n=0; slides.forEach(function(sl){ var L=AN[sl.id]; if(!L){ bad.push([sl.id,'(anlatım yok)']); return; }
       L.forEach(function(x){ n++; var r=anBul(sl,x[0],true); if(!r.ok) bad.push([sl.id,x[0]]); }); });
     Object.keys(AN).forEach(function(k){ if(!document.getElementById(k)) bad.push([k,'(slayt yok)']); }); return {parca:n,eksik:bad}; };
   window.__anlatimDurum=function(){ return {seq:anSeq,seg:anSeg,imlec:imlec.classList.contains('on'),x:imlec.style.left,y:imlec.style.top,halka:halka.classList.contains('on'),hw:halka.style.width,konusuyor:speaking,cumle:anUts.length}; };
-  window.__anlatimGoster=function(k){ var sl=slides[i], L=AN[sl.id]; if(!L||!L[k]) return false; anList=L; anSeg=k; var r=anBul(sl,L[k][0],false); anHedefEl=r.el; anYer(0,1); return r.ok; };
+  window.__anlatimGoster=function(k,c){ var sl=slides[i], L=AN[sl.id]; if(!L||!L[k]) return false; anList=L; anSeg=k; anSatirEl=null; var r=anBul(sl,L[k][0],false); anHedefEl=r.el; anHalka(true);
+    var cs=anCumle(String(L[k][1])), j=Math.min(c||0,cs.length-1); anGoster(cs[j],j,cs.length,3); return r.ok; };
+  window.__anlatimSatir=function(){ var sl=slides[i], L=AN[sl.id]||[], o=[]; L.forEach(function(x,k){ var r=anBul(sl,x[0],true), cs=anCumle(String(x[1]));
+      cs.forEach(function(c){ var e=anSatir(r.el,c); o.push([k,c.slice(0,60),e?(e.textContent||'').replace(/\s+/g,' ').trim().slice(0,60):'']); }); }); return o; };
 
   /* ---------- çizim ---------- */
   function render(back){
