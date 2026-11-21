@@ -169,6 +169,12 @@ for k, v in H.items():
 ok('kırık iç bağlantı yok', not kirik, str(kirik[:8]) + f' (toplam {len(kirik)})')
 ok('indirme klasörü yok', not os.path.exists(ROOT + '/indir'))
 ok('hiçbir sayfada indirme bağlantısı yok', not any(' download' in v or '/indir/' in v.replace("'/indir/'", '') for v in H.values()), str([k for k, v in H.items() if ' download' in v][:5]))
+# İstisna (kullanıcı onayı, 21.11.2026): İstatistik dersindeki sentetik uygulama veri setleri indirilebilir (.sav, .csv).
+# İndirme yalnız bu sayfada, yalnız gömülü window.VERISET üzerinden ve .vsbtn düğmeleriyle olur; başka sayfada bulunmamalıdır.
+_vs = [k for k, v in H.items() if 'window.VERISET=' in v or 'class="vsbtn' in v]
+ok('veri seti indirmesi yalnız İstatistik dersinde', _vs == ['dersler/klinisyenler-icin-istatistik/index.html'], str(_vs))
+_ist = H.get('dersler/klinisyenler-icin-istatistik/index.html', '')
+ok('İstatistik: 5 veri seti, her biri .sav ve .csv düğmeli', len(set(re.findall(r'class="vsbtn[^"]*" data-vs="(vs\d)"', _ist))) == 5 and _ist.count('data-f="sav"') == 5 and _ist.count('data-f="csv"') == 5)
 ok('her dosya 25 MB altında', all(os.path.getsize(os.path.join(a, f)) < 25e6 for a, _, fs in os.walk(ROOT) for f in fs))
 srv.terminate()
 print('\nÖZET:', sum(1 for _, k, _ in SON if k), '/', len(SON), 'geçti'); [print('  BAŞARISIZ:', a, e) for a, k, e in SON if not k]

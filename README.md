@@ -49,3 +49,6 @@ python3 -I araclar/ders_guncelle.py <yeni_tek_dosya.html> dersler/<ad>/index.htm
 ```
 
 Ardından `sw.js` sürüm etiketi artırılır, `sitemap.xml` tarihi ve `surum-notlari.html` güncellenir, `araclar/test_site.py` çalıştırılır.
+
+
+**İndirme kuralına istisna (21.11.2026):** İstatistik dersindeki beş sentetik uygulama veri seti (.sav, .csv) sayfaya gömülüdür (`window.VERISET`) ve `.vsbtn` düğmeleriyle indirilir. Sitede başka indirme yoktur; `test_site.py` bunu denetler.

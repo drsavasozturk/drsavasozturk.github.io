@@ -12,6 +12,8 @@ site kabuğu korunur; yalnız sunumun kendisi değişir:
   - Kapaktaki "2026–2027 Eğitim-Öğretim Yılı" ibaresi çıkarılır (kullanıcı isteği, 8.11.2026).
   - Slayt ibaresi (i.soimza) imza_ekle.py ile aynı ögedir; araç sonunda imza_ekle.isle çağrılır (yinelemez).
 Denetim: sunum gövdesinde dış adres (http/https), indirme özniteliği ve tarayıcı depolaması olmamalı; varsa yazmayı reddeder.
+İstisna (kullanıcı onayı, 21.11.2026): İstatistik dersinin sentetik uygulama veri setleri gömülü veriden (window.VERISET) .vsbtn düğmesiyle indirilir;
+bu, betik içinde üretilen bir indirmedir ve gövdede indirme özniteliği taşımaz.
 """
 import re, sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
