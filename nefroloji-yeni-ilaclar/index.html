@@ -2152,7 +2152,7 @@ footer.altb{max-width:1100px;margin:32px auto 0;padding:18px 16px 40px;border-to
  function ac(){o.classList.remove('kapali');sifir();kilit(true);document.body.style.overflow='hidden';}
  sifir();
  C.forEach(function(c){['change','input','click'].forEach(function(t){c.addEventListener(t,function(){setTimeout(es,0);});});});
- window.addEventListener('pageshow',function(e){if(e.persisted||!o.classList.contains('kapali'))ac();});
+ window.addEventListener('pageshow',function(e){if(e.persisted)ac();});
  window.addEventListener('keydown',function(e){if(!o.classList.contains('kapali')&&!o.contains(e.target)){e.stopImmediatePropagation();e.preventDefault();}},true);
  b.addEventListener('click',function(){if(hep())kapat();});
  try{localStorage.removeItem(K);}catch(e){}
