@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Ders 21 · Kalıtsal Tübülopatiler ve CAKUT — şekil tanımları (sekil_kit ile çizilir)."""
 from sekil_kit import *
+import sekil_anat as AN
 
 L = []
 OZGUN = ' <i>Özgün şematik çizim; ölçekli değildir.</i>'
@@ -396,14 +397,18 @@ ic('s21_ant', 'x21_29', F)
 # ============================================================================================== 12 · VUR dereceleri + RIVUR / PRIVENT (slayt içi)
 F = Fig('vur', 318, 'Vezikoüreteral reflü dereceleri ve RIVUR ile PRIVENT çalışmalarının sonuçları', mh=330)
 F.t(20, 22, 'VUR dereceleri (işeme sistoüretrografisi)', 13.5, 800, BRANDD)
-DER = [('I', 0, '#ddd6c4', 3.5, 0, ['yalnız üreter']), ('II', 0, IDRAR, 3.5, 0, ['pelvis ve kaliksler;', 'genişleme yok']), ('III', 1, IDRAR, 6, 0, ['hafif–orta', 'genişleme']),
-       ('IV', 2, IDRAR, 9, 1, ['orta genişleme,', 'üreter kıvrımlı']), ('V', 3, IDRAR, 13, 2, ['ağır genişleme,', 'papilla izi silinmiş'])]
-for k, (rm, pel, col, gw, kv, ac) in enumerate(DER):
-    cx = 62 + k * 118
-    ex, ey = bobrek(F, cx, 92, .66, pel, idrar=col)
-    ureter(F, ex, ey + 4, cx + 30, 222, gw, kv)
-    F.el(cx + 34, 240, 26, 18, '#b98a80', '#8e4a44', 1.4); F.el(cx + 34, 240, 23, 15, IDRAR)
-    F.t(cx + 18, 282, rm, 15, 800, BRANDD, 'middle'); F.tl(cx + 18, 298, ac, 11.4, 13.5, fill=INK2, a='middle')
+# resimler: ChatGPT ile çizildi (yazısız; tek resim 1538 × 512 px, beş birime bölündü). Yollar: mesaneden kontrastın ulaştığı yere (piksel).
+VS = 228 / 504; VB = ((144, 4, 205, 504), (415, 4, 193, 504), (682, 4, 183, 504), (946, 4, 176, 504), (1221, 9, 190, 499))
+def VP(px, py): return (14 + (px - 144) * VS, 34 + (py - 4) * VS)
+VY = [[[269, 444], (273, 418), (273, 397), (275, 377), (276, 363), (276, 349), (275, 335), (274, 321), (272, 307), (270, 293), (268, 279), (266, 265), (264, 251), (262, 237), (260, 223), (260, 209), (261, 195), (261, 181), (262, 167), [263, 153]], [[530, 446], (535, 419), (540, 397), (547, 377), (549, 363), (550, 349), (550, 335), (549, 321), (548, 307), (546, 293), (543, 279), (540, 265), (538, 251), (536, 237), (536, 223), (536, 209), (537, 195), (538, 181), (538, 167), (537, 153), (534, 139), [526, 125]], [[786, 447], (791, 420), (799, 398), (809, 378), (814, 364), (817, 350), (818, 336), (815, 322), (810, 308), (804, 294), (801, 280), (801, 266), (805, 252), (811, 238), (816, 224), (820, 210), (821, 196), (819, 182), (818, 168), (811, 154), (802, 140), (790, 130), [775, 119]], [[1043, 446], (1048, 419), (1058, 397), (1071, 377), (1078, 363), (1079, 349), (1079, 335), (1071, 321), (1059, 307), (1047, 293), (1045, 279), (1051, 265), (1062, 251), (1068, 237), (1078, 223), (1089, 209), (1094, 195), (1093, 181), (1092, 167), (1080, 153), (1063, 139), (1053, 128), [1043, 118]], [[1300, 446], (1306, 419), (1320, 397), (1338, 377), (1349, 363), (1352, 349), (1345, 335), (1329, 321), (1315, 307), (1305, 293), (1303, 279), (1312, 265), (1330, 251), (1344, 237), (1353, 223), (1364, 209), (1373, 195), (1364, 181), (1351, 167), (1332, 153), (1319, 139), (1315, 125), [1312, 111]]]
+DER = [('I', ['yalnız üreter']), ('II', ['pelvis ve kaliksler;', 'genişleme yok']), ('III', ['hafif–orta', 'genişleme']),
+       ('IV', ['orta genişleme,', 'üreter kıvrımlı']), ('V', ['ağır genişleme,', 'papilla izi silinmiş'])]
+for k, (rm, ac) in enumerate(DER):
+    bx, by, bw, bh = VB[k]; q = VP(bx, by)
+    AN.resim(F, f'an_vur{k}', q[0], q[1], bw * VS, oran=bh / bw, grup=f'data-etk="v{k}"')
+    F.a('<path data-etk="vy%d" d="M%s" fill="none" stroke="none"/>' % (k, ' L'.join('%.1f,%.1f' % VP(*n) for n in VY[k])))
+    cx = VP(bx + bw / 2, 0)[0]
+    F.a(f'<g data-etk="ve{k}">'); F.t(cx, 282, rm, 15, 800, BRANDD, 'middle'); F.tl(cx, 298, ac, 11.4, 13.5, fill=INK2, a='middle'); F.a('</g>')
 F.ln(646, 10, 646, 312, LINE, 1.5)
 F.t(676, 22, 'Profilaksi: iki randomize çalışma', 13.5, 800, BRANDD)
 cubuk(F, 716, 70, 396, 160, [(['RIVUR', 'yineleyen İYE'], [12.9, 23.6], ['%12,9', '%23,6']), (['RIVUR', 'TMP-SMX direnci'], [63, 19], ['%63', '%19']),
@@ -418,30 +423,32 @@ F = Fig('obs', 344, 'Üreteropelvik bileşke darlığı, posterior üretral valv
 OBS = [(10, 'Üreteropelvik bileşke darlığı', BRAND), (390, 'Posterior üretral valv (önceki slayt)', RED), (770, 'Prune-belly sendromu', PUR)]
 for (x0, bas, c) in OBS:
     F.r(x0, 4, 360, 28, TINT[c], None, rx=8); F.t(x0 + 180, 23.5, bas, 13.5, 800, c, 'middle')
+# resimler: ChatGPT ile çizildi (yazısız; tek resim 1538 × 512 px, üç çizime bölündü)
+OS_ = .5; OB = ((107, 14, 343, 477), (576, 10, 373, 492), (1073, 19, 342, 483)); OX = (10, 390, 770)
+def OP(j, px, py): return (OX[j] + 180 - OB[j][2] * OS_ / 2 + (px - OB[j][0]) * OS_, 40 + (OB[j][1] - 10) * OS_ + (py - OB[j][1]) * OS_)
+for j in range(3):
+    q = OP(j, OB[j][0], OB[j][1]); AN.resim(F, f'an_obs{j}', q[0], q[1], OB[j][2] * OS_, oran=OB[j][3] / OB[j][2])
 # UPJ
 x0 = 10
-e1 = bobrek(F, x0 + 116, 100, .8, 3); e2 = bobrek(F, x0 + 244, 100, .8, 0, ayna=True)
-ureter(F, e1[0] + 2, e1[1] + 6, x0 + 168, 204, 3); ureter(F, e2[0], e2[1] + 2, x0 + 192, 204, 3)
-mesane(F, x0 + 180, 228, 30, 22, 3, uretra=12)
-F.ln(e1[0] - 5, e1[1] + 3, e1[0] + 9, e1[1] + 3, RED, 3.2); F.ln(e1[0] + 12, e1[1] + 3, e1[0] + 44, e1[1] - 10, RED, 1.4, '2 4'); F.t(e1[0] + 20, e1[1] - 30, 'darlık', 12, 800, RED)
-F.t(x0 + 42, 46, 'geniş pelvis,', 11.5, None, INK2); F.t(x0 + 42, 60, 'ince üreter', 11.5, None, INK2)
+AN.cagri(F, OP(0, 205, 112), x0 + 84, 62, ['geniş pelvis', 've kaliksler'], fs=11.6, sol=True)
+AN.cagri(F, OP(0, 233, 172), x0 + 84, 150, ['darlık'], fs=12, c=RED, renk=RED, sol=True)
+AN.cagri(F, OP(0, 244, 285), x0 + 84, 214, ['ince üreter'], fs=11.6, sol=True)
+AN.cagri(F, OP(0, 400, 110), x0 + 284, 62, ['karşı böbrek', 'normal'], fs=11.6)
 F.tl(x0 + 6, 306, ['Antenatal hidronefrozun en sık yapısal nedeni.', 'Çoğu izlemle düzelir; işlev düşerse piyeloplasti.'], 12, 16, fill=INK)
 # PUV
 x0 = 390
-e1 = bobrek(F, x0 + 112, 100, .8, 2); e2 = bobrek(F, x0 + 248, 100, .8, 2, ayna=True)
-ureter(F, e1[0] + 2, e1[1] + 4, x0 + 164, 200, 8, 1); ureter(F, e2[0] - 2, e2[1] + 4, x0 + 196, 200, 8, 1)
-mesane(F, x0 + 180, 220, 26, 20, 9, uretra=8, valv=True, arka=True)
-F.t(x0 + 226, 218, 'kalın duvarlı mesane', 11.5, None, INK2); F.t(x0 + 200, 264, 'geniş posterior üretra, valv', 11.5, 700, RED)
+AN.cagri(F, OP(1, 668, 222), x0 + 96, 96, ['geniş üreter', 'kıvrımlı, iki taraflı'], fs=11.6, sol=True)
+AN.cagri(F, OP(1, 690, 345), x0 + 80, 200, ['kalın duvarlı', 'mesane', '(trabeküllü)'], fs=11.6, sol=True)
+AN.cagri(F, OP(1, 778, 415), x0 + 272, 236, ['geniş posterior', 'üretra'], fs=11.6, c=RED, renk=RED)
+AN.cagri(F, OP(1, 770, 452), x0 + 272, 284, ['valv'], fs=12, c=RED, renk=RED)
 F.tl(x0 + 6, 306, ['Yalnız erkek çocukta. Önce mesaneyi boşaltın, sonra', 'valv ablasyonu; mesane ömür boyu izlenir.'], 12, 16, fill=INK)
 # prune-belly
 x0 = 770
-e1 = bobrek(F, x0 + 108, 100, .8, 2); e2 = bobrek(F, x0 + 252, 100, .8, 2, ayna=True)
-ureter(F, e1[0] + 2, e1[1] + 4, x0 + 156, 200, 12, 2); ureter(F, e2[0] - 2, e2[1] + 4, x0 + 204, 200, 12, 2)
-mesane(F, x0 + 180, 222, 44, 26, 2, uretra=10)
-F.el(x0 + 74, 196, 9, 6.5, '#d9b38c', '#8a6a3a', 1.3); F.el(x0 + 288, 196, 9, 6.5, '#d9b38c', '#8a6a3a', 1.3)
-F.t(x0 + 20, 220, 'inmemiş testis', 11.5, None, INK2); F.ln(x0 + 60, 208, x0 + 70, 202, INK2, 1.2)
-F.yol('M%d,58 q-10,13 0,26 t0,26 t0,26 t0,26 t0,26 t0,26 t0,26 t0,26' % (x0 + 336), PUR, 2)
-F.t(x0 + 180, 291, '', 11)
+for tx_ in (x0 + 66, x0 + 296):
+    F.el(tx_, 226, 10, 7, '#e7c8a2', '#8a6a3a', 1.3); F.el(tx_ - 3, 224, 4, 2.2, '#fff', None, op=.45)
+F.t(x0 + 66, 250, 'inmemiş', 11.5, 700, INK2, 'middle'); F.t(x0 + 66, 264, 'testis', 11.5, 700, INK2, 'middle')
+AN.cagri(F, OP(2, 1140, 225), x0 + 84, 110, ['geniş, atonik', 'üreterler'], fs=11.6, sol=True)
+F.yol('M%d,62 q-10,13 0,26 t0,26 t0,26 t0,26 t0,26 t0,26 t0,26 t0,26' % (x0 + 340), PUR, 2)
 F.tl(x0 + 6, 306, ['Karın kası yetersizliği + iki taraflı kriptorşidizm', '+ geniş, atonik idrar yolları. Erkeklerde görülür.'], 12, 16, fill=INK)
-F.t(x0 + 324, 52, 'gevşek karın duvarı', 11.2, None, PUR, 'end')
+F.t(x0 + 352, 52, 'gevşek karın duvarı', 11.2, None, PUR, 'end')
 ic('s21_obs', 'x21_33', F)

@@ -1,0 +1,35 @@
+<svg viewBox="0 0 1120 250" style="width:100%;height:auto;max-height:230px" role="img" aria-label="Yaslanan bobrekte yapisal degisim, bazal GFH dususu ve renal rezervin daralmasini gosteren uc panelli sema">
+      <rect x="8" y="8" width="352" height="234" rx="12" fill="#eaf4fa" stroke="#0b6e99" stroke-width="2"/>
+      <text x="184" y="32" font-size="14" font-weight="800" fill="#08556f" text-anchor="middle">YAPI</text>
+      <image href="/dersler/nefroloji-ders-serisi/gorsel/an_genc.webp" x="26.0" y="67.2" width="116.4" height="138.8"/><image href="/dersler/nefroloji-ders-serisi/gorsel/an_yasli.webp" x="192.0" y="95.2" width="98.2" height="110.8"/><text x="75" y="56" font-size="12" font-weight="800" fill="#08556f" text-anchor="middle">genç</text><text x="233" y="56" font-size="12" font-weight="800" fill="#08556f" text-anchor="middle">yaşlı</text><path d="M255.5,106.1 L285,70" stroke="#fff" stroke-width="3" opacity=".8"/><path d="M255.5,106.1 L285,70" stroke="#8a6000" stroke-width="1.1"/><circle cx="255.5" cy="106.1" r="2.6" fill="#fff" stroke="#8a6000" stroke-width="1.2"/><text x="288" y="74" font-size="10.6" font-weight="800" fill="#8a6000" text-anchor="start" stroke="#fff" stroke-width="3" stroke-linejoin="round" paint-order="stroke">basit kist</text><path d="M235.5,105.7 L285,94" stroke="#fff" stroke-width="3" opacity=".8"/><path d="M235.5,105.7 L285,94" stroke="#c0392b" stroke-width="1.1"/><circle cx="235.5" cy="105.7" r="2.6" fill="#fff" stroke="#c0392b" stroke-width="1.2"/><text x="288" y="98" font-size="10.6" font-weight="800" fill="#c0392b" text-anchor="start" stroke="#fff" stroke-width="3" stroke-linejoin="round" paint-order="stroke">ince korteks</text><path d="M268.4,125.0 L285,124" stroke="#fff" stroke-width="3" opacity=".8"/><path d="M268.4,125.0 L285,124" stroke="#3d4d5c" stroke-width="1.1"/><circle cx="268.4" cy="125.0" r="2.6" fill="#fff" stroke="#3d4d5c" stroke-width="1.2"/><text x="288" y="128" font-size="10.6" font-weight="800" fill="#3d4d5c" text-anchor="start" stroke="#fff" stroke-width="3" stroke-linejoin="round" paint-order="stroke">düzensiz</text><text x="288" y="140" font-size="10.6" font-weight="800" fill="#3d4d5c" text-anchor="start" stroke="#fff" stroke-width="3" stroke-linejoin="round" paint-order="stroke">yüzey</text><path d="M224.4,111.3 L181,80" stroke="#fff" stroke-width="3" opacity=".8"/><path d="M224.4,111.3 L181,80" stroke="#5d6f7e" stroke-width="1.1"/><circle cx="224.4" cy="111.3" r="2.6" fill="#fff" stroke="#5d6f7e" stroke-width="1.2"/><text x="178" y="84" font-size="10.6" font-weight="800" fill="#5d6f7e" text-anchor="end" stroke="#fff" stroke-width="3" stroke-linejoin="round" paint-order="stroke">sklerotik</text><text x="178" y="96" font-size="10.6" font-weight="800" fill="#5d6f7e" text-anchor="end" stroke="#fff" stroke-width="3" stroke-linejoin="round" paint-order="stroke">glomerül</text>
+      <text x="184" y="222" font-size="11.5" fill="#3d4d5c" text-anchor="middle">nefron sayısı azalır · kalanlar hipertrofiye olur</text>
+      <text x="184" y="238" font-size="11.5" fill="#3d4d5c" text-anchor="middle">arteriyoskleroz ve kortikal incelme eşlik eder</text>
+
+      <rect x="372" y="8" width="352" height="234" rx="12" fill="#f4f8fb" stroke="#8aa0b0" stroke-width="2"/>
+      <text x="548" y="32" font-size="14" font-weight="800" fill="#3d4d5c" text-anchor="middle">İŞLEV — ÜÇ GİDİŞAT</text>
+      <line x1="410" y1="200" x2="702" y2="200" stroke="#8aa0b0" stroke-width="2"/>
+      <line x1="410" y1="200" x2="410" y2="52" stroke="#8aa0b0" stroke-width="2"/>
+      <text x="404" y="48" font-size="11" fill="#6b7b8a" text-anchor="end">GFH</text>
+      <text x="702" y="218" font-size="11" fill="#6b7b8a" text-anchor="end">yaş</text>
+      <path d="M416 78 L700 158" fill="none" stroke="#c0392b" stroke-width="3.2"/>
+      <path d="M416 96 L700 96" fill="none" stroke="#1f8a4c" stroke-width="3.2"/>
+      <path d="M416 118 L700 104" fill="none" stroke="#c98a00" stroke-width="3.2" stroke-dasharray="7 5"/>
+      <text x="708" y="162" font-size="11" font-weight="800" fill="#c0392b">düşüyor</text>
+      <text x="708" y="94" font-size="11" font-weight="800" fill="#1f8a4c">düşmüyor</text>
+      <text x="708" y="112" font-size="11" font-weight="800" fill="#c98a00">artıyor</text>
+      <text x="548" y="236" font-size="11.5" fill="#3d4d5c" text-anchor="middle">ortalama eğim aynı olsa da kişiler farklı yollar izler</text>
+
+      <rect x="736" y="8" width="376" height="234" rx="12" fill="#fff6e5" stroke="#c98a00" stroke-width="2"/>
+      <text x="924" y="32" font-size="14" font-weight="800" fill="#8a6000" text-anchor="middle">REZERV</text>
+      <rect x="772" y="56" width="120" height="132" rx="8" fill="#ffffff" stroke="#8aa0b0" stroke-width="1.6"/>
+      <rect x="772" y="128" width="120" height="60" rx="0" fill="#0b6e99"/>
+      <rect x="772" y="56" width="120" height="72" fill="#b8ecc9"/>
+      <text x="832" y="206" font-size="11.5" font-weight="800" fill="#3d4d5c" text-anchor="middle">genç</text>
+      <rect x="946" y="56" width="120" height="132" rx="8" fill="#ffffff" stroke="#8aa0b0" stroke-width="1.6"/>
+      <rect x="946" y="140" width="120" height="48" fill="#0b6e99"/>
+      <rect x="946" y="112" width="120" height="28" fill="#b8ecc9"/>
+      <rect x="946" y="56" width="120" height="56" fill="#f0e2c2"/>
+      <text x="1006" y="206" font-size="11.5" font-weight="800" fill="#3d4d5c" text-anchor="middle">yaşlı</text>
+      <text x="924" y="228" font-size="11.5" fill="#3d4d5c" text-anchor="middle">mavi: bazal işlev · yeşil: kullanılabilir rezerv</text>
+      <text x="924" y="242" font-size="11.5" fill="#8a6000" text-anchor="middle">rezerv daraldıkça stres altında hasar kolaylaşır</text>
+    </svg>
