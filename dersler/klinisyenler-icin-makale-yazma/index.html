@@ -311,8 +311,6 @@ body.hudsoluk #hud:hover,body.hudsoluk #help:hover{opacity:1}
 #sbar button#sbStop{background:#c0392b;color:#fff}
 @media (max-aspect-ratio:9/10){#sbar{top:52px}}
 /* her slaytta YZ notu */
-#deck .slide:not(.title)::after{content:"YZ destekli eğitim materyali · hata içerebilir · klinik ve bilimsel sorumluluk kullanıcıya aittir";position:absolute;top:12px;right:26px;font:600 10.5px var(--f);color:#9aa8b4;pointer-events:none}
-#deck .slide.section::after{color:rgba(255,255,255,.55)}
 /* imleç */
 #stage,#deck .slide,#deck .slide *{cursor:default}
 #deck .navto,#deck .navto *,#deck .lnk,#deck .q li[data-o],#deck .q li[data-o] *,#deck .qgos,#deck button,#deck label.onay-tik,#deck label.onay-tik *,
@@ -356,21 +354,12 @@ mark.mk{background:linear-gradient(101deg,rgba(255,233,92,0) 0,rgba(255,233,92,.
 .slide.section .fn,.slide.title .fn{display:none}
 table[style*="table-layout"] td.k{white-space:normal}
 .slide>.soimza{position:absolute;left:54px;top:10px;z-index:6;pointer-events:none;font:600 10.5px/1.5 "Source Sans 3","Segoe UI",system-ui,-apple-system,Arial,sans-serif;font-style:normal;letter-spacing:.02em;color:#4a5a66;background:rgba(255,255,255,.82);border-radius:999px;padding:1px 9px;white-space:nowrap;text-transform:none}.slide>.soimza::after{content:"Prof. Dr. Savaş Öztürk tarafından hazırlanmıştır"}@media print{.slide>.soimza{position:static;order:-1;align-self:flex-start;flex:none;margin:-24px 0 8px}}#onayTik2{margin-top:6px}
-#sunucu{position:absolute;left:0;top:0;width:0;height:0;z-index:45;pointer-events:none;opacity:0;mix-blend-mode:multiply;
-  transition-property:left,top,opacity;transition-duration:.42s,.42s,.3s;transition-timing-function:cubic-bezier(.22,.8,.3,1),cubic-bezier(.22,.8,.3,1),ease}
-#sunucu.on{opacity:1}
-#sunucu::before{content:"";position:absolute;left:-27px;top:-27px;width:54px;height:54px;border-radius:50%;
-  background:radial-gradient(circle,rgba(255,170,0,.42) 0,rgba(255,190,0,.26) 32%,rgba(255,205,0,.11) 56%,rgba(255,215,0,0) 72%);animation:snNabiz 1.8s ease-in-out infinite}
-#sunucu::after{content:"";position:absolute;left:-5px;top:-5px;width:10px;height:10px;border-radius:50%;background:rgba(255,140,0,.45);box-shadow:0 0 9px 3px rgba(255,170,0,.30)}
-#sunucu.koyu{mix-blend-mode:screen}
-#sunucu.koyu::before{background:radial-gradient(circle,rgba(255,225,130,.50) 0,rgba(255,215,100,.24) 35%,rgba(255,210,90,0) 70%)}
-#sunucu.koyu::after{background:rgba(255,235,160,.65)}
-@keyframes snNabiz{0%,100%{transform:scale(.85);opacity:.8}50%{transform:scale(1.18);opacity:1}}
+#sunucu{display:none!important}
 #sunucuHalka{position:absolute;left:0;top:0;width:0;height:0;z-index:44;pointer-events:none;opacity:0;mix-blend-mode:multiply;
-  border:2px solid rgba(240,165,0,.70);border-radius:10px;background:rgba(255,222,90,.10);box-shadow:0 0 14px rgba(242,169,0,.22);
-  transition:opacity .2s ease}
+  border:2.5px solid rgba(238,160,0,.92);border-radius:8px;background:rgba(255,224,70,.22);box-shadow:0 0 0 3px rgba(255,205,0,.16);
+  transition:left .28s cubic-bezier(.25,.8,.3,1),top .28s cubic-bezier(.25,.8,.3,1),width .28s cubic-bezier(.25,.8,.3,1),height .28s cubic-bezier(.25,.8,.3,1),opacity .2s ease}
 #sunucuHalka.on{opacity:1}
-#sunucuHalka.koyu{mix-blend-mode:screen;border-color:rgba(255,215,110,.75);background:rgba(255,220,120,.06)}
+#sunucuHalka.koyu{mix-blend-mode:screen;border-color:rgba(255,222,120,.95);background:rgba(255,226,120,.14);box-shadow:0 0 0 3px rgba(255,222,120,.14)}
 #notes p.an{margin:0 0 7px;padding:3px 8px;border-left:3px solid transparent;border-radius:4px;opacity:.72}
 #notes p.an.simdi{border-left-color:#ffd469;background:rgba(255,212,105,.12);opacity:1;color:#fff}
 body:not(.js) #sunucu,body:not(.js) #sunucuHalka{display:none!important}
@@ -535,28 +524,17 @@ window.ANLATIM={"T": [["@h", "Klinisyenler için Makale Yazmanın Temel Prensipl
       if(!(m>=2||(m>=1&&kc.__n<=2))) continue;
       if(m>bm||(m===bm&&kc.__n<bn)){ best=e; bm=m; bn=kc.__n; } }
     return best; }
-  function anHalka(hemen){ clearTimeout(anHalkaT);
-    function koy(){ if(!anHedefEl||!document.body.contains(anHedefEl)) return; var R=anKutu(anHedefEl), p=6, hx=Math.max(4,R.x-p), hy=Math.max(4,R.y-p);
-      halka.style.left=hx+'px'; halka.style.top=hy+'px'; halka.style.width=Math.min(1276-hx,R.w+2*p)+'px'; halka.style.height=Math.min(716-hy,R.h+2*p)+'px'; halka.classList.add('on'); }
-    if(hemen||!halka.classList.contains('on')){ koy(); return; }
-    halka.classList.remove('on'); anHalkaT=setTimeout(koy,170); }
-  function anImlec(x,y,sure,duz){ var tf=duz?'linear':'cubic-bezier(.22,.8,.3,1)';
-    imlec.style.transitionDuration=sure+'s,'+sure+'s,.3s'; imlec.style.transitionTimingFunction=tf+','+tf+',ease';
-    imlec.style.left=Math.max(8,Math.min(1262,x))+'px'; imlec.style.top=Math.max(8,Math.min(708,y))+'px'; imlec.classList.add('on'); }
-  function anDondur(){ clearTimeout(anGlideT); var cs=getComputedStyle(imlec); imlec.style.transitionDuration='0s,0s,.3s'; imlec.style.left=cs.left; imlec.style.top=cs.top; }
-  /* bir cümle: önce hedefe kısa yolculuk (0,42 sn), sonra cümle süresince satır boyunca ya da kutu içinde aşağı doğru düzgün akış */
-  function anGoster(cumle,j,m,sure){ var el=anHedefEl; clearTimeout(anGlideT); if(!el||!document.body.contains(el)) return;
-    var R=anKutu(el); if(R.w<=0&&R.h<=0) return;
-    var dk=!!(slides[i]&&slides[i].classList.contains('section')); imlec.classList.toggle('koyu',dk); halka.classList.toggle('koyu',dk);
-    var sat=anSatir(el,cumle), S=sat?anKutu(sat):null, ayni=!!(sat&&sat===anSatirEl), x0,y0,x1,y1;
-    anSatirEl=sat;
-    if(S&&S.w>0){ var lw=Math.min(S.w,560), ly=Math.min(S.h*0.55,15); x0=S.x+Math.min(12,S.w*0.06); y0=S.y+ly; x1=S.x+lw*0.88; y1=(S.h>42)?S.y+S.h-ly:y0; }
-    else if(R.h<64){ var w=Math.min(R.w,640); x0=R.x+w*0.06; x1=R.x+w*0.88; y0=y1=R.y+Math.min(R.h*0.6,R.h-6); }
-    else { var f0=j/Math.max(1,m), f1=(j+1)/Math.max(1,m), xs=R.x+Math.min(R.w*0.1,36); x0=x1=xs; y0=R.y+R.h*(0.08+0.84*f0); y1=R.y+R.h*(0.08+0.84*f1); }
-    var g=Math.max(0.8,sure-0.45);
-    if(ayni){ anImlec(x1,y1,g,true); return; }
-    anImlec(x0,y0,0.42,false);
-    anGlideT=setTimeout(function(){ anImlec(x1,y1,g,true); },440); }
+  /* okunan bölümü saran sarı çerçeve */
+  function anCerceve(el,p){ if(!el||!document.body.contains(el)) return; var R=anKutu(el); if(R.w<=0&&R.h<=0) return;
+    var dk=!!(slides[i]&&slides[i].classList.contains('section')); halka.classList.toggle('koyu',dk);
+    var hx=Math.max(3,R.x-p), hy=Math.max(3,R.y-p);
+    halka.style.left=hx+'px'; halka.style.top=hy+'px'; halka.style.width=Math.min(1277-hx,R.w+2*p)+'px'; halka.style.height=Math.min(717-hy,R.h+2*p)+'px'; halka.classList.add('on'); }
+  function anHalka(hemen){ if(hemen&&anHedefEl) anCerceve(anSatirEl||anHedefEl, anSatirEl?4:6); }
+  function anImlec(){}
+  function anDondur(){ clearTimeout(anGlideT); }
+  /* bir cümle: o cümleye karşılık gelen satır bulunursa satır, bulunmazsa bölümün tamamı çerçevelenir */
+  function anGoster(cumle,j,m,sure){ var el=anHedefEl; if(!el||!document.body.contains(el)) return;
+    var sat=anSatir(el,cumle); anSatirEl=sat; if(sat) anCerceve(sat,4); else anCerceve(el,6); }
   function anCumle(t){ var a=t.match(/[^.!?]+[.!?]+["”’)]*\s*|[^.!?]+$/g)||[t], o=[], buf='';
     for(var k=0;k<a.length;k++){ buf+=a[k]; if(buf.replace(/\s+/g,' ').trim().length>=28||k===a.length-1){ var c=buf.replace(/\s+/g,' ').trim(); if(c) o.push(c); buf=''; } }
     return o.length?o:[t]; }
@@ -591,7 +569,7 @@ window.ANLATIM={"T": [["@h", "Klinisyenler için Makale Yazmanın Temel Prensipl
   window.__anlatimTest=function(){ var bad=[], n=0; slides.forEach(function(sl){ var L=AN[sl.id]; if(!L){ bad.push([sl.id,'(anlatım yok)']); return; }
       L.forEach(function(x){ n++; var r=anBul(sl,x[0],true); if(!r.ok) bad.push([sl.id,x[0]]); }); });
     Object.keys(AN).forEach(function(k){ if(!document.getElementById(k)) bad.push([k,'(slayt yok)']); }); return {parca:n,eksik:bad}; };
-  window.__anlatimDurum=function(){ return {seq:anSeq,seg:anSeg,imlec:imlec.classList.contains('on'),x:imlec.style.left,y:imlec.style.top,halka:halka.classList.contains('on'),hw:halka.style.width,konusuyor:speaking,cumle:anUts.length}; };
+  window.__anlatimDurum=function(){ return {seq:anSeq,seg:anSeg,imlec:halka.classList.contains('on'),x:halka.style.left,y:halka.style.top,halka:halka.classList.contains('on'),hw:halka.style.width,konusuyor:speaking,cumle:anUts.length}; };
   window.__anlatimGoster=function(k,c){ var sl=slides[i], L=AN[sl.id]; if(!L||!L[k]) return false; anList=L; anSeg=k; anSatirEl=null; var r=anBul(sl,L[k][0],false); anHedefEl=r.el; anHalka(true);
     var cs=anCumle(String(L[k][1])), j=Math.min(c||0,cs.length-1); anGoster(cs[j],j,cs.length,3); return r.ok; };
   window.__anlatimSatir=function(){ var sl=slides[i], L=AN[sl.id]||[], o=[]; L.forEach(function(x,k){ var r=anBul(sl,x[0],true), cs=anCumle(String(x[1]));
