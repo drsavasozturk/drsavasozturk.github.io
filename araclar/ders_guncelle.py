@@ -10,6 +10,7 @@ site kabuğu korunur; yalnız sunumun kendisi değişir:
   - Sondaki kapı betiği ve servis çalışanı kaydı AYNEN kalır.
   - Tek dosyadaki ikinci iç onay kutusu (onayCb2: izinsiz kullanılamaz) çıkarılır; sitede aynı beyan ortak kapıdaki dk3 kutusudur.
   - Kapaktaki "2026–2027 Eğitim-Öğretim Yılı" ibaresi çıkarılır (kullanıcı isteği, 8.11.2026).
+  - Tam ekranda alt çubuklar gizlenir (tamekran.py; 22.11.2026).
   - Slayt ibaresi (i.soimza) imza_ekle.py ile aynı ögedir; araç sonunda imza_ekle.isle çağrılır (yinelemez).
 Denetim: sunum gövdesinde dış adres (http/https; kaynak için yalnız doi.org ve PubMed serbest, 21.11.2026), indirme özniteliği ve tarayıcı depolaması olmamalı; varsa yazmayı reddeder.
 İstisna (kullanıcı onayı, 21.11.2026): İstatistik dersinin sentetik uygulama veri setleri gömülü veriden (window.VERISET) .vsbtn düğmesiyle indirilir;
@@ -17,7 +18,7 @@ bu, betik içinde üretilen bir indirmedir ve gövdede indirme özniteliği taş
 """
 import re, sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import imza_ekle
+import imza_ekle, tamekran
 
 GOVDE = "<script>document.body.classList.add('js');</script>"
 KAPI_JS = "<script>(function(){var o=document.getElementById('dkapi')"
@@ -47,7 +48,7 @@ def aktar(yeni, eski):
     assert ' download' not in govde_html, 'sunum gövdesinde indirme özniteliği'
     for yasak in ('localStorage', 'sessionStorage', 'indexedDB', 'document.cookie'):
         assert yasak not in orta, f'tarayıcı depolaması: {yasak}'
-    h = imza_ekle.isle(bas + orta + son)
+    h = tamekran.ekle(imza_ekle.isle(bas + orta + son))   # tam ekranda alt çubuklar gizlenir (22.11.2026)
     n_sl = len(re.findall(r'<section\b[^>]*\bclass="slide[ "]', h))
     assert h.count(imza_ekle.IMZA) == n_sl, (h.count(imza_ekle.IMZA), n_sl)
     assert h.count('id="dk3"') == 1 and 'noindex' not in bas
